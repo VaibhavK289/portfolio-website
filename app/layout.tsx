@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vaibhavk-portfolio.vercel.app"),
   title: {
     default: "Vaibhav Kumar Kandhway | Aspiring Full-Stack Developer",
     template: "%s | Vaibhav Kumar Kandhway",
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://yourportfolio.com",
+    url: "https://vaibhavk-portfolio.vercel.app",
     siteName: "Vaibhav Kumar Kandhway Portfolio",
     title: "Vaibhav Kumar Kandhway | Aspiring Full-Stack Developer",
     description:
