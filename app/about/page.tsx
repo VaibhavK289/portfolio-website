@@ -32,7 +32,7 @@ const education = [
   {
     degree: 'Bachelor of Technology in Computer Science',
     school: 'Vellore Institute of Technology (VIT)',
-    period: '2021 - 2025',
+    period: '2022 - 2026',
     description: 'Focused on computer science fundamentals, data structures, algorithms, machine learning, and full-stack web development.',
   },
 ];
