@@ -12,7 +12,23 @@ export {
   ScrollProgress,
   SeamlessBackground,
   ScrollParticles,
+  // New motion design exports
+  ScrollVelocityProvider,
+  useScrollVelocity,
+  useReducedMotion,
+  useIsMobile,
+  ScrollMorphCircleToHex,
+  ScrollExpandShape,
+  ScrollMorphBlob,
+  ScrollRotateShape,
 } from "./SmoothScroll";
+
+// Re-export page transitions
+export {
+  PageTransition,
+  SlideTransition,
+  OverlayTransition,
+} from "./PageTransition";
 
 /* ============================================
    ANIMATION HIERARCHY SYSTEM

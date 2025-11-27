@@ -1,7 +1,78 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { motion, useScroll, useSpring, useTransform, useVelocity, useMotionValue, useAnimationFrame } from "framer-motion";
+import { ReactNode, useRef, useEffect, useState, createContext, useContext } from "react";
+
+/* ============================================
+   MOTION DESIGN SYSTEM
+   Scroll-linked animations, velocity awareness,
+   reduced motion support, and morphing shapes
+   ============================================ */
+
+// Context for scroll velocity awareness
+interface ScrollVelocityContextType {
+  velocity: number;
+  isScrollingFast: boolean;
+}
+
+const ScrollVelocityContext = createContext<ScrollVelocityContextType>({
+  velocity: 0,
+  isScrollingFast: false,
+});
+
+export const useScrollVelocity = () => useContext(ScrollVelocityContext);
+
+// Scroll velocity provider - detects fast scrolling for simpler animations
+export function ScrollVelocityProvider({ children }: { children: ReactNode }) {
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const [velocity, setVelocity] = useState(0);
+  const [isScrollingFast, setIsScrollingFast] = useState(false);
+  
+  useAnimationFrame(() => {
+    const currentVelocity = Math.abs(scrollVelocity.get());
+    setVelocity(currentVelocity);
+    setIsScrollingFast(currentVelocity > 1000); // threshold for "fast" scrolling
+  });
+  
+  return (
+    <ScrollVelocityContext.Provider value={{ velocity, isScrollingFast }}>
+      {children}
+    </ScrollVelocityContext.Provider>
+  );
+}
+
+// Hook to check for reduced motion preference
+export function useReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+  
+  return prefersReducedMotion;
+}
+
+// Hook to detect mobile devices
+export function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+}
 
 interface SmoothSectionProps {
   children: ReactNode;
@@ -129,6 +200,9 @@ export function ScrollReveal({
   delay = 0,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.9", "start 0.4"],
@@ -140,15 +214,18 @@ export function ScrollReveal({
     restDelta: 0.0001,
   });
 
+  // Simplified animation for reduced motion or mobile
+  const simpleMode = reducedMotion || isMobile;
+  
   const directionConfig = {
-    up: { y: [40, 0], x: [0, 0] },
-    down: { y: [-40, 0], x: [0, 0] },
-    left: { y: [0, 0], x: [40, 0] },
-    right: { y: [0, 0], x: [-40, 0] },
+    up: { y: simpleMode ? [20, 0] : [40, 0], x: [0, 0] },
+    down: { y: simpleMode ? [-20, 0] : [-40, 0], x: [0, 0] },
+    left: { y: [0, 0], x: simpleMode ? [20, 0] : [40, 0] },
+    right: { y: [0, 0], x: simpleMode ? [-20, 0] : [-40, 0] },
   };
 
   const config = directionConfig[direction];
-  const opacity = useTransform(smoothProgress, [0, 1], [0, 1]);
+  const opacity = useTransform(smoothProgress, [0, 1], [reducedMotion ? 0.5 : 0, 1]);
   const y = useTransform(smoothProgress, [0, 1], config.y);
   const x = useTransform(smoothProgress, [0, 1], config.x);
 
@@ -231,9 +308,15 @@ export function SeamlessBackground() {
   );
 }
 
-// Floating particles that react to scroll
+// Floating particles that react to scroll - disabled on mobile/reduced motion
 export function ScrollParticles() {
   const { scrollYProgress } = useScroll();
+  const reducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  
+  // Skip rendering for reduced motion or mobile (performance)
+  if (reducedMotion || isMobile) return null;
+  
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -500]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -300]);
   const y3 = useTransform(scrollYProgress, [0, 1], [0, -700]);
@@ -264,3 +347,143 @@ export function ScrollParticles() {
     </div>
   );
 }
+
+/* ============================================
+   SCROLL-LINKED MORPHING SHAPES
+   Geometric shapes that transform as you scroll
+   ============================================ */
+
+interface ScrollMorphShapeProps {
+  className?: string;
+}
+
+// Circle that morphs to hexagon as you scroll
+export function ScrollMorphCircleToHex({ className = "" }: ScrollMorphShapeProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  
+  const reducedMotion = useReducedMotion();
+  const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
+  
+  // Morph border-radius from circle to hexagon-ish
+  const borderRadius = useTransform(
+    smoothProgress,
+    [0, 0.5, 1],
+    reducedMotion ? ["50%", "50%", "50%"] : ["50%", "30%", "10%"]
+  );
+  
+  const rotate = useTransform(
+    smoothProgress,
+    [0, 1],
+    reducedMotion ? [0, 0] : [0, 45]
+  );
+  
+  const scale = useTransform(
+    smoothProgress,
+    [0, 0.5, 1],
+    [0.8, 1.1, 0.9]
+  );
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`${className} will-change-transform`}
+      style={{ borderRadius, rotate, scale }}
+    />
+  );
+}
+
+// Shape that expands/contracts with scroll
+export function ScrollExpandShape({ className = "" }: ScrollMorphShapeProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  
+  const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
+  
+  const scaleX = useTransform(smoothProgress, [0, 0.5, 1], [0.3, 1, 0.3]);
+  const scaleY = useTransform(smoothProgress, [0, 0.5, 1], [1, 0.6, 1]);
+  const opacity = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0.2, 0.6, 0.6, 0.2]);
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`${className} will-change-transform`}
+      style={{ scaleX, scaleY, opacity }}
+    />
+  );
+}
+
+// Blob shape that morphs its clip-path as you scroll
+export function ScrollMorphBlob({ className = "" }: ScrollMorphShapeProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  
+  const reducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  
+  if (reducedMotion || isMobile) {
+    return <div ref={ref} className={className} />;
+  }
+  
+  const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
+  
+  // SVG morph between blob states
+  const pathD = useTransform(
+    smoothProgress,
+    [0, 0.5, 1],
+    [
+      "M50,0 C80,10 100,40 100,50 C100,80 80,100 50,100 C20,100 0,80 0,50 C0,20 20,0 50,0",
+      "M50,10 C70,0 100,30 90,50 C100,70 70,100 50,90 C30,100 0,70 10,50 C0,30 30,0 50,10",
+      "M50,5 C75,5 95,25 95,50 C95,75 75,95 50,95 C25,95 5,75 5,50 C5,25 25,5 50,5",
+    ]
+  );
+  
+  const rotate = useTransform(smoothProgress, [0, 1], [0, 180]);
+
+  return (
+    <motion.div ref={ref} className={`${className} relative`} style={{ rotate }}>
+      <svg viewBox="0 0 100 100" className="w-full h-full">
+        <motion.path
+          d={pathD}
+          fill="currentColor"
+          className="will-change-[d]"
+        />
+      </svg>
+    </motion.div>
+  );
+}
+
+// Rotating geometric accent that responds to scroll
+export function ScrollRotateShape({ className = "" }: ScrollMorphShapeProps) {
+  const { scrollYProgress } = useScroll();
+  const reducedMotion = useReducedMotion();
+  
+  const rotate = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reducedMotion ? [0, 0] : [0, 360]
+  );
+  
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [0.9, 1.1, 0.9]
+  );
+
+  return (
+    <motion.div
+      className={`${className} will-change-transform`}
+      style={{ rotate, scale }}
+    />
+  );
+}
+

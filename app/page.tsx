@@ -23,7 +23,7 @@ import { getFeaturedProjects } from '@/data/projects';
 import { personalInfo, socials } from '@/data/socials';
 import {
   Spotlight,
-  TextGenerateEffect,
+  GradientText,
   BackgroundBeams,
   SparklesCore,
   HoverBorderGradient,
@@ -41,6 +41,9 @@ import {
   cardContainerVariants,
   cardVariants,
   easings,
+  ScrollMorphCircleToHex,
+  ScrollExpandShape,
+  useReducedMotion,
 } from '@/components/animations';
 
 // Animation variants for staggered animations
@@ -136,10 +139,10 @@ export default function HomePage() {
           />
         </div>
         
-        {/* Light mode decorative gradient blobs */}
+        {/* Light mode decorative gradient blobs - now with scroll morphing */}
         <div className="absolute inset-0 dark:hidden overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-72 h-72 bg-primary-200/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent-200/20 rounded-full blur-3xl" />
+          <ScrollMorphCircleToHex className="absolute top-20 right-20 w-72 h-72 bg-primary-200/30 blur-3xl" />
+          <ScrollExpandShape className="absolute bottom-20 left-20 w-96 h-96 bg-accent-200/20 rounded-full blur-3xl" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-100/30 rounded-full blur-3xl" />
         </div>
 
@@ -177,10 +180,17 @@ export default function HomePage() {
                 </span>
               </motion.h1>
 
-              <TextGenerateEffect
-                words={personalInfo.title}
-                className="text-xl sm:text-2xl text-gray-600 dark:text-neutral-300 font-medium mb-6"
-              />
+              {/* Professional subtitle with gradient - replaces slow TextGenerateEffect */}
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+                className="text-xl sm:text-2xl font-medium mb-6"
+              >
+                <GradientText gradient="neutral" animate>
+                  {personalInfo.title}
+                </GradientText>
+              </motion.p>
 
               <p className="text-lg text-gray-600 dark:text-neutral-400 mb-8 max-w-lg leading-relaxed">
                 {personalInfo.bio}

@@ -20,18 +20,21 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     // Performance: Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
+    // Also check for mobile devices - reduce smooth scroll intensity
+    const isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
+    
     if (prefersReducedMotion) {
       return; // Skip smooth scroll for accessibility
     }
 
-    // Initialize Lenis with silky-smooth settings
+    // Initialize Lenis with settings optimized for device
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: isMobile ? 0.8 : 1.0, // Faster on mobile
       easing: silkyEasing,
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.7,
+      wheelMultiplier: isMobile ? 0.5 : 0.7, // Less aggressive on mobile
       touchMultiplier: 1.5,
       infinite: false,
       autoResize: true,
@@ -47,8 +50,19 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     
     rafRef.current = requestAnimationFrame(raf);
 
+    // Listen for resize to update mobile detection
+    const handleResize = () => {
+      const newIsMobile = window.innerWidth < 768;
+      if (lenis) {
+        lenis.options.wheelMultiplier = newIsMobile ? 0.5 : 0.7;
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+
     // Cleanup
     return () => {
+      window.removeEventListener('resize', handleResize);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }

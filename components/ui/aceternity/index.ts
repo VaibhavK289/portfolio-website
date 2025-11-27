@@ -1,5 +1,5 @@
 export { Spotlight } from "./Spotlight";
-export { TextGenerateEffect } from "./TextGenerateEffect";
+export { TextGenerateEffect, GradientText } from "./TextGenerateEffect";
 export { BackgroundBeams, BackgroundBeamsWithCollision } from "./BackgroundBeams";
 export { SparklesCore } from "./SparklesCore";
 export { HoverBorderGradient } from "./HoverBorderGradient";

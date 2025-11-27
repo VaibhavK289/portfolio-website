@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { PageTransitionWrapper } from "@/components/PageTransitionWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,7 +89,11 @@ export default function RootLayout({
           <SmoothScrollProvider>
             <div className="flex min-h-screen flex-col">
               <Header />
-              <main className="flex-1 pt-20">{children}</main>
+              <main className="flex-1 pt-20">
+                <PageTransitionWrapper>
+                  {children}
+                </PageTransitionWrapper>
+              </main>
               <Footer />
             </div>
           </SmoothScrollProvider>
