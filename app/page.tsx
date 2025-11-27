@@ -254,7 +254,7 @@ export default function HomePage() {
                       particleColor="var(--color-accent-400)"
                     />
                     <span className="text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-primary-400 to-accent-500 relative z-10">
-                      {personalInfo.name.split(' ').map(n => n[0]).join('')}
+                      VK
                     </span>
                   </div>
                 </div>
