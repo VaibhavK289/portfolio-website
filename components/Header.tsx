@@ -236,7 +236,7 @@ export function Header() {
               
               {/* Mobile menu button */}
               <motion.button
-                className="md:hidden relative p-2.5 rounded-xl bg-gray-100/80 dark:bg-neutral-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-neutral-800/50 text-gray-600 dark:text-neutral-400"
+                className="md:hidden relative p-2.5 rounded-[12px] bg-gray-100/80 dark:bg-neutral-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-neutral-800/50 text-gray-600 dark:text-neutral-400 hover:rounded-[14px] transition-all duration-200 ease-out"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -297,7 +297,7 @@ export function Header() {
               <div className="flex justify-end p-4">
                 <motion.button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 rounded-xl bg-gray-100 dark:bg-neutral-900 text-gray-600 dark:text-neutral-400"
+                  className="p-2 rounded-[12px] bg-gray-100 dark:bg-neutral-900 text-gray-600 dark:text-neutral-400 hover:rounded-[14px] transition-all duration-200 ease-out"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -318,7 +318,7 @@ export function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+                        className={`flex items-center gap-3 px-4 py-3 rounded-[12px] font-medium transition-all duration-200 ease-out hover:rounded-[14px] ${
                           isActiveLink(link.href)
                             ? 'bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-primary-600 dark:text-primary-400'
                             : 'text-gray-600 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-neutral-900'
@@ -349,7 +349,7 @@ export function Header() {
                   <Link
                     href="/contact"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-medium"
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-[12px] bg-gradient-to-r from-primary-500 to-accent-500 text-white font-medium hover:rounded-[14px] transition-all duration-200 ease-out"
                   >
                     Let&apos;s Talk
                     <motion.span

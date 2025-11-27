@@ -53,7 +53,7 @@ export const HoverEffect = ({
           <Card>
             <div className="flex items-center gap-4">
               {item.icon && (
-                <div className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
+                <div className="p-2 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                   {item.icon}
                 </div>
               )}
@@ -77,7 +77,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-white dark:bg-gray-900 border border-transparent dark:border-white/[0.2] group-hover:border-primary-500/50 relative z-20",
+        "rounded-[20px] h-full w-full p-4 overflow-hidden bg-white dark:bg-gray-900 border border-transparent dark:border-white/[0.2] group-hover:border-primary-500/50 group-hover:rounded-[24px] transition-all duration-300 ease-out relative z-20",
         className
       )}
     >

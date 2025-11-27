@@ -56,7 +56,11 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative">
+      {/* Decorative geometric accents */}
+      <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-gradient-to-br from-primary-500/10 to-transparent blur-xl pointer-events-none" />
+      <div className="absolute -bottom-4 -left-4 w-16 h-16 shape-hexagon bg-gradient-to-br from-accent-500/10 to-transparent blur-xl pointer-events-none" />
+      
       {/* Name */}
       <div>
         <label
@@ -69,7 +73,7 @@ export function ContactForm() {
           type="text"
           id="name"
           {...register('name')}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-lg md:rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-out"
           placeholder="Your name"
         />
         {errors.name && (
@@ -89,7 +93,7 @@ export function ContactForm() {
           type="email"
           id="email"
           {...register('email')}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-[12px] border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:rounded-[14px] transition-all duration-200 ease-out"
           placeholder="your.email@example.com"
         />
         {errors.email && (
@@ -109,7 +113,7 @@ export function ContactForm() {
           type="text"
           id="subject"
           {...register('subject')}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-[12px] border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:rounded-[14px] transition-all duration-200 ease-out"
           placeholder="What's this about?"
         />
         {errors.subject && (
@@ -129,7 +133,7 @@ export function ContactForm() {
           id="message"
           rows={5}
           {...register('message')}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none"
+          className="w-full px-4 py-3 rounded-[12px] border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:rounded-[14px] transition-all duration-200 ease-out resize-none"
           placeholder="Tell me about your project or just say hi..."
         />
         {errors.message && (
@@ -144,7 +148,7 @@ export function ContactForm() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-center gap-2 p-4 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+            className="flex items-center gap-2 p-4 rounded-[12px] bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
           >
             <CheckCircle className="w-5 h-5" />
             <span>Message sent successfully! I&apos;ll get back to you soon.</span>
@@ -155,7 +159,7 @@ export function ContactForm() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-center gap-2 p-4 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+            className="flex items-center gap-2 p-4 rounded-[12px] bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
           >
             <AlertCircle className="w-5 h-5" />
             <span>{errorMessage}</span>

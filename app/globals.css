@@ -5,6 +5,135 @@
    Senior Web Performance Analyst Configuration
    ============================================ */
 
+/* ============================================
+   ELECTRIC EDGE SHAPE SYSTEM V2
+   Responsive + Geometric Contrast
+   ============================================ */
+:root {
+  /* Mobile-first Shape Scale (smaller for compact screens) */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-3xl: 22px;
+  --radius-full: 9999px;
+}
+
+/* Desktop Shape Scale (larger, more breathing room) */
+@media (min-width: 768px) {
+  :root {
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 20px;
+    --radius-3xl: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-2xl: 28px;
+    --radius-3xl: 36px;
+  }
+}
+
+/* ============================================
+   GEOMETRIC ACCENT SHAPES
+   Breaking monotony with variety
+   ============================================ */
+
+/* Hexagon shape for unique accents */
+.shape-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Diamond/Rhombus shape */
+.shape-diamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Rounded blob shape */
+.shape-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+/* Organic blob animation */
+.shape-blob-animated {
+  animation: blob-morph 8s ease-in-out infinite;
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50% { border-radius: 50% 60% 30% 60% / 30% 70% 60% 40%; }
+  75% { border-radius: 40% 50% 60% 30% / 60% 40% 50% 70%; }
+}
+
+/* Slanted/Angled section */
+.shape-slant-top {
+  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0% 100%);
+}
+
+.shape-slant-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0% 100%);
+}
+
+.shape-slant-both {
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0% 100%);
+}
+
+/* Curved section dividers */
+.shape-wave-top {
+  clip-path: ellipse(75% 100% at 50% 100%);
+}
+
+.shape-wave-bottom {
+  clip-path: ellipse(75% 100% at 50% 0%);
+}
+
+/* Circle accent utility */
+.shape-circle {
+  border-radius: 50%;
+}
+
+/* Squircle (iOS-style) - softer than rounded rect */
+.shape-squircle {
+  border-radius: 22%;
+}
+
+/* Ticket/notched shape */
+.shape-ticket {
+  clip-path: polygon(
+    0% 10%, 5% 10%, 5% 0%, 95% 0%, 95% 10%, 100% 10%,
+    100% 90%, 95% 90%, 95% 100%, 5% 100%, 5% 90%, 0% 90%
+  );
+}
+
+/* Image reveal shapes */
+.clip-reveal-circle {
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clip-reveal-circle:hover,
+.group:hover .clip-reveal-circle {
+  clip-path: circle(75% at 50% 50%);
+}
+
+.clip-diagonal {
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.clip-diagonal-reverse {
+  clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
+}
+
 /* Base performance optimizations */
 * {
   -webkit-font-smoothing: antialiased;

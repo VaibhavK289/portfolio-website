@@ -58,8 +58,8 @@ export function MagicCard({
     <div
       ref={cardRef}
       className={cn(
-        "group relative flex size-full overflow-hidden rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 transition-colors duration-300 shadow-sm hover:shadow-lg",
-        isHovering && "border-transparent",
+        "group relative flex size-full overflow-hidden rounded-[20px] bg-white dark:bg-neutral-900 border border-gray-200/80 dark:border-neutral-800 transition-all duration-300 ease-out shadow-sm hover:shadow-xl hover:shadow-primary-500/5 hover:rounded-[24px]",
+        isHovering && "border-primary-500/30",
         className
       )}
       onMouseMove={handleMouseMove}
@@ -71,7 +71,7 @@ export function MagicCard({
       
       {/* Border gradient overlay */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-xl transition-opacity duration-300"
+        className="pointer-events-none absolute -inset-px rounded-[20px] group-hover:rounded-[24px] transition-all duration-300"
         style={{
           background: borderGradient,
           opacity: isHovering ? 1 : 0,
@@ -80,7 +80,7 @@ export function MagicCard({
       
       {/* Inner background gradient */}
       <motion.div
-        className="pointer-events-none absolute inset-px rounded-xl bg-neutral-900 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-px rounded-[20px] group-hover:rounded-[24px] bg-neutral-900 transition-all duration-300"
         style={{
           opacity: isHovering ? 1 : 0,
         }}
@@ -88,7 +88,7 @@ export function MagicCard({
       
       {/* Spotlight effect */}
       <motion.div
-        className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 rounded-[20px] group-hover:rounded-[24px] transition-all duration-300"
         style={{
           background,
           opacity: isHovering ? gradientOpacity : 0,

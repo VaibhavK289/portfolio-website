@@ -6,14 +6,25 @@ interface CardProps {
   className?: string;
   hover?: boolean;
   glass?: boolean;
+  shape?: 'default' | 'squircle' | 'blob' | 'hexagon';
 }
 
-export function Card({ children, className = '', hover = true, glass = false }: CardProps) {
-  const baseClasses = 'rounded-2xl overflow-hidden';
-  const hoverClasses = hover ? 'card-hover' : '';
+export function Card({ children, className = '', hover = true, glass = false, shape = 'default' }: CardProps) {
+  // Responsive radii: smaller on mobile, larger on desktop
+  const shapeClasses = {
+    default: 'rounded-xl md:rounded-2xl lg:rounded-3xl',
+    squircle: 'shape-squircle',
+    blob: 'shape-blob',
+    hexagon: 'shape-hexagon',
+  };
+  
+  const baseClasses = `${shapeClasses[shape]} overflow-hidden`;
+  const hoverClasses = hover 
+    ? 'hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1 transition-all duration-300 ease-out hover:scale-[1.02]' 
+    : '';
   const glassClasses = glass
-    ? 'glass glass-border'
-    : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm';
+    ? 'bg-white/5 dark:bg-neutral-900/50 backdrop-blur-xl border border-white/10 dark:border-neutral-800/50'
+    : 'bg-white dark:bg-neutral-900 border border-gray-200/80 dark:border-neutral-800 shadow-sm';
 
   return (
     <motion.div

@@ -21,28 +21,37 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
-      className="group relative bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 overflow-hidden hover:border-primary-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/10 shadow-sm"
+      whileHover={{ y: -8, scale: 1.02 }}
+      className="group relative bg-white dark:bg-neutral-900 rounded-xl md:rounded-2xl lg:rounded-3xl border border-gray-200/80 dark:border-neutral-800 overflow-hidden hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary-500/10 shadow-sm"
     >
-      {/* Image */}
-      <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-100 dark:from-primary-900/30 to-accent-100 dark:to-accent-900/30">
+      {/* Geometric accent - floating circle */}
+      <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary-500/20 to-accent-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      
+      {/* Image with clip-path reveal effect */}
+      <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10">
         {project.image && !imageError ? (
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+            className="object-cover object-top group-hover:scale-110 transition-transform duration-700 ease-out"
             onError={() => setImageError(true)}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-6xl font-bold text-primary-500/20 dark:text-primary-400/20">
-              {project.title.charAt(0)}
+            {/* Hexagon placeholder for visual interest */}
+            <div className="relative w-24 h-24 shape-hexagon bg-gradient-to-br from-primary-500/30 to-accent-500/30 flex items-center justify-center">
+              <span className="text-4xl font-bold text-primary-500/60 dark:text-primary-400/60">
+                {project.title.charAt(0)}
+              </span>
             </div>
           </div>
         )}
-        {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Diagonal overlay on hover - adds geometric interest */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Corner accent shape */}
+        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-accent-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         
         {/* Quick links on hover */}
         <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -51,7 +60,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/90 rounded-full text-sm font-medium text-gray-900 hover:bg-white transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm font-medium text-gray-900 hover:bg-white transition-colors shadow-lg"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Live
@@ -62,7 +71,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/90 rounded-full text-sm font-medium text-gray-900 hover:bg-white transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm font-medium text-gray-900 hover:bg-white transition-colors shadow-lg"
             >
               <Github className="w-3.5 h-3.5" />
               Code
@@ -73,7 +82,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         {/* Featured badge */}
         {project.featured && (
           <div className="absolute top-4 right-4">
-            <span className="px-3 py-1 bg-primary-500 text-white text-xs font-semibold rounded-full shadow-lg">
+            <span className="px-3 py-1 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-xs font-semibold rounded-full shadow-lg">
               Featured
             </span>
           </div>

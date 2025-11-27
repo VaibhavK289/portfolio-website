@@ -95,27 +95,37 @@ export default function AboutPage() {
             className="flex justify-center"
           >
             <div className="relative">
+              {/* Geometric background accents */}
+              <div className="absolute -inset-8 shape-hexagon bg-gradient-to-br from-primary-500/10 to-accent-500/10 blur-2xl" />
+              
+              {/* Main blob-shaped avatar container */}
               <motion.div 
-                className="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-r from-primary-500 to-accent-500 p-1"
+                className="w-72 h-72 sm:w-80 sm:h-80 shape-blob-animated bg-gradient-to-r from-primary-500 to-accent-500 p-1.5"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="w-full h-full rounded-3xl bg-white dark:bg-neutral-950 flex items-center justify-center">
+                <div className="w-full h-full shape-blob bg-white dark:bg-neutral-950 flex items-center justify-center">
                   <span className="text-7xl sm:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-500">
                     {personalInfo.name.split(' ').map(n => n[0]).join('')}
                   </span>
                 </div>
               </motion.div>
-              {/* Decorative elements */}
+              
+              {/* Floating geometric accents - varied shapes */}
               <motion.div 
-                animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -top-4 -right-4 w-24 h-24 bg-primary-500/20 rounded-full blur-2xl" 
+                animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute -top-6 -right-6 w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 shadow-xl shadow-primary-500/30" 
               />
               <motion.div 
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-                className="absolute -bottom-4 -left-4 w-32 h-32 bg-accent-500/20 rounded-full blur-2xl" 
+                animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                className="absolute -bottom-4 -left-4 w-12 h-12 shape-hexagon bg-gradient-to-br from-accent-500 to-purple-600 shadow-xl shadow-accent-500/30" 
+              />
+              <motion.div 
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                className="absolute top-1/2 -right-8 w-8 h-8 shape-diamond bg-gradient-to-br from-emerald-400 to-teal-500 shadow-lg" 
               />
             </div>
           </motion.div>

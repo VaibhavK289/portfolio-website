@@ -238,11 +238,24 @@ export default function HomePage() {
               className="hidden lg:flex justify-center items-center"
             >
               <div className="relative">
-                {/* Animated gradient border */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 rounded-3xl blur-lg opacity-75 animate-pulse"></div>
+                {/* Floating geometric accents - circles */}
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute -top-12 -left-12 w-32 h-32 rounded-full bg-gradient-to-br from-primary-500/30 to-transparent blur-xl"
+                />
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full bg-gradient-to-tl from-accent-500/30 to-transparent blur-xl"
+                />
                 
-                <div className="relative w-80 h-80 rounded-3xl bg-gradient-to-br from-neutral-900 to-neutral-800 p-1 overflow-hidden">
-                  <div className="w-full h-full rounded-3xl bg-neutral-950 flex items-center justify-center relative overflow-hidden">
+                {/* Hexagonal frame for dramatic contrast */}
+                <div className="absolute -inset-4 shape-hexagon bg-gradient-to-r from-primary-500/20 via-accent-500/20 to-primary-500/20 blur-2xl opacity-75 animate-pulse" />
+                
+                {/* Main card with blob shape for organic feel */}
+                <div className="relative w-80 h-80 shape-blob-animated bg-gradient-to-br from-neutral-900 to-neutral-800 p-1 overflow-hidden shadow-2xl">
+                  <div className="w-full h-full shape-blob bg-neutral-950 flex items-center justify-center relative overflow-hidden">
                     {/* Inner sparkles */}
                     <SparklesCore
                       id="avatar-sparkles"
@@ -259,30 +272,29 @@ export default function HomePage() {
                   </div>
                 </div>
                 
-                {/* Floating elements with better styling */}
+                {/* Floating elements with CIRCULAR shapes for contrast */}
                 <motion.div
-                  animate={{ y: [-10, 10, -10] }}
+                  animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute -top-4 -right-4 px-4 py-2 rounded-xl bg-neutral-900/90 backdrop-blur-sm shadow-xl border border-neutral-800"
+                  className="absolute -top-6 -right-6 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-xl shadow-cyan-500/30 border-2 border-white/20"
                 >
-                  <span className="text-2xl">⚛️</span>
+                  <Code className="w-7 h-7 text-white" />
                 </motion.div>
                 
                 <motion.div
-                  animate={{ y: [10, -10, 10] }}
+                  animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                  className="absolute -bottom-4 -left-4 px-4 py-2 rounded-xl bg-neutral-900/90 backdrop-blur-sm shadow-xl border border-neutral-800"
+                  className="absolute -bottom-4 -left-6 w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-xl shadow-violet-500/30 border-2 border-white/20"
                 >
-                  <span className="text-2xl">🚀</span>
+                  <Globe className="w-6 h-6 text-white" />
                 </motion.div>
                 
+                {/* Diamond shape accent */}
                 <motion.div
-                  animate={{ y: [-5, 15, -5] }}
+                  animate={{ y: [-5, 15, -5], rotate: [45, 50, 45] }}
                   transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                  className="absolute top-1/2 -right-8 px-4 py-2 rounded-xl bg-neutral-900/90 backdrop-blur-sm shadow-xl border border-neutral-800"
-                >
-                  <span className="text-2xl">💻</span>
-                </motion.div>
+                  className="absolute top-1/2 -right-10 w-12 h-12 shape-diamond bg-gradient-to-br from-emerald-400 to-teal-500 shadow-xl shadow-emerald-500/30"
+                />
               </div>
             </motion.div>
           </div>
@@ -335,6 +347,8 @@ export default function HomePage() {
                 gradient: 'from-cyan-400 to-primary-500',
                 iconBg: 'bg-gradient-to-br from-cyan-400 to-cyan-600',
                 glowColor: 'rgba(6, 182, 212, 0.3)',
+                iconShape: 'rounded-full', // Circle
+                accentShape: 'rounded-full',
               },
               {
                 icon: Globe,
@@ -343,6 +357,8 @@ export default function HomePage() {
                 gradient: 'from-accent-400 to-accent-600',
                 iconBg: 'bg-gradient-to-br from-violet-400 to-purple-600',
                 glowColor: 'rgba(168, 85, 247, 0.3)',
+                iconShape: 'shape-hexagon', // Hexagon
+                accentShape: 'shape-diamond',
               },
               {
                 icon: Palette,
@@ -351,6 +367,8 @@ export default function HomePage() {
                 gradient: 'from-primary-400 to-accent-500',
                 iconBg: 'bg-gradient-to-br from-cyan-500 via-blue-500 to-violet-500',
                 glowColor: 'rgba(99, 102, 241, 0.3)',
+                iconShape: 'shape-squircle', // Squircle (iOS style)
+                accentShape: 'rounded-full',
               },
               {
                 icon: Zap,
@@ -359,6 +377,8 @@ export default function HomePage() {
                 gradient: 'from-emerald-400 to-cyan-500',
                 iconBg: 'bg-gradient-to-br from-emerald-400 to-teal-500',
                 glowColor: 'rgba(16, 185, 129, 0.3)',
+                iconShape: 'rounded-xl', // Rounded square
+                accentShape: 'shape-hexagon',
               },
             ].map((service, index) => (
               <motion.div
@@ -375,20 +395,23 @@ export default function HomePage() {
                 className="group"
               >
                 <div className="relative h-full">
+                  {/* Geometric accent shape - varies per card */}
+                  <div className={`absolute -top-3 -right-3 w-16 h-16 ${service.accentShape} bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-20 transition-all duration-500 blur-xl`} />
+                  
                   {/* Card glow effect on hover */}
                   <motion.div 
-                    className="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+                    className="absolute -inset-0.5 rounded-xl md:rounded-2xl lg:rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 blur-xl"
                     style={{ background: `linear-gradient(135deg, ${service.glowColor}, transparent)` }}
                   />
                   
-                  <div className="relative h-full p-6 rounded-2xl border border-gray-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-all duration-300">
-                    {/* Icon with glow */}
+                  <div className="relative h-full p-6 rounded-xl md:rounded-2xl lg:rounded-3xl border border-gray-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-all duration-300 ease-out">
+                    {/* Icon with VARIED shape per card */}
                     <div className="relative mb-5">
                       <motion.div 
-                        className="absolute inset-0 rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500"
+                        className={`absolute inset-0 ${service.iconShape} blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500`}
                         style={{ background: service.glowColor }}
                       />
-                      <div className={`relative w-14 h-14 rounded-xl ${service.iconBg} flex items-center justify-center shadow-lg`}>
+                      <div className={`relative w-14 h-14 ${service.iconShape} ${service.iconBg} flex items-center justify-center shadow-lg transition-all duration-200`}>
                         <service.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
                       </div>
                     </div>
@@ -471,17 +494,17 @@ export default function HomePage() {
               className="grid grid-cols-2 gap-4"
             >
               {[
-                { number: '0', label: 'Years Experience' },
-                { number: '5+', label: 'Projects Completed' },
-                { number: '10+', label: 'Technologies' },
-                { number: '100%', label: 'Dedication' },
-              ].map((stat) => (
+                { number: '0', label: 'Years Experience', shape: 'rounded-full aspect-square' },
+                { number: '5+', label: 'Projects Completed', shape: 'rounded-xl md:rounded-2xl lg:rounded-3xl' },
+                { number: '10+', label: 'Technologies', shape: 'rounded-xl md:rounded-2xl lg:rounded-3xl' },
+                { number: '100%', label: 'Dedication', shape: 'rounded-full aspect-square' },
+              ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   variants={itemVariants}
                 >
                   <TiltCard className="h-full">
-                    <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900/80 border border-gray-200 dark:border-neutral-800 text-center backdrop-blur-sm hover:border-primary-500/50 transition-colors h-full shadow-sm">
+                    <div className={`p-6 ${stat.shape} bg-white dark:bg-neutral-900/80 border border-gray-200 dark:border-neutral-800 text-center backdrop-blur-sm hover:border-primary-500/50 transition-all duration-300 h-full shadow-sm flex flex-col items-center justify-center ${index % 2 === 0 ? 'hover:scale-105' : 'hover:rotate-1'}`}>
                       <div className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 to-accent-500 mb-2">
                         {stat.number}
                       </div>
@@ -516,6 +539,14 @@ export default function HomePage() {
         </section>
       </ScrollReveal>
       
+      {/* Slanted section divider - breaks rectangular monotony */}
+      <div className="relative h-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gray-50 dark:bg-neutral-950 shape-slant-bottom" />
+        <div className="absolute inset-0 bg-white dark:bg-neutral-900/50 shape-slant-top" style={{ top: '20%' }} />
+        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary-500/30 blur-sm" />
+        <div className="absolute right-1/3 top-1/2 -translate-y-1/2 w-3 h-3 shape-diamond bg-accent-500/30" />
+      </div>
+
       {/* Section divider */}
       <div className="h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent" />
 
