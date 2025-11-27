@@ -149,7 +149,7 @@ export function ContactForm() {
           >
             {errors.email.message}
           </motion.p>
-        )}}
+        )}
       </div>
 
       {/* Subject */}

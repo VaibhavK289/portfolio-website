@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import { Project } from '@/types';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ interface ProjectCardProps {
 }
 
 // Enhanced card hover with content shift
-const cardHoverVariants = {
+const cardHoverVariants: Variants = {
   rest: {
     y: 0,
     scale: 1,
@@ -35,7 +35,7 @@ const cardHoverVariants = {
 };
 
 // Content shifts up slightly on hover for layered feel
-const contentVariants = {
+const contentVariants: Variants = {
   rest: { y: 0 },
   hover: { 
     y: -4,
@@ -49,7 +49,7 @@ const contentVariants = {
 };
 
 // Image zoom with slight rotation
-const imageVariants = {
+const imageVariants: Variants = {
   rest: { scale: 1, rotate: 0 },
   hover: { 
     scale: 1.08,

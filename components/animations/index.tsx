@@ -663,20 +663,6 @@ export function GradientText({
   );
 }
 
-// Page transition wrapper
-export function PageTransition({ children }: { children: ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 // Cursor follow effect (for decorative elements)
 export function CursorGlow({ className = "" }: { className?: string }) {
   return (

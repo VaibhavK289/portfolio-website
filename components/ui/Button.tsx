@@ -73,7 +73,7 @@ const buttonMotionProps = {
     scale: 1.02, 
     y: -2,
     transition: { 
-      type: "spring",
+      type: "spring" as const,
       stiffness: 400,
       damping: 17
     }
@@ -82,7 +82,7 @@ const buttonMotionProps = {
     scale: 0.95,
     y: 0,
     transition: { 
-      type: "spring",
+      type: "spring" as const,
       stiffness: 400,
       damping: 17
     }
