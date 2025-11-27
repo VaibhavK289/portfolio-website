@@ -23,12 +23,12 @@ export function VKLogo({ className = '', size = 48 }: VKLogoProps) {
       whileTap={{ scale: 0.98 }}
       style={{ width: size, height: size }}
     >
-      {/* Ambient glow - subtle and elegant */}
+      {/* Ambient glow - Cyan-Violet dynamic */}
       <motion.div
         className="absolute rounded-2xl"
         style={{
           inset: -4 * scale,
-          background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), rgba(217, 70, 239, 0.1), transparent 70%)',
+          background: 'radial-gradient(circle at 30% 30%, rgba(6, 182, 212, 0.25), rgba(168, 85, 247, 0.2), transparent 70%)',
           filter: `blur(${8 * scale}px)`,
         }}
         animate={{
@@ -47,21 +47,21 @@ export function VKLogo({ className = '', size = 48 }: VKLogoProps) {
         className="relative z-10"
       >
         <defs>
-          {/* Premium gradient - sophisticated color blend */}
+          {/* Premium gradient - Cyan to Violet dynamic */}
           <linearGradient id="vkPremiumGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <motion.stop
               offset="0%"
-              animate={{ stopColor: isHovered ? '#60a5fa' : '#3b82f6' }}
+              animate={{ stopColor: isHovered ? '#22d3ee' : '#06b6d4' }}
               transition={{ duration: 0.3 }}
             />
             <motion.stop
               offset="50%"
-              animate={{ stopColor: isHovered ? '#a78bfa' : '#8b5cf6' }}
+              animate={{ stopColor: isHovered ? '#c084fc' : '#a855f7' }}
               transition={{ duration: 0.3 }}
             />
             <motion.stop
               offset="100%"
-              animate={{ stopColor: isHovered ? '#f472b6' : '#d946ef' }}
+              animate={{ stopColor: isHovered ? '#9333ea' : '#7e22ce' }}
               transition={{ duration: 0.3 }}
             />
           </linearGradient>
@@ -78,11 +78,11 @@ export function VKLogo({ className = '', size = 48 }: VKLogoProps) {
             <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </linearGradient>
 
-          {/* Border gradient */}
+          {/* Border gradient - Cyan to Violet */}
           <linearGradient id="vkBorderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.5)" />
-            <stop offset="50%" stopColor="rgba(139, 92, 246, 0.3)" />
-            <stop offset="100%" stopColor="rgba(217, 70, 239, 0.5)" />
+            <stop offset="0%" stopColor="rgba(6, 182, 212, 0.6)" />
+            <stop offset="50%" stopColor="rgba(168, 85, 247, 0.5)" />
+            <stop offset="100%" stopColor="rgba(147, 51, 234, 0.6)" />
           </linearGradient>
 
           {/* Glow filter for letters */}

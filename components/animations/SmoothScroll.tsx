@@ -215,11 +215,11 @@ export function SeamlessBackground() {
     smoothProgress,
     [0, 0.25, 0.5, 0.75, 1],
     [
-      "radial-gradient(ellipse at top, rgba(59, 130, 246, 0.1) 0%, transparent 50%)",
-      "radial-gradient(ellipse at center, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
-      "radial-gradient(ellipse at bottom, rgba(236, 72, 153, 0.1) 0%, transparent 50%)",
-      "radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 50%)",
-      "radial-gradient(ellipse at top, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
+      "radial-gradient(ellipse at top, rgba(6, 182, 212, 0.12) 0%, transparent 50%)",
+      "radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 50%)",
+      "radial-gradient(ellipse at bottom, rgba(147, 51, 234, 0.12) 0%, transparent 50%)",
+      "radial-gradient(ellipse at center, rgba(6, 182, 212, 0.12) 0%, transparent 50%)",
+      "radial-gradient(ellipse at top, rgba(168, 85, 247, 0.12) 0%, transparent 50%)",
     ]
   );
 

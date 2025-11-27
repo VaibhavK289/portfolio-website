@@ -312,9 +312,12 @@ export default function HomePage() {
       </section>
 
       {/* Services/What I Do Section with Bento Grid style */}
-      <section className="py-20 bg-gray-50 dark:bg-neutral-950 relative overflow-hidden">
+      <section className="py-24 bg-gray-50 dark:bg-neutral-950 relative overflow-hidden">
         {/* Seamless gradient transition from hero */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/50 dark:from-black/50 via-transparent to-transparent pointer-events-none" />
+        
+        {/* Subtle ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-radial from-primary-500/5 via-accent-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollReveal>
@@ -324,53 +327,91 @@ export default function HomePage() {
             />
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
             {[{
                 icon: Code,
                 title: 'Frontend Development',
                 description: 'Building responsive and interactive UIs with React, Next.js, and modern CSS',
-                gradient: 'from-blue-500 to-cyan-500',
+                gradient: 'from-cyan-400 to-primary-500',
+                iconBg: 'bg-gradient-to-br from-cyan-400 to-cyan-600',
+                glowColor: 'rgba(6, 182, 212, 0.3)',
               },
               {
                 icon: Globe,
                 title: 'Backend Development',
                 description: 'Creating robust APIs and server-side applications with Node.js',
-                gradient: 'from-purple-500 to-pink-500',
+                gradient: 'from-accent-400 to-accent-600',
+                iconBg: 'bg-gradient-to-br from-violet-400 to-purple-600',
+                glowColor: 'rgba(168, 85, 247, 0.3)',
               },
               {
                 icon: Palette,
                 title: 'UI/UX Design',
                 description: 'Designing beautiful, user-friendly interfaces with attention to detail',
-                gradient: 'from-orange-500 to-red-500',
+                gradient: 'from-primary-400 to-accent-500',
+                iconBg: 'bg-gradient-to-br from-cyan-500 via-blue-500 to-violet-500',
+                glowColor: 'rgba(99, 102, 241, 0.3)',
               },
               {
                 icon: Zap,
                 title: 'Performance',
                 description: 'Optimizing applications for speed, SEO, and best practices',
-                gradient: 'from-green-500 to-emerald-500',
+                gradient: 'from-emerald-400 to-cyan-500',
+                iconBg: 'bg-gradient-to-br from-emerald-400 to-teal-500',
+                glowColor: 'rgba(16, 185, 129, 0.3)',
               },
             ].map((service, index) => (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  delay: index * 0.15,
+                  duration: 0.5,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group"
               >
-                <MagicCard
-                  className="h-full cursor-pointer"
-                  gradientColor="#262626"
-                  gradientFrom="#9E7AFF"
-                  gradientTo="#FE8BBB"
-                >
-                  <div className="p-6 h-full flex flex-col">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4`}>
-                      <service.icon className="w-6 h-6 text-white" />
+                <div className="relative h-full">
+                  {/* Card glow effect on hover */}
+                  <motion.div 
+                    className="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+                    style={{ background: `linear-gradient(135deg, ${service.glowColor}, transparent)` }}
+                  />
+                  
+                  <div className="relative h-full p-6 rounded-2xl border border-gray-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-all duration-300">
+                    {/* Icon with glow */}
+                    <div className="relative mb-5">
+                      <motion.div 
+                        className="absolute inset-0 rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500"
+                        style={{ background: service.glowColor }}
+                      />
+                      <div className={`relative w-14 h-14 rounded-xl ${service.iconBg} flex items-center justify-center shadow-lg`}>
+                        <service.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
+                      </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{service.title}</h3>
-                    <p className="text-gray-600 dark:text-neutral-400 text-sm">{service.description}</p>
+                    
+                    {/* Title with gradient on hover */}
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-500 group-hover:to-accent-500 transition-all duration-300">
+                      {service.title}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-gray-600 dark:text-neutral-400 text-sm leading-relaxed">
+                      {service.description}
+                    </p>
+                    
+                    {/* Subtle bottom accent line */}
+                    <motion.div 
+                      className="absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-primary-500/50 to-transparent opacity-0 group-hover:opacity-100"
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </div>
-                </MagicCard>
+                </div>
               </motion.div>
             ))}
           </div>
