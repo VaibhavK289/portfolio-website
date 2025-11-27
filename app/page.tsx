@@ -94,7 +94,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* Hero Section with Spotlight */}
-      <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-black/[0.96] antialiased bg-grid-white/[0.02]">
+      <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-black/[0.96] dark:via-black/[0.96] dark:to-black/[0.96] antialiased">
         {/* Parallax Background */}
         <motion.div 
           className="absolute inset-0 z-0"
@@ -103,13 +103,15 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-primary-500/5 via-transparent to-transparent" />
         </motion.div>
         
-        {/* Spotlight Effect */}
-        <Spotlight
-          className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="white"
-        />
+        {/* Spotlight Effect - only in dark mode */}
+        <div className="hidden dark:block">
+          <Spotlight
+            className="-top-40 left-0 md:left-60 md:-top-20"
+            fill="white"
+          />
+        </div>
         
-        {/* Sparkles Background */}
+        {/* Sparkles Background - both modes with different colors */}
         <div className="absolute inset-0 w-full h-full">
           <SparklesCore
             id="tsparticlesfullpage"
@@ -118,8 +120,15 @@ export default function HomePage() {
             maxSize={1.4}
             particleDensity={40}
             className="w-full h-full"
-            particleColor="var(--color-primary-400)"
+            particleColor="var(--color-sparkle)"
           />
+        </div>
+        
+        {/* Light mode decorative gradient blobs */}
+        <div className="absolute inset-0 dark:hidden overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-primary-200/30 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent-200/20 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-100/30 rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
@@ -135,7 +144,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-500/10 to-accent-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium mb-6 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-500/10 to-accent-500/10 border border-primary-500/20 text-primary-600 dark:text-primary-400 text-sm font-medium mb-6 backdrop-blur-sm"
               >
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
@@ -144,26 +153,26 @@ export default function HomePage() {
                 Available for new opportunities
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight mb-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-4">
                 Hi, I&apos;m{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 animate-shimmer bg-[length:200%_auto]">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 via-accent-500 dark:via-accent-400 to-primary-500 dark:to-primary-400 animate-shimmer bg-[length:200%_auto]">
                   {personalInfo.name}
                 </span>
               </h1>
 
               <TextGenerateEffect
                 words={personalInfo.title}
-                className="text-xl sm:text-2xl text-neutral-300 font-medium mb-6"
+                className="text-xl sm:text-2xl text-gray-600 dark:text-neutral-300 font-medium mb-6"
               />
 
-              <p className="text-lg text-neutral-400 mb-8 max-w-lg leading-relaxed">
+              <p className="text-lg text-gray-600 dark:text-neutral-400 mb-8 max-w-lg leading-relaxed">
                 {personalInfo.bio}
               </p>
 
               {/* Location with glow */}
-              <div className="flex items-center gap-2 text-neutral-400 mb-8">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-neutral-400 mb-8">
                 <div className="p-1.5 rounded-full bg-primary-500/10">
-                  <MapPin className="w-4 h-4 text-primary-400" />
+                  <MapPin className="w-4 h-4 text-primary-500 dark:text-primary-400" />
                 </div>
                 <span>{personalInfo.location}</span>
               </div>
@@ -184,7 +193,7 @@ export default function HomePage() {
                   variant="outline"
                   size="lg"
                   external
-                  className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
+                  className="border-gray-300 dark:border-neutral-700 text-gray-700 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-neutral-800"
                 >
                   <Download className="w-5 h-5" />
                   Download CV
@@ -284,7 +293,7 @@ export default function HomePage() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="flex flex-col items-center text-neutral-500"
+              className="flex flex-col items-center text-gray-500 dark:text-neutral-500"
             >
               <span className="text-sm mb-2">Scroll down</span>
               <ChevronDown className="w-5 h-5" />
@@ -292,14 +301,16 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        {/* Background Beams */}
-        <BackgroundBeams className="opacity-40" />
+        {/* Background Beams - only in dark mode */}
+        <div className="hidden dark:block">
+          <BackgroundBeams className="opacity-40" />
+        </div>
       </section>
 
       {/* Services/What I Do Section with Bento Grid style */}
-      <section className="py-20 bg-neutral-950 relative overflow-hidden">
+      <section className="py-20 bg-gray-50 dark:bg-neutral-950 relative overflow-hidden">
         {/* Seamless gradient transition from hero */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/50 dark:from-black/50 via-transparent to-transparent pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollReveal>
@@ -352,8 +363,8 @@ export default function HomePage() {
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4`}>
                       <service.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-2">{service.title}</h3>
-                    <p className="text-neutral-400 text-sm">{service.description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{service.title}</h3>
+                    <p className="text-gray-600 dark:text-neutral-400 text-sm">{service.description}</p>
                   </div>
                 </MagicCard>
               </motion.div>
@@ -363,10 +374,22 @@ export default function HomePage() {
       </section>
 
       {/* About Section */}
-      <section className="py-20 bg-neutral-900/50 relative">
+      <section className="py-20 bg-white dark:bg-neutral-900/50 relative">
         {/* Seamless gradient transition */}
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-transparent to-neutral-950 pointer-events-none" />
-        <div className="absolute inset-0 bg-grid-white/[0.02]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50 dark:from-neutral-950 via-transparent to-gray-50 dark:to-neutral-950 pointer-events-none" />
+        
+        {/* Subtle sparkles for about section */}
+        <div className="absolute inset-0 opacity-30">
+          <SparklesCore
+            id="about-sparkles"
+            background="transparent"
+            minSize={0.3}
+            maxSize={0.8}
+            particleDensity={15}
+            className="w-full h-full"
+            particleColor="var(--color-sparkle)"
+          />
+        </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollReveal>
@@ -378,8 +401,8 @@ export default function HomePage() {
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="left">
-              <div className="prose prose-lg prose-invert max-w-none">
-                <p className="text-neutral-400 leading-relaxed whitespace-pre-line">
+              <div className="prose prose-lg prose-gray dark:prose-invert max-w-none">
+                <p className="text-gray-600 dark:text-neutral-400 leading-relaxed whitespace-pre-line">
                   {personalInfo.longBio}
                 </p>
               </div>
@@ -413,11 +436,11 @@ export default function HomePage() {
                   variants={itemVariants}
                 >
                   <TiltCard className="h-full">
-                    <div className="p-6 rounded-2xl bg-neutral-900/80 border border-neutral-800 text-center backdrop-blur-sm hover:border-primary-500/50 transition-colors h-full">
-                      <div className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-500 mb-2">
+                    <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900/80 border border-gray-200 dark:border-neutral-800 text-center backdrop-blur-sm hover:border-primary-500/50 transition-colors h-full shadow-sm">
+                      <div className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 to-accent-500 mb-2">
                         {stat.number}
                       </div>
-                      <div className="text-sm text-neutral-400">
+                      <div className="text-sm text-gray-600 dark:text-neutral-400">
                         {stat.label}
                       </div>
                     </div>
@@ -431,9 +454,9 @@ export default function HomePage() {
 
       {/* Skills Section */}
       <ScrollReveal>
-        <section className="py-20 bg-neutral-950 relative">
+        <section className="py-20 bg-gray-50 dark:bg-neutral-950 relative">
           {/* Top gradient blend */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-neutral-900/80 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/80 dark:from-neutral-900/80 to-transparent pointer-events-none" />
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <SectionHeading
@@ -444,7 +467,7 @@ export default function HomePage() {
           </div>
           
           {/* Bottom gradient blend */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-neutral-900/50 to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/50 dark:from-neutral-900/50 to-transparent pointer-events-none" />
         </section>
       </ScrollReveal>
       
@@ -453,11 +476,23 @@ export default function HomePage() {
 
       {/* Featured Projects Section */}
       <ScrollReveal>
-        <section className="py-20 bg-neutral-900/50 relative">
+        <section className="py-20 bg-white dark:bg-neutral-900/50 relative">
           {/* Top gradient blend */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-neutral-950/80 to-transparent pointer-events-none z-20" />
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50/80 dark:from-neutral-950/80 to-transparent pointer-events-none z-20" />
           
-          <div className="absolute inset-0 bg-grid-white/[0.02]" />
+          {/* Subtle sparkles for projects section */}
+          <div className="absolute inset-0 opacity-30">
+            <SparklesCore
+              id="projects-sparkles"
+              background="transparent"
+              minSize={0.3}
+              maxSize={0.8}
+              particleDensity={15}
+              className="w-full h-full"
+              particleColor="var(--color-sparkle)"
+            />
+          </div>
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <SectionHeading
               title="Featured Projects"
@@ -497,7 +532,7 @@ export default function HomePage() {
           </div>
           
           {/* Bottom gradient blend */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-neutral-950/80 to-transparent pointer-events-none z-20" />
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50/80 dark:from-neutral-950/80 to-transparent pointer-events-none z-20" />
         </section>
       </ScrollReveal>
       
@@ -506,11 +541,11 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <ScrollReveal>
-        <section className="py-20 bg-neutral-950 relative overflow-hidden">
+        <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-neutral-950 dark:to-neutral-950 relative overflow-hidden">
           {/* Top gradient blend */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-neutral-900/50 to-transparent pointer-events-none z-20" />
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/50 dark:from-neutral-900/50 to-transparent pointer-events-none z-20" />
           
-          {/* Background effect */}
+          {/* Background sparkles - both modes */}
           <div className="absolute inset-0">
             <SparklesCore
               id="cta-sparkles"
@@ -519,8 +554,14 @@ export default function HomePage() {
               maxSize={1}
               particleDensity={20}
               className="w-full h-full"
-              particleColor="var(--color-primary-500)"
+              particleColor="var(--color-sparkle)"
             />
+          </div>
+          
+          {/* Light mode decorative elements */}
+          <div className="absolute inset-0 dark:hidden overflow-hidden pointer-events-none">
+            <div className="absolute top-10 right-10 w-64 h-64 bg-primary-200/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-10 left-10 w-80 h-80 bg-accent-200/20 rounded-full blur-3xl" />
           </div>
           
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -531,19 +572,19 @@ export default function HomePage() {
               transition={{ duration: 0.5 }}
             >
               <motion.h2 
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6"
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 Let&apos;s Work{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-500">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 to-accent-500">
                   Together
                 </span>
               </motion.h2>
               <motion.p 
-                className="text-lg text-neutral-400 mb-8 max-w-2xl mx-auto"
+                className="text-lg text-gray-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

@@ -24,7 +24,7 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-neutral-950/80 backdrop-blur-xl border-b border-neutral-800 py-3'
+          ? 'bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-neutral-800 py-3 shadow-sm'
           : 'bg-transparent py-5'
       }`}
     >
@@ -41,7 +41,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative text-neutral-400 hover:text-white font-medium transition-colors group"
+                className="relative text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white font-medium transition-colors group"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 transition-all group-hover:w-full" />
@@ -55,7 +55,7 @@ export function Header() {
             
             {/* Mobile menu button */}
             <motion.button
-              className="md:hidden p-2 rounded-lg hover:bg-neutral-800 transition-colors text-neutral-400 hover:text-white"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle menu"
@@ -89,7 +89,7 @@ export function Header() {
                   >
                     <Link
                       href={link.href}
-                      className="block py-3 px-4 rounded-lg text-neutral-300 hover:text-white hover:bg-neutral-800 font-medium transition-colors"
+                      className="block py-3 px-4 rounded-lg text-gray-600 dark:text-neutral-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.label}

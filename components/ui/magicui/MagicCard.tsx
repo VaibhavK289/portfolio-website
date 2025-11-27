@@ -58,7 +58,7 @@ export function MagicCard({
     <div
       ref={cardRef}
       className={cn(
-        "group relative flex size-full overflow-hidden rounded-xl bg-neutral-900 border border-neutral-800 transition-colors duration-300",
+        "group relative flex size-full overflow-hidden rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 transition-colors duration-300 shadow-sm hover:shadow-lg",
         isHovering && "border-transparent",
         className
       )}

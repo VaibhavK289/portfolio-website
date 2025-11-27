@@ -22,10 +22,10 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -8 }}
-      className="group relative bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden hover:border-primary-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/10"
+      className="group relative bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 overflow-hidden hover:border-primary-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/10 shadow-sm"
     >
       {/* Image */}
-      <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-900/30 to-accent-900/30">
+      <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-100 dark:from-primary-900/30 to-accent-100 dark:to-accent-900/30">
         {project.image && !imageError ? (
           <Image
             src={project.image}
@@ -36,7 +36,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-6xl font-bold text-primary-400/20">
+            <div className="text-6xl font-bold text-primary-500/20 dark:text-primary-400/20">
               {project.title.charAt(0)}
             </div>
           </div>
@@ -83,14 +83,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       {/* Content */}
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs text-neutral-500">{project.year}</span>
+          <span className="text-xs text-gray-500 dark:text-neutral-500">{project.year}</span>
         </div>
         
-        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
           {project.title}
         </h3>
         
-        <p className="text-neutral-400 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-600 dark:text-neutral-400 text-sm mb-4 line-clamp-2">
           {project.description}
         </p>
 
@@ -99,13 +99,13 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           {project.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="px-2.5 py-1 bg-neutral-800 text-neutral-400 text-xs font-medium rounded-full"
+              className="px-2.5 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-400 text-xs font-medium rounded-full"
             >
               {tag}
             </span>
           ))}
           {project.tags.length > 4 && (
-            <span className="px-2.5 py-1 bg-neutral-800 text-neutral-500 text-xs font-medium rounded-full">
+            <span className="px-2.5 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-500 dark:text-neutral-500 text-xs font-medium rounded-full">
               +{project.tags.length - 4}
             </span>
           )}

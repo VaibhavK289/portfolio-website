@@ -34,12 +34,12 @@ function SkillBadge({ skill, index }: SkillBadgeProps) {
       whileHover={{ scale: 1.05, y: -2 }}
       className="relative group"
     >
-      <div className="flex items-center gap-3 px-4 py-3 bg-neutral-900 rounded-xl border border-neutral-800 shadow-sm hover:shadow-md hover:border-primary-500/50 hover:bg-neutral-800/50 transition-all cursor-default">
-        <span className="text-sm font-medium text-white">
+      <div className="flex items-center gap-3 px-4 py-3 bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 shadow-sm hover:shadow-md hover:border-primary-500/50 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-all cursor-default">
+        <span className="text-sm font-medium text-gray-900 dark:text-white">
           {skill.name}
         </span>
         {/* Proficiency bar */}
-        <div className="flex-1 h-1.5 bg-neutral-700 rounded-full overflow-hidden min-w-[60px]">
+        <div className="flex-1 h-1.5 bg-gray-200 dark:bg-neutral-700 rounded-full overflow-hidden min-w-[60px]">
           <motion.div
             className="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
             initial={{ width: 0 }}
@@ -69,10 +69,10 @@ export function SkillsSection() {
             transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-primary-900/30 text-primary-400">
+              <div className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                 <Icon className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {category.label}
               </h3>
             </div>

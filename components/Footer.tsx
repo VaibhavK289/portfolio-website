@@ -16,7 +16,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-neutral-800 bg-neutral-950">
+    <footer className="relative border-t border-gray-200 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-950">
       {/* Background gradient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl" />
@@ -31,11 +31,11 @@ export function Footer() {
               <div className="p-2 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500">
                 <Code2 className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-white">
+              <span className="text-lg font-bold text-gray-900 dark:text-white">
                 Portfolio
               </span>
             </Link>
-            <p className="text-neutral-400 max-w-md mb-6">
+            <p className="text-gray-600 dark:text-neutral-400 max-w-md mb-6">
               Full-stack developer passionate about building modern, scalable web applications 
               with great user experiences.
             </p>
@@ -49,7 +49,7 @@ export function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-primary-400 hover:border-primary-500/50 hover:bg-primary-500/10 transition-all duration-300"
+                    className="p-2.5 rounded-full bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 text-gray-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:border-primary-500/50 hover:bg-primary-50 dark:hover:bg-primary-500/10 transition-all duration-300 shadow-sm"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     aria-label={social.name}
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Navigation
             </h3>
             <ul className="space-y-3">
@@ -71,7 +71,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-primary-400 transition-colors"
+                    className="text-gray-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -82,14 +82,14 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Get in Touch
             </h3>
-            <ul className="space-y-3 text-neutral-400">
+            <ul className="space-y-3 text-gray-600 dark:text-neutral-400">
               <li>
                 <a
                   href="mailto:vaibhav.kumar.kandhway@gmail.com"
-                  className="hover:text-primary-400 transition-colors"
+                  className="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
                 >
                   vaibhav.kumar.kandhway@gmail.com
                 </a>
@@ -98,7 +98,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-1 text-primary-400 hover:text-primary-300 font-medium"
+                  className="inline-flex items-center gap-1 text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium"
                 >
                   Send a message →
                 </Link>
@@ -108,13 +108,13 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-neutral-800">
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-neutral-800">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-neutral-400 text-sm flex items-center gap-1">
+            <p className="text-gray-600 dark:text-neutral-400 text-sm flex items-center gap-1">
               © {currentYear} Portfolio. Built with{' '}
               <Heart className="w-4 h-4 text-red-500 fill-red-500" /> using Next.js
             </p>
-            <p className="text-neutral-500 text-sm">
+            <p className="text-gray-500 dark:text-neutral-500 text-sm">
               Designed & Developed by Vaibhav Kumar Kandhway
             </p>
           </div>

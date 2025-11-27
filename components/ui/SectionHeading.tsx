@@ -25,13 +25,13 @@ export function SectionHeading({
     >
       <h2
         className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${
-          gradient ? 'bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400' : 'text-white'
+          gradient ? 'bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 via-accent-500 dark:via-accent-400 to-primary-500 dark:to-primary-400' : 'text-gray-900 dark:text-white'
         }`}
       >
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-lg text-neutral-400 max-w-2xl mx-auto">
+        <p className="mt-4 text-lg text-gray-600 dark:text-neutral-400 max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}
