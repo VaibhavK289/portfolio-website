@@ -226,7 +226,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 - 🌐 Portfolio: [vaibhavk-portfolio.vercel.app](https://vaibhavk-portfolio.vercel.app)
 - 📧 Email: [vaibhav.kumar.kandhway@gmail.com](mailto:vaibhav.kumar.kandhway@gmail.com)
-- 🎓 VIT Vellore
+- 🎓 Vellore Institute Of technology
 
 ---
 
