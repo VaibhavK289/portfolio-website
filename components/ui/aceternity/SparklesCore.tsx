@@ -1,6 +1,6 @@
 "use client";
 import React, { useId, useMemo, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface SparkleType {
@@ -39,6 +39,7 @@ export const SparklesCore = ({
 }) => {
   const generatedId = useId();
   const [isMounted, setIsMounted] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     setIsMounted(true);
@@ -74,17 +75,23 @@ export const SparklesCore = ({
       }}
       id={id || generatedId}
     >
+      {/* Respect prefers-reduced-motion: show static sparkles instead of animating */}
       {isMounted && sparkles.map((sparkle) => (
         <motion.span
           key={sparkle.id}
           className="absolute inline-block pointer-events-none"
           style={sparkle.style}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
+          initial={{ opacity: prefersReducedMotion ? 0.6 : 0, scale: prefersReducedMotion ? 0.8 : 0 }}
+          animate={prefersReducedMotion ? {
+            opacity: 0.6,
+            scale: 0.8,
+          } : {
             opacity: [0, 1, 0],
             scale: [0, 1, 0],
           }}
-          transition={{
+          transition={prefersReducedMotion ? {
+            duration: 0,
+          } : {
             duration: sparkle.duration,
             delay: sparkle.delay,
             repeat: Infinity,

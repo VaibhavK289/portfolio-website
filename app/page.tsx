@@ -212,14 +212,18 @@ export default function HomePage() {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-primary-400 hover:border-primary-500/50 hover:bg-primary-500/10 transition-all duration-300"
+                      className="p-2.5 rounded-full bg-gray-100 dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 text-gray-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:border-primary-500/50 hover:bg-primary-500/10 transition-all duration-300"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       aria-label={social.name}
                     >
                       {social.icon === 'Github' && <Github className="w-5 h-5" />}
                       {social.icon === 'Linkedin' && <Linkedin className="w-5 h-5" />}
-                      {social.icon === 'Twitter' && <Mail className="w-5 h-5" />}
+                      {social.icon === 'Twitter' && (
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                      )}
                     </motion.a>
                   ))}
                 </div>

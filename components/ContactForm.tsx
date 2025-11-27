@@ -61,7 +61,7 @@ export function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-medium text-white mb-2"
+          className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
         >
           Name
         </label>
@@ -69,7 +69,7 @@ export function ContactForm() {
           type="text"
           id="name"
           {...register('name')}
-          className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
           placeholder="Your name"
         />
         {errors.name && (
@@ -81,7 +81,7 @@ export function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-white mb-2"
+          className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
         >
           Email
         </label>
@@ -89,7 +89,7 @@ export function ContactForm() {
           type="email"
           id="email"
           {...register('email')}
-          className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
           placeholder="your.email@example.com"
         />
         {errors.email && (
@@ -101,7 +101,7 @@ export function ContactForm() {
       <div>
         <label
           htmlFor="subject"
-          className="block text-sm font-medium text-white mb-2"
+          className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
         >
           Subject
         </label>
@@ -109,7 +109,7 @@ export function ContactForm() {
           type="text"
           id="subject"
           {...register('subject')}
-          className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
           placeholder="What's this about?"
         />
         {errors.subject && (
@@ -121,7 +121,7 @@ export function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-white mb-2"
+          className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
         >
           Message
         </label>
@@ -129,7 +129,7 @@ export function ContactForm() {
           id="message"
           rows={5}
           {...register('message')}
-          className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none"
           placeholder="Tell me about your project or just say hi..."
         />
         {errors.message && (
@@ -144,7 +144,7 @@ export function ContactForm() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-center gap-2 p-4 rounded-xl bg-green-900/30 text-green-400"
+            className="flex items-center gap-2 p-4 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
           >
             <CheckCircle className="w-5 h-5" />
             <span>Message sent successfully! I&apos;ll get back to you soon.</span>
@@ -155,7 +155,7 @@ export function ContactForm() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-center gap-2 p-4 rounded-xl bg-red-900/30 text-red-400"
+            className="flex items-center gap-2 p-4 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
           >
             <AlertCircle className="w-5 h-5" />
             <span>{errorMessage}</span>

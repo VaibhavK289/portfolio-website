@@ -30,10 +30,10 @@ const experiences = [
 
 const education = [
   {
-    degree: 'Bachelor of Technology / Bachelor of Science',
-    school: 'Your University Name',
-    period: '2020 - 2024',
-    description: 'Focused on computer science fundamentals, data structures, algorithms, and web development technologies.',
+    degree: 'Bachelor of Technology in Computer Science',
+    school: 'Vellore Institute of Technology (VIT)',
+    period: '2021 - 2025',
+    description: 'Focused on computer science fundamentals, data structures, algorithms, machine learning, and full-stack web development.',
   },
 ];
 
@@ -52,7 +52,7 @@ export default function AboutPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen py-20 bg-neutral-950"
+      className="min-h-screen py-20 bg-gray-50 dark:bg-neutral-950"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
@@ -62,11 +62,11 @@ export default function AboutPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-500">Me</span>
             </h1>
-            <div className="prose prose-lg prose-invert">
-              <p className="text-neutral-400 leading-relaxed whitespace-pre-line">
+            <div className="prose prose-lg dark:prose-invert">
+              <p className="text-gray-600 dark:text-neutral-400 leading-relaxed whitespace-pre-line">
                 {personalInfo.longBio}
               </p>
             </div>
@@ -100,7 +100,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="w-full h-full rounded-3xl bg-neutral-950 flex items-center justify-center">
+                <div className="w-full h-full rounded-3xl bg-white dark:bg-neutral-950 flex items-center justify-center">
                   <span className="text-7xl sm:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-500">
                     {personalInfo.name.split(' ').map(n => n[0]).join('')}
                   </span>
@@ -136,23 +136,23 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative pl-8 pb-8 border-l-2 border-neutral-800 last:pb-0"
+                className="relative pl-8 pb-8 border-l-2 border-gray-200 dark:border-neutral-800 last:pb-0"
               >
-                <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-primary-500 border-4 border-neutral-950" />
+                <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-primary-500 border-4 border-gray-50 dark:border-neutral-950" />
                 <MagicCard className="cursor-pointer" gradientColor="#262626">
                   <div className="p-6">
                     <div className="flex flex-wrap items-start justify-between gap-4 mb-2">
                       <div>
-                        <h3 className="text-xl font-bold text-white">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                           {exp.title}
                         </h3>
-                        <p className="text-primary-400 font-medium">{exp.company}</p>
+                        <p className="text-primary-500 dark:text-primary-400 font-medium">{exp.company}</p>
                       </div>
-                      <span className="px-3 py-1 bg-neutral-800 text-neutral-400 text-sm rounded-full">
+                      <span className="px-3 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-400 text-sm rounded-full">
                         {exp.period}
                       </span>
                     </div>
-                    <p className="text-neutral-400">{exp.description}</p>
+                    <p className="text-gray-600 dark:text-neutral-400">{exp.description}</p>
                   </div>
                 </MagicCard>
               </motion.div>
@@ -171,25 +171,25 @@ export default function AboutPage() {
             {education.map((edu, index) => (
               <div
                 key={index}
-                className="bg-neutral-900 rounded-2xl border border-neutral-800 p-6 hover:border-primary-500/50 transition-colors"
+                className="bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 p-6 hover:border-primary-500/50 transition-colors shadow-sm"
               >
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-primary-900/30 text-primary-400">
+                  <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
                     <GraduationCap className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <div className="flex flex-wrap items-start justify-between gap-4 mb-2">
                       <div>
-                        <h3 className="text-xl font-bold text-white">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                           {edu.degree}
                         </h3>
-                        <p className="text-primary-400 font-medium">{edu.school}</p>
+                        <p className="text-primary-500 dark:text-primary-400 font-medium">{edu.school}</p>
                       </div>
-                      <span className="px-3 py-1 bg-neutral-800 text-neutral-400 text-sm rounded-full">
+                      <span className="px-3 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-400 text-sm rounded-full">
                         {edu.period}
                       </span>
                     </div>
-                    <p className="text-neutral-400">{edu.description}</p>
+                    <p className="text-gray-600 dark:text-neutral-400">{edu.description}</p>
                   </div>
                 </div>
               </div>
@@ -217,10 +217,10 @@ export default function AboutPage() {
             {interests.map((interest, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 px-6 py-4 bg-neutral-900 rounded-2xl border border-neutral-800 hover:border-primary-500/50 transition-colors"
+                className="flex items-center gap-3 px-6 py-4 bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 hover:border-primary-500/50 transition-colors shadow-sm"
               >
                 <span className="text-2xl">{interest.icon}</span>
-                <span className="font-medium text-white">
+                <span className="font-medium text-gray-900 dark:text-white">
                   {interest.label}
                 </span>
               </div>
@@ -230,11 +230,11 @@ export default function AboutPage() {
 
         {/* CTA Section */}
         <section className="text-center">
-          <div className="bg-gradient-to-br from-primary-950/50 to-accent-950/50 rounded-3xl border border-primary-800 p-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+          <div className="bg-gradient-to-br from-primary-100 dark:from-primary-950/50 to-accent-100 dark:to-accent-950/50 rounded-3xl border border-primary-200 dark:border-primary-800 p-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Let&apos;s Build Something Amazing
             </h2>
-            <p className="text-lg text-neutral-400 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto">
               I&apos;m always excited to work on new projects and collaborate with creative minds.
               Feel free to reach out!
             </p>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
@@ -11,6 +12,7 @@ import { navLinks } from '@/data/socials';
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +21,12 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Check if link is active
+  const isActiveLink = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
+  };
 
   return (
     <header
@@ -41,10 +49,18 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white font-medium transition-colors group"
+                className={`relative font-medium transition-colors group ${
+                  isActiveLink(link.href)
+                    ? 'text-primary-600 dark:text-primary-400'
+                    : 'text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 transition-all group-hover:w-full" />
+                <span 
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 transition-all ${
+                    isActiveLink(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`} 
+                />
               </Link>
             ))}
           </div>
@@ -89,7 +105,11 @@ export function Header() {
                   >
                     <Link
                       href={link.href}
-                      className="block py-3 px-4 rounded-lg text-gray-600 dark:text-neutral-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium transition-colors"
+                      className={`block py-3 px-4 rounded-lg font-medium transition-colors ${
+                        isActiveLink(link.href)
+                          ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                          : 'text-gray-600 dark:text-neutral-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800'
+                      }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.label}

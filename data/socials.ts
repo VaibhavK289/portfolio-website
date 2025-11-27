@@ -3,17 +3,17 @@ import { Social, NavLink } from '@/types';
 export const socials: Social[] = [
   {
     name: 'GitHub',
-    url: 'https://github.com/yourusername',
+    url: 'https://github.com/VaibhavK289',
     icon: 'Github',
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
+    url: 'https://linkedin.com/in/vaibhav-kumar-kandhway',
     icon: 'Linkedin',
   },
   {
     name: 'Twitter',
-    url: 'https://twitter.com/yourusername',
+    url: 'https://twitter.com/VaibhavK289',
     icon: 'Twitter',
   },
   {

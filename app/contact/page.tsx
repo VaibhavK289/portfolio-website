@@ -26,7 +26,7 @@ export default function ContactPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen py-20 bg-neutral-950"
+      className="min-h-screen py-20 bg-gray-50 dark:bg-neutral-950"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -49,7 +49,7 @@ export default function ContactPage() {
           >
             <MagicCard className="mb-8 cursor-pointer" gradientColor="#262626">
               <div className="p-8">
-                <h3 className="text-xl font-bold text-white mb-6">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
                   Contact Information
                 </h3>
 
@@ -59,14 +59,14 @@ export default function ContactPage() {
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="p-3 rounded-xl bg-primary-900/30 text-primary-400">
+                    <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-500 mb-1">Email</p>
+                      <p className="text-sm text-gray-500 dark:text-neutral-500 mb-1">Email</p>
                       <a
                         href={`mailto:${personalInfo.email}`}
-                        className="text-white hover:text-primary-400 font-medium transition-colors"
+                        className="text-gray-900 dark:text-white hover:text-primary-500 dark:hover:text-primary-400 font-medium transition-colors"
                       >
                         {personalInfo.email}
                       </a>
@@ -78,12 +78,12 @@ export default function ContactPage() {
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="p-3 rounded-xl bg-primary-900/30 text-primary-400">
+                    <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-500 mb-1">Location</p>
-                      <p className="text-white font-medium">
+                      <p className="text-sm text-gray-500 dark:text-neutral-500 mb-1">Location</p>
+                      <p className="text-gray-900 dark:text-white font-medium">
                         {personalInfo.location}
                       </p>
                     </div>
@@ -94,12 +94,12 @@ export default function ContactPage() {
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="p-3 rounded-xl bg-primary-900/30 text-primary-400">
+                    <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
                       <Clock className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-500 mb-1">Availability</p>
-                      <p className="text-white font-medium">
+                      <p className="text-sm text-gray-500 dark:text-neutral-500 mb-1">Availability</p>
+                      <p className="text-gray-900 dark:text-white font-medium">
                         Open to opportunities
                       </p>
                     </div>
@@ -111,7 +111,7 @@ export default function ContactPage() {
             {/* Social Links */}
             <MagicCard className="cursor-pointer" gradientColor="#262626">
               <div className="p-8">
-                <h3 className="text-xl font-bold text-white mb-6">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
                   Connect With Me
                 </h3>
 
@@ -128,10 +128,10 @@ export default function ContactPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                         whileHover={{ scale: 1.05, y: -2 }}
-                        className="flex items-center gap-3 p-4 rounded-xl bg-neutral-800/50 border border-neutral-700 hover:border-primary-500/50 hover:bg-primary-950/50 transition-all group"
+                        className="flex items-center gap-3 p-4 rounded-xl bg-gray-100 dark:bg-neutral-800/50 border border-gray-200 dark:border-neutral-700 hover:border-primary-500/50 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all group"
                       >
-                        <Icon className="w-5 h-5 text-neutral-400 group-hover:text-primary-400" />
-                        <span className="font-medium text-white group-hover:text-primary-400">
+                        <Icon className="w-5 h-5 text-gray-500 dark:text-neutral-400 group-hover:text-primary-500 dark:group-hover:text-primary-400" />
+                        <span className="font-medium text-gray-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">
                           {social.name}
                         </span>
                       </motion.a>
@@ -146,21 +146,21 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-primary-950/50 to-accent-950/50 border border-primary-800"
+              className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-primary-100 dark:from-primary-950/50 to-accent-100 dark:to-accent-950/50 border border-primary-200 dark:border-primary-800"
             >
               <div className="flex items-start gap-4">
                 <motion.div 
-                  className="p-2 rounded-lg bg-primary-900/50"
+                  className="p-2 rounded-lg bg-primary-200 dark:bg-primary-900/50"
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 >
-                  <Send className="w-5 h-5 text-primary-400" />
+                  <Send className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                 </motion.div>
                 <div>
-                  <h4 className="font-semibold text-white mb-1">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                     Quick Response
                   </h4>
-                  <p className="text-sm text-neutral-400">
+                  <p className="text-sm text-gray-600 dark:text-neutral-400">
                     I typically respond within 24-48 hours. Looking forward to hearing from you!
                   </p>
                 </div>
@@ -176,7 +176,7 @@ export default function ContactPage() {
           >
             <MagicCard className="h-full cursor-pointer" gradientColor="#262626">
               <div className="p-8">
-                <h3 className="text-xl font-bold text-white mb-6">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
                   Send a Message
                 </h3>
                 <ContactForm />
