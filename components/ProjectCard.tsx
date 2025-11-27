@@ -12,31 +12,86 @@ interface ProjectCardProps {
   index: number;
 }
 
+// Enhanced card hover with content shift
+const cardHoverVariants = {
+  rest: {
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 17
+    }
+  },
+  hover: {
+    y: -8,
+    scale: 1.02,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 17
+    }
+  }
+};
+
+// Content shifts up slightly on hover for layered feel
+const contentVariants = {
+  rest: { y: 0 },
+  hover: { 
+    y: -4,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 20,
+      delay: 0.05
+    }
+  }
+};
+
+// Image zoom with slight rotation
+const imageVariants = {
+  rest: { scale: 1, rotate: 0 },
+  hover: { 
+    scale: 1.08,
+    rotate: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+};
+
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const [imageError, setImageError] = useState(false);
   
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      className="group relative bg-white dark:bg-neutral-900 rounded-xl md:rounded-2xl lg:rounded-3xl border border-gray-200/80 dark:border-neutral-800 overflow-hidden hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary-500/10 shadow-sm"
+      transition={{ 
+        duration: 0.5, 
+        delay: index * 0.12,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
+      whileHover="hover"
+      className="group relative bg-white dark:bg-neutral-900 rounded-xl md:rounded-2xl lg:rounded-3xl border border-gray-200/80 dark:border-neutral-800 overflow-hidden hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-colors duration-300 ease-out shadow-sm hover:shadow-2xl hover:shadow-primary-500/10"
     >
       {/* Geometric accent - floating circle */}
       <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary-500/20 to-accent-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       
-      {/* Image with clip-path reveal effect */}
+      {/* Image with enhanced hover effect */}
       <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10">
         {project.image && !imageError ? (
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover object-top group-hover:scale-110 transition-transform duration-700 ease-out"
-            onError={() => setImageError(true)}
-          />
+          <motion.div className="absolute inset-0" variants={imageVariants}>
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover object-top"
+              onError={() => setImageError(true)}
+            />
+          </motion.div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             {/* Hexagon placeholder for visual interest */}
@@ -89,13 +144,13 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         )}
       </div>
 
-      {/* Content */}
-      <div className="p-6">
+      {/* Content with shift animation */}
+      <motion.div className="p-6" variants={contentVariants}>
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs text-gray-500 dark:text-neutral-500">{project.year}</span>
         </div>
         
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors duration-300">
           {project.title}
         </h3>
         
@@ -126,9 +181,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           className="inline-flex items-center gap-1.5 text-primary-500 hover:text-primary-600 font-medium text-sm group/link"
         >
           View Case Study
-          <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+          <motion.span
+            className="inline-block"
+            variants={{
+              rest: { x: 0 },
+              hover: { x: 4 }
+            }}
+          >
+            <ArrowRight className="w-4 h-4" />
+          </motion.span>
         </Link>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

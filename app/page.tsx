@@ -29,7 +29,19 @@ import {
   HoverBorderGradient,
 } from '@/components/ui/aceternity';
 import { MagicCard } from '@/components/ui/magicui';
-import { TiltCard, ScrollProgress, ScrollReveal, staggerContainer, fadeUpVariant } from '@/components/animations';
+import { 
+  TiltCard, 
+  ScrollProgress, 
+  ScrollReveal, 
+  staggerContainer, 
+  fadeUpVariant,
+  heroVariants,
+  heroTextVariants,
+  badgeVariants,
+  cardContainerVariants,
+  cardVariants,
+  easings,
+} from '@/components/animations';
 
 // Animation variants for staggered animations
 const containerVariants = {
@@ -133,17 +145,17 @@ export default function HomePage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Text content */}
+            {/* Text content with dramatic entrance */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              variants={heroVariants}
+              initial="hidden"
+              animate="visible"
             >
-              {/* Animated Badge */}
+              {/* Animated Badge - bouncy entrance */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
+                variants={badgeVariants}
+                initial="hidden"
+                animate="visible"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-500/10 to-accent-500/10 border border-primary-500/20 text-primary-600 dark:text-primary-400 text-sm font-medium mb-6 backdrop-blur-sm"
               >
                 <span className="relative flex h-2 w-2">
@@ -153,12 +165,17 @@ export default function HomePage() {
                 Available for new opportunities
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-4">
+              <motion.h1 
+                variants={heroTextVariants}
+                initial="hidden"
+                animate="visible"
+                className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-4"
+              >
                 Hi, I&apos;m{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 via-accent-500 dark:via-accent-400 to-primary-500 dark:to-primary-400 animate-shimmer bg-[length:200%_auto]">
                   {personalInfo.name}
                 </span>
-              </h1>
+              </motion.h1>
 
               <TextGenerateEffect
                 words={personalInfo.title}
@@ -230,11 +247,15 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Visual element with Glowing Card */}
+            {/* Visual element with Glowing Card - dramatic entrance */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: 0.4,
+                ease: easings.dramatic
+              }}
               className="hidden lg:flex justify-center items-center"
             >
               <div className="relative">
@@ -339,7 +360,13 @@ export default function HomePage() {
             />
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16"
+            variants={cardContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {[{
                 icon: Code,
                 title: 'Frontend Development',
@@ -383,15 +410,16 @@ export default function HomePage() {
             ].map((service, index) => (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  delay: index * 0.15,
-                  duration: 0.5,
-                  ease: [0.25, 0.46, 0.45, 0.94]
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 17
+                  } 
                 }}
-                whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 className="group"
               >
                 <div className="relative h-full">
@@ -437,7 +465,7 @@ export default function HomePage() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

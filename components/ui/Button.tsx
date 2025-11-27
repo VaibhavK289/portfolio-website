@@ -5,23 +5,29 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+// Micro-interaction easing curves
+const easings = {
+  snappy: [0.4, 0, 0.2, 1] as const,
+  bounce: [0.68, -0.55, 0.265, 1.55] as const,
+};
+
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-lg md:rounded-xl font-medium transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center gap-2 rounded-lg md:rounded-xl font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         primary:
-          'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 focus-visible:ring-primary-500 shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:shadow-xl hover:scale-[1.02]',
+          'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 focus-visible:ring-primary-500 shadow-lg shadow-primary-500/25',
         secondary:
-          'bg-gray-100 dark:bg-neutral-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-neutral-700 focus-visible:ring-gray-500 border border-gray-200 dark:border-neutral-700 hover:scale-[1.02]',
+          'bg-gray-100 dark:bg-neutral-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-neutral-700 focus-visible:ring-gray-500 border border-gray-200 dark:border-neutral-700',
         outline:
-          'border-2 border-primary-500/50 text-primary-600 dark:text-primary-400 hover:bg-primary-500/10 dark:hover:bg-primary-500/10 hover:border-primary-500 focus-visible:ring-primary-500 hover:scale-[1.02]',
+          'border-2 border-primary-500/50 text-primary-600 dark:text-primary-400 hover:bg-primary-500/10 dark:hover:bg-primary-500/10 hover:border-primary-500 focus-visible:ring-primary-500',
         ghost:
           'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 focus-visible:ring-gray-500',
         gradient:
-          'bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 bg-[length:200%_auto] text-white hover:bg-right shadow-lg shadow-accent-500/25 transition-all duration-500 hover:scale-[1.02]',
+          'bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 bg-[length:200%_auto] text-white shadow-lg shadow-accent-500/25',
         pill:
-          'rounded-full bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/25 hover:shadow-xl hover:scale-[1.05]',
+          'rounded-full bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/25',
       },
       size: {
         sm: 'px-3 py-1.5 text-sm',
@@ -61,6 +67,28 @@ interface ButtonAsLink extends ButtonBaseProps {
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
+// Micro-interaction variants - feels responsive and tactile
+const buttonMotionProps = {
+  whileHover: { 
+    scale: 1.02, 
+    y: -2,
+    transition: { 
+      type: "spring",
+      stiffness: 400,
+      damping: 17
+    }
+  },
+  whileTap: { 
+    scale: 0.95,
+    y: 0,
+    transition: { 
+      type: "spring",
+      stiffness: 400,
+      damping: 17
+    }
+  },
+};
+
 export function Button(props: ButtonProps) {
   const { variant, size, className, children } = props;
   const classes = cn(buttonVariants({ variant, size }), className);
@@ -75,8 +103,7 @@ export function Button(props: ButtonProps) {
           target="_blank"
           rel="noopener noreferrer"
           className={classes}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          {...buttonMotionProps}
         >
           {children}
         </motion.a>
@@ -87,8 +114,7 @@ export function Button(props: ButtonProps) {
       <Link href={href} className={classes}>
         <motion.span
           className="inline-flex items-center gap-2"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          {...buttonMotionProps}
         >
           {children}
         </motion.span>
@@ -104,8 +130,7 @@ export function Button(props: ButtonProps) {
       onClick={onClick}
       disabled={disabled}
       className={classes}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      {...buttonMotionProps}
     >
       {children}
     </motion.button>

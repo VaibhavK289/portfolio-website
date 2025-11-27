@@ -17,9 +17,13 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+// Input focus animation - expands border on focus
+const inputClasses = "w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-0 focus:border-primary-500 dark:focus:border-primary-400 focus:shadow-[0_0_0_3px_rgba(6,182,212,0.15)] transition-all duration-300 ease-out outline-none";
+
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const {
     register,
@@ -62,82 +66,175 @@ export function ContactForm() {
       <div className="absolute -bottom-4 -left-4 w-16 h-16 shape-hexagon bg-gradient-to-br from-accent-500/10 to-transparent blur-xl pointer-events-none" />
       
       {/* Name */}
-      <div>
-        <label
+      <div className="relative">
+        <motion.label
           htmlFor="name"
           className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+          animate={{ 
+            color: focusedField === 'name' ? 'var(--color-primary-500)' : undefined 
+          }}
+          transition={{ duration: 0.2 }}
         >
           Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          {...register('name')}
-          className="w-full px-4 py-3 rounded-lg md:rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-out"
-          placeholder="Your name"
-        />
+        </motion.label>
+        <div className="relative">
+          <input
+            type="text"
+            id="name"
+            {...register('name')}
+            onFocus={() => setFocusedField('name')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses}
+            placeholder="Your name"
+          />
+          {/* Animated underline accent */}
+          <motion.div 
+            className="absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
+            initial={{ width: 0, x: '-50%' }}
+            animate={{ 
+              width: focusedField === 'name' ? '100%' : 0,
+              x: focusedField === 'name' ? 0 : '-50%'
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          />
+        </div>
         {errors.name && (
-          <p className="mt-1.5 text-sm text-red-500">{errors.name.message}</p>
+          <motion.p 
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-1.5 text-sm text-red-500"
+          >
+            {errors.name.message}
+          </motion.p>
         )}
       </div>
 
       {/* Email */}
-      <div>
-        <label
+      <div className="relative">
+        <motion.label
           htmlFor="email"
           className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+          animate={{ 
+            color: focusedField === 'email' ? 'var(--color-primary-500)' : undefined 
+          }}
+          transition={{ duration: 0.2 }}
         >
           Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          {...register('email')}
-          className="w-full px-4 py-3 rounded-[12px] border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:rounded-[14px] transition-all duration-200 ease-out"
-          placeholder="your.email@example.com"
-        />
+        </motion.label>
+        <div className="relative">
+          <input
+            type="email"
+            id="email"
+            {...register('email')}
+            onFocus={() => setFocusedField('email')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses}
+            placeholder="your.email@example.com"
+          />
+          <motion.div 
+            className="absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
+            initial={{ width: 0, x: '-50%' }}
+            animate={{ 
+              width: focusedField === 'email' ? '100%' : 0,
+              x: focusedField === 'email' ? 0 : '-50%'
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          />
+        </div>
         {errors.email && (
-          <p className="mt-1.5 text-sm text-red-500">{errors.email.message}</p>
-        )}
+          <motion.p 
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-1.5 text-sm text-red-500"
+          >
+            {errors.email.message}
+          </motion.p>
+        )}}
       </div>
 
       {/* Subject */}
-      <div>
-        <label
+      <div className="relative">
+        <motion.label
           htmlFor="subject"
           className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+          animate={{ 
+            color: focusedField === 'subject' ? 'var(--color-primary-500)' : undefined 
+          }}
+          transition={{ duration: 0.2 }}
         >
           Subject
-        </label>
-        <input
-          type="text"
-          id="subject"
-          {...register('subject')}
-          className="w-full px-4 py-3 rounded-[12px] border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:rounded-[14px] transition-all duration-200 ease-out"
-          placeholder="What's this about?"
-        />
+        </motion.label>
+        <div className="relative">
+          <input
+            type="text"
+            id="subject"
+            {...register('subject')}
+            onFocus={() => setFocusedField('subject')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses}
+            placeholder="What's this about?"
+          />
+          <motion.div 
+            className="absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
+            initial={{ width: 0, x: '-50%' }}
+            animate={{ 
+              width: focusedField === 'subject' ? '100%' : 0,
+              x: focusedField === 'subject' ? 0 : '-50%'
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          />
+        </div>
         {errors.subject && (
-          <p className="mt-1.5 text-sm text-red-500">{errors.subject.message}</p>
+          <motion.p 
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-1.5 text-sm text-red-500"
+          >
+            {errors.subject.message}
+          </motion.p>
         )}
       </div>
 
       {/* Message */}
-      <div>
-        <label
+      <div className="relative">
+        <motion.label
           htmlFor="message"
           className="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+          animate={{ 
+            color: focusedField === 'message' ? 'var(--color-primary-500)' : undefined 
+          }}
+          transition={{ duration: 0.2 }}
         >
           Message
-        </label>
-        <textarea
-          id="message"
-          rows={5}
-          {...register('message')}
-          className="w-full px-4 py-3 rounded-[12px] border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:rounded-[14px] transition-all duration-200 ease-out resize-none"
-          placeholder="Tell me about your project or just say hi..."
-        />
+        </motion.label>
+        <div className="relative">
+          <textarea
+            id="message"
+            rows={5}
+            {...register('message')}
+            onFocus={() => setFocusedField('message')}
+            onBlur={() => setFocusedField(null)}
+            className={`${inputClasses} resize-none`}
+            placeholder="Tell me about your project or just say hi..."
+          />
+          <motion.div 
+            className="absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
+            initial={{ width: 0, x: '-50%' }}
+            animate={{ 
+              width: focusedField === 'message' ? '100%' : 0,
+              x: focusedField === 'message' ? 0 : '-50%'
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          />
+        </div>
         {errors.message && (
-          <p className="mt-1.5 text-sm text-red-500">{errors.message.message}</p>
+          <motion.p 
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-1.5 text-sm text-red-500"
+          >
+            {errors.message.message}
+          </motion.p>
         )}
       </div>
 

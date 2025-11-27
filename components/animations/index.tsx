@@ -14,19 +14,203 @@ export {
   ScrollParticles,
 } from "./SmoothScroll";
 
-// Stagger container for children animations
-export const staggerContainer: Variants = {
+/* ============================================
+   ANIMATION HIERARCHY SYSTEM
+   Different animations for different importance levels
+   ============================================ */
+
+// EASING CURVES - Varied for different contexts
+export const easings = {
+  // Dramatic - for hero elements, major reveals
+  dramatic: [0.16, 1, 0.3, 1] as const,
+  // Smooth - for general content
+  smooth: [0.25, 0.4, 0.25, 1] as const,
+  // Snappy - for interactive elements, buttons
+  snappy: [0.4, 0, 0.2, 1] as const,
+  // Bounce - for playful elements, badges
+  bounce: [0.68, -0.55, 0.265, 1.55] as const,
+  // Elastic - for attention-grabbing CTAs
+  elastic: [0.68, -0.6, 0.32, 1.6] as const,
+};
+
+// HERO ANIMATIONS - Dramatic entrances
+export const heroVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.9,
+    filter: "blur(10px)",
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      ease: easings.dramatic,
+    },
+  },
+};
+
+export const heroTextVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 40,
+    filter: "blur(8px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.7,
+      ease: easings.dramatic,
+    },
+  },
+};
+
+// SECTION HEADING - Slide from side with reveal
+export const headingVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    x: -30,
+    filter: "blur(4px)",
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.6,
+      ease: easings.smooth,
+    },
+  },
+};
+
+// CARD ANIMATIONS - Cascading stagger with scale
+export const cardContainerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08, // Faster, more dynamic
       delayChildren: 0.1,
     },
   },
 };
 
-// Fade up animation
+export const cardVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 60,
+    scale: 0.9,
+    rotateX: -15,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotateX: 0,
+    transition: {
+      duration: 0.5,
+      ease: easings.smooth,
+    },
+  },
+};
+
+// CTA BUTTON - Attention-grabbing pulse
+export const ctaVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.8,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: easings.elastic,
+    },
+  },
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.2,
+      ease: easings.snappy,
+    },
+  },
+  tap: {
+    scale: 0.95,
+    transition: {
+      duration: 0.1,
+      ease: easings.snappy,
+    },
+  },
+};
+
+// BADGE/PILL - Bouncy entrance
+export const badgeVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0,
+    rotate: -10,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      duration: 0.5,
+      ease: easings.bounce,
+    },
+  },
+};
+
+// LIST ITEM - Staggered slide
+export const listItemVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    x: -20,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.3,
+      ease: easings.snappy,
+    },
+  },
+};
+
+// MICRO-INTERACTIONS
+export const microInteractions = {
+  buttonPress: {
+    scale: 0.95,
+    transition: { duration: 0.1, ease: easings.snappy },
+  },
+  buttonHover: {
+    scale: 1.02,
+    y: -2,
+    transition: { duration: 0.2, ease: easings.snappy },
+  },
+  cardHover: {
+    y: -8,
+    scale: 1.02,
+    transition: { duration: 0.3, ease: easings.smooth },
+  },
+  linkHover: {
+    x: 4,
+    transition: { duration: 0.2, ease: easings.snappy },
+  },
+  iconPop: {
+    scale: 1.2,
+    rotate: 5,
+    transition: { duration: 0.2, ease: easings.bounce },
+  },
+};
+
+// Legacy exports for backward compatibility
+export const staggerContainer: Variants = cardContainerVariants;
+
 export const fadeUpVariant: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -34,71 +218,7 @@ export const fadeUpVariant: Variants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
-  },
-};
-
-// Fade in animation
-export const fadeInVariant: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
-// Scale up animation
-export const scaleUpVariant: Variants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
-  },
-};
-
-// Slide in from left
-export const slideInLeftVariant: Variants = {
-  hidden: { opacity: 0, x: -60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
-  },
-};
-
-// Slide in from right
-export const slideInRightVariant: Variants = {
-  hidden: { opacity: 0, x: 60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
-  },
-};
-
-// Blur fade in
-export const blurFadeVariant: Variants = {
-  hidden: { opacity: 0, filter: "blur(10px)" },
-  visible: {
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      ease: "easeOut" as const,
+      ease: easings.smooth,
     },
   },
 };
