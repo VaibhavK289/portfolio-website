@@ -15,16 +15,16 @@ import { MagicCard } from '@/components/ui/magicui';
 
 const experiences = [
   {
-    title: 'Self-Learning & Project Development',
+    title: 'Full-Stack Development',
     company: 'Personal Projects',
     period: '2023 - Present',
-    description: 'Building full-stack web applications using React, Next.js, and Node.js. Completed 5+ projects showcasing proficiency in modern web technologies and best practices.',
+    description: 'Building and shipping production-ready applications. CuraSense (ML-powered disease prediction), EmoSync (real-time sentiment analysis), Nexora (e-commerce platform). Stack: React, Next.js, Node.js, PostgreSQL.',
   },
   {
-    title: 'Open Source Contributions',
+    title: 'Open Source & Learning',
     company: 'GitHub',
     period: '2023 - Present',
-    description: 'Contributing to open source projects and learning collaborative development workflows. Exploring new technologies and frameworks.',
+    description: 'Contributing to open source, building in public, and continuously shipping. Focus areas: TypeScript, modern React patterns, performance optimization.',
   },
 ];
 
@@ -62,11 +62,11 @@ export default function AboutPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h1 className="hero-heading text-4xl sm:text-5xl text-gray-900 dark:text-white mb-6">
               About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-500">Me</span>
             </h1>
             <div className="prose prose-lg dark:prose-invert">
-              <p className="text-gray-600 dark:text-neutral-400 leading-relaxed whitespace-pre-line">
+              <p className="text-gray-600 dark:text-neutral-400 body-text whitespace-pre-line">
                 {personalInfo.longBio}
               </p>
             </div>

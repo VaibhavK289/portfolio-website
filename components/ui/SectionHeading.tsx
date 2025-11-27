@@ -19,7 +19,7 @@ export function SectionHeading({
   title,
   subtitle,
   centered = true,
-  gradient = true,
+  gradient = false, // Default to NO gradient - reduce overuse
 }: SectionHeadingProps) {
   return (
     <motion.div
@@ -28,9 +28,9 @@ export function SectionHeading({
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      {/* Title with slide-in from left animation */}
+      {/* Title with display font and proper weight hierarchy */}
       <motion.h2
-        className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${
+        className={`font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${
           gradient ? 'bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 via-accent-500 dark:via-accent-400 to-primary-500 dark:to-primary-400' : 'text-gray-900 dark:text-white'
         }`}
         initial={{ opacity: 0, x: -30, filter: "blur(4px)" }}
@@ -41,10 +41,10 @@ export function SectionHeading({
         {title}
       </motion.h2>
       
-      {/* Subtitle with delayed fade-up */}
+      {/* Subtitle with improved line-height */}
       {subtitle && (
         <motion.p 
-          className="mt-4 text-lg text-gray-600 dark:text-neutral-400 max-w-2xl mx-auto"
+          className="mt-4 text-lg text-gray-600 dark:text-neutral-400 max-w-2xl mx-auto body-text"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -54,9 +54,9 @@ export function SectionHeading({
         </motion.p>
       )}
       
-      {/* Animated underline accent */}
+      {/* Colored underline accent - using solid color, not gradient */}
       <motion.div
-        className="mt-4 mx-auto h-1 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
+        className="mt-4 mx-auto h-1 bg-primary-500 rounded-full"
         initial={{ width: 0, opacity: 0 }}
         whileInView={{ width: centered ? 80 : 60, opacity: 1 }}
         viewport={{ once: true }}

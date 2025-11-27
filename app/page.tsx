@@ -23,7 +23,6 @@ import { getFeaturedProjects } from '@/data/projects';
 import { personalInfo, socials } from '@/data/socials';
 import {
   Spotlight,
-  GradientText,
   BackgroundBeams,
   SparklesCore,
   HoverBorderGradient,
@@ -165,14 +164,15 @@ export default function HomePage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
                 </span>
-                Available for new opportunities
+                Available for opportunities
               </motion.div>
 
+              {/* Hero heading with display font - ONLY gradient text in this section */}
               <motion.h1 
                 variants={heroTextVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-4"
+                className="hero-heading text-4xl sm:text-5xl lg:text-7xl text-gray-900 dark:text-white mb-4"
               >
                 Hi, I&apos;m{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 via-accent-500 dark:via-accent-400 to-primary-500 dark:to-primary-400 animate-shimmer bg-[length:200%_auto]">
@@ -180,19 +180,18 @@ export default function HomePage() {
                 </span>
               </motion.h1>
 
-              {/* Professional subtitle with gradient - replaces slow TextGenerateEffect */}
+              {/* Subtitle - NO gradient, simple contrasting color */}
               <motion.p
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-                className="text-xl sm:text-2xl font-medium mb-6"
+                className="text-xl sm:text-2xl font-semibold text-gray-700 dark:text-neutral-200 mb-6"
               >
-                <GradientText gradient="neutral" animate>
-                  {personalInfo.title}
-                </GradientText>
+                {personalInfo.title}
               </motion.p>
 
-              <p className="text-lg text-gray-600 dark:text-neutral-400 mb-8 max-w-lg leading-relaxed">
+              {/* Bio with improved line height */}
+              <p className="text-lg text-gray-600 dark:text-neutral-400 mb-8 max-w-lg body-text">
                 {personalInfo.bio}
               </p>
 
@@ -532,10 +531,10 @@ export default function HomePage() {
               className="grid grid-cols-2 gap-4"
             >
               {[
-                { number: '0', label: 'Years Experience', shape: 'rounded-full aspect-square' },
-                { number: '5+', label: 'Projects Completed', shape: 'rounded-xl md:rounded-2xl lg:rounded-3xl' },
+                { number: '2+', label: 'Years Building', shape: 'rounded-full aspect-square' },
+                { number: '5', label: 'Shipped Projects', shape: 'rounded-xl md:rounded-2xl lg:rounded-3xl' },
                 { number: '10+', label: 'Technologies', shape: 'rounded-xl md:rounded-2xl lg:rounded-3xl' },
-                { number: '100%', label: 'Dedication', shape: 'rounded-full aspect-square' },
+                { number: '3', label: 'With Real Users', shape: 'rounded-full aspect-square' },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -543,10 +542,11 @@ export default function HomePage() {
                 >
                   <TiltCard className="h-full">
                     <div className={`p-6 ${stat.shape} bg-white dark:bg-neutral-900/80 border border-gray-200 dark:border-neutral-800 text-center backdrop-blur-sm hover:border-primary-500/50 transition-all duration-300 h-full shadow-sm flex flex-col items-center justify-center ${index % 2 === 0 ? 'hover:scale-105' : 'hover:rotate-1'}`}>
-                      <div className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 dark:from-primary-400 to-accent-500 mb-2">
+                      {/* Solid color numbers - reduced gradient overuse */}
+                      <div className="text-3xl sm:text-4xl font-extrabold text-primary-500 dark:text-primary-400 mb-2">
                         {stat.number}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-neutral-400">
+                      <div className="text-sm font-medium text-gray-600 dark:text-neutral-400">
                         {stat.label}
                       </div>
                     </div>

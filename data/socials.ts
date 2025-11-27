@@ -32,15 +32,17 @@ export const navLinks: NavLink[] = [
 
 export const personalInfo = {
   name: 'Vaibhav Kumar Kandhway',
-  title: 'Aspiring Full-Stack Developer',
+  title: 'Full-Stack Developer',
   email: 'vaibhav.kumar.kandhway@gmail.com',
   location: 'Vellore Institute of Technology',
-  bio: `I'm a passionate and motivated developer seeking entry-level opportunities. I've completed 5+ projects showcasing my skills in React, Next.js, Node.js, and modern web technologies.`,
-  longBio: `I'm an enthusiastic and self-driven developer eager to kickstart my career in software development. Through self-learning and dedication, I've built 5+ projects that demonstrate my proficiency in modern web technologies.
+  bio: `Final-year CS student at Vellore Institute of Technology, shipping production-ready code in React, Next.js, and Node.js. My projects have real users, real APIs, and real impact.`,
+  longBio: `I build full-stack applications that solve real problems. Currently completing my B.Tech in Computer Science at Vellore Institute of Technology, I've spent the last 2+ years turning ideas into deployed products.
 
-My journey in tech began with a curiosity about how websites work, which evolved into a deep passion for building full-stack applications. I've invested countless hours learning React, Next.js, Node.js, TypeScript, and other cutting-edge technologies through hands-on project development.
+My stack centers on React/Next.js for frontends that feel native, Node.js backends that scale, and TypeScript everywhere for code that doesn't break at 3 AM.
 
-I'm actively seeking entry-level opportunities where I can contribute my skills, learn from experienced professionals, and grow as a developer. I'm a quick learner, team player, and always excited to take on new challenges.`,
+What sets me apart: I don't just build tutorials — I ship. CuraSense predicts diseases with ML models. EmoSync processes real-time sentiment. Nexora handles production-grade e-commerce. Each project taught me something new about building software that matters.
+
+I'm looking for a team where I can contribute from day one, learn from senior engineers, and grow into a developer who makes complex things simple.`,
   resumeUrl: 'https://github.com/VaibhavK289/resume/raw/main/resume.pdf',
   avatarUrl: '/images/avatar.jpg',
 };

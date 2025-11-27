@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
@@ -17,23 +17,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Display font for hero headings - adds typographic contrast
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://vaibhavk-portfolio.vercel.app"),
   title: {
-    default: "Vaibhav Kumar Kandhway | Aspiring Full-Stack Developer",
+    default: "Vaibhav Kumar Kandhway | Full-Stack Developer",
     template: "%s | Vaibhav Kumar Kandhway",
   },
   description:
-    "Aspiring full-stack developer seeking entry-level opportunities. Skilled in React, Next.js, Node.js, and modern web technologies with 5+ completed projects.",
+    "Full-stack developer building production-ready applications with React, Next.js, and Node.js. Final-year CS student at VIT shipping real projects with real users.",
   keywords: [
-    "Entry Level Developer",
     "Full-Stack Developer",
     "React Developer",
-    "Next.js",
+    "Next.js Developer",
     "Node.js",
     "TypeScript",
     "Web Developer",
-    "Fresh Graduate",
+    "Vellore Institute of Technology",
+    "Software Engineer",
   ],
   authors: [{ name: "Vaibhav Kumar Kandhway" }],
   creator: "Vaibhav Kumar Kandhway",
@@ -42,25 +49,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://vaibhavk-portfolio.vercel.app",
     siteName: "Vaibhav Kumar Kandhway Portfolio",
-    title: "Vaibhav Kumar Kandhway | Aspiring Full-Stack Developer",
+    title: "Vaibhav Kumar Kandhway | Full-Stack Developer",
     description:
-      "Aspiring full-stack developer seeking entry-level opportunities with 5+ projects in React, Next.js, and Node.js.",
+      "Full-stack developer building production-ready applications with React, Next.js, and Node.js. Projects with real users and real impact.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Vaibhav Kumar Kandhway - Aspiring Full-Stack Developer",
+        alt: "Vaibhav Kumar Kandhway - Full-Stack Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vaibhav Kumar Kandhway | Aspiring Full-Stack Developer",
+    title: "Vaibhav Kumar Kandhway | Full-Stack Developer",
     description:
-      "Aspiring full-stack developer seeking entry-level opportunities with 5+ projects in React, Next.js, and Node.js.",
+      "Full-stack developer building production-ready applications. Final-year CS student at VIT shipping real projects.",
     images: ["/og-image.png"],
-    creator: "@yourusername",
+    creator: "@VaibhavK289",
   },
   robots: {
     index: true,
@@ -83,7 +90,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased bg-neutral-950 text-white`}
       >
         <ThemeProvider>
           <SmoothScrollProvider>

@@ -1,6 +1,49 @@
 @import "tailwindcss";
 
 /* ============================================
+   TYPOGRAPHY SYSTEM
+   Display font + proper hierarchy
+   ============================================ */
+
+/* Display font for hero headings */
+.font-display {
+  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Typography hierarchy - font weights */
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Improved line heights */
+body {
+  line-height: 1.75;
+}
+
+p {
+  line-height: 1.8;
+}
+
+/* Hero text specific styling */
+.hero-heading {
+  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+/* Body text - ensure readability */
+.body-text {
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* ============================================
    ULTRA-SMOOTH SCROLL PERFORMANCE OPTIMIZATIONS
    Senior Web Performance Analyst Configuration
    ============================================ */
