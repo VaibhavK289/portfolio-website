@@ -9,6 +9,13 @@ interface SmoothSectionProps {
   id?: string;
 }
 
+// Ultra-smooth spring configuration - optimized for 60fps+
+const ultraSmoothSpring = {
+  stiffness: 100,
+  damping: 30,
+  restDelta: 0.001,
+};
+
 // Smooth section wrapper with scroll-linked opacity and transform
 export function SmoothSection({ children, className = "", id }: SmoothSectionProps) {
   const ref = useRef<HTMLElement>(null);
@@ -17,23 +24,22 @@ export function SmoothSection({ children, className = "", id }: SmoothSectionPro
     offset: ["start end", "end start"],
   });
 
-  // Smooth spring animation for scroll progress
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
+  // Optimized spring for buttery smooth scroll
+  const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
 
-  // Transform values for parallax-like effect
-  const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const y = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [60, 0, 0, -60]);
-  const scale = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
+  // Simplified transforms - less work per frame
+  const opacity = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.3]);
+  const y = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [20, 0, 0, -20]);
 
   return (
     <motion.section
       ref={ref}
       id={id}
-      style={{ opacity, y, scale }}
+      style={{ 
+        opacity, 
+        y,
+        willChange: 'transform, opacity',
+      }}
       className={className}
     >
       {children}
@@ -49,19 +55,20 @@ export function FadeSection({ children, className = "", id }: SmoothSectionProps
     offset: ["start end", "center center"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-  });
+  const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
 
-  const opacity = useTransform(smoothProgress, [0, 1], [0, 1]);
-  const y = useTransform(smoothProgress, [0, 1], [40, 0]);
+  const opacity = useTransform(smoothProgress, [0, 1], [0.2, 1]);
+  const y = useTransform(smoothProgress, [0, 1], [15, 0]);
 
   return (
     <motion.section
       ref={ref}
       id={id}
-      style={{ opacity, y }}
+      style={{ 
+        opacity, 
+        y,
+        willChange: 'transform, opacity',
+      }}
       className={className}
     >
       {children}
@@ -80,7 +87,7 @@ interface ParallaxLayerProps {
 export function ParallaxLayer({
   children,
   className = "",
-  speed = 0.5,
+  speed = 0.3,
   direction = "up",
 }: ParallaxLayerProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -89,11 +96,19 @@ export function ParallaxLayer({
     offset: ["start end", "end start"],
   });
 
+  const smoothY = useSpring(scrollYProgress, ultraSmoothSpring);
   const multiplier = direction === "up" ? -1 : 1;
-  const y = useTransform(scrollYProgress, [0, 1], [0, speed * 200 * multiplier]);
+  const y = useTransform(smoothY, [0, 1], [0, speed * 100 * multiplier]);
 
   return (
-    <motion.div ref={ref} style={{ y }} className={className}>
+    <motion.div 
+      ref={ref} 
+      style={{ 
+        y,
+        willChange: 'transform',
+      }} 
+      className={className}
+    >
       {children}
     </motion.div>
   );
@@ -120,15 +135,16 @@ export function ScrollReveal({
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 50,
+    damping: 20,
+    restDelta: 0.0001,
   });
 
   const directionConfig = {
-    up: { y: [50, 0], x: [0, 0] },
-    down: { y: [-50, 0], x: [0, 0] },
-    left: { y: [0, 0], x: [50, 0] },
-    right: { y: [0, 0], x: [-50, 0] },
+    up: { y: [40, 0], x: [0, 0] },
+    down: { y: [-40, 0], x: [0, 0] },
+    left: { y: [0, 0], x: [40, 0] },
+    right: { y: [0, 0], x: [-40, 0] },
   };
 
   const config = directionConfig[direction];
@@ -139,8 +155,8 @@ export function ScrollReveal({
   return (
     <motion.div
       ref={ref}
-      style={{ opacity, y, x }}
-      className={className}
+      style={{ opacity, y, x, translateZ: 0 }}
+      className={`${className} will-change-transform`}
       transition={{ delay }}
     >
       {children}
@@ -174,19 +190,18 @@ export function HorizontalScroll({ children, className = "" }: HorizontalScrollP
   );
 }
 
-// Progress indicator for scroll
+// Progress indicator for scroll - optimized with GPU acceleration
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
+  const scaleX = useSpring(scrollYProgress, ultraSmoothSpring);
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 origin-left z-50"
-      style={{ scaleX }}
+      className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 origin-left z-50"
+      style={{ 
+        scaleX,
+        willChange: 'transform',
+      }}
     />
   );
 }
@@ -194,9 +209,10 @@ export function ScrollProgress() {
 // Seamless background gradient that transitions between sections
 export function SeamlessBackground() {
   const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
   
   const background = useTransform(
-    scrollYProgress,
+    smoothProgress,
     [0, 0.25, 0.5, 0.75, 1],
     [
       "radial-gradient(ellipse at top, rgba(59, 130, 246, 0.1) 0%, transparent 50%)",

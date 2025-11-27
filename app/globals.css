@@ -1,7 +1,30 @@
 @import "tailwindcss";
 
-/* Lenis smooth scroll styles */
-html.lenis, html.lenis body {
+/* ============================================
+   ULTRA-SMOOTH SCROLL PERFORMANCE OPTIMIZATIONS
+   Senior Web Performance Analyst Configuration
+   ============================================ */
+
+/* Base performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Critical: Disable native scroll completely */
+html {
+  scroll-behavior: auto !important;
+}
+
+html, body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Lenis core styles */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -21,9 +44,14 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Smooth scrolling fallback for non-JS */
-html {
-  scroll-behavior: smooth;
+/* GPU Compositing Layer Hints - Use sparingly */
+@media (min-width: 768px) {
+  /* Only apply GPU hints on larger screens for performance */
+  .gpu-layer {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
 }
 
 @theme {
