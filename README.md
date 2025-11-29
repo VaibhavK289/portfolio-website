@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 Vaibhav Kumar Kandhway - Portfolio Website
+# Vaibhav Kumar Kandhway - Portfolio Website
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.0.4-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -17,17 +17,17 @@ A modern, responsive, and beautifully animated portfolio website showcasing my p
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🎨 **Modern UI/UX** - Clean, professional design with Aceternity UI and Magic UI components
-- 🌓 **Dark/Light Mode** - Seamless theme switching with system preference detection
-- 🎬 **Smooth Animations** - Beautiful animations powered by Framer Motion
-- 📱 **Fully Responsive** - Optimized for all devices (mobile, tablet, desktop)
-- ⚡ **High Performance** - Server-side rendering and static generation with Next.js
-- 🔄 **Smooth Scrolling** - Butter-smooth scroll experience with Lenis
-- ✨ **Interactive Elements** - Sparkle effects, hover animations, and dynamic backgrounds
-- 📝 **Contact Form** - Functional contact form with validation
-- 🔍 **SEO Optimized** - Meta tags, Open Graph, and structured data
+-  **Modern UI/UX** - Clean, professional design with Aceternity UI and Magic UI components
+-  **Dark/Light Mode** - Seamless theme switching with system preference detection
+-  **Smooth Animations** - Beautiful animations powered by Framer Motion
+-  **Fully Responsive** - Optimized for all devices (mobile, tablet, desktop)
+-  **High Performance** - Server-side rendering and static generation with Next.js
+-  **Smooth Scrolling** - Butter-smooth scroll experience with Lenis
+-  **Interactive Elements** - Sparkle effects, hover animations, and dynamic backgrounds
+-  **Contact Form** - Functional contact form with validation
+-  **SEO Optimized** - Meta tags, Open Graph, and structured data
 
 ---
 
@@ -66,7 +66,7 @@ A modern, responsive, and beautifully animated portfolio website showcasing my p
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 my-app/
@@ -100,7 +100,7 @@ my-app/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -139,7 +139,7 @@ my-app/
 
 ---
 
-## 📜 Available Scripts
+## Available Scripts
 
 | Command | Description |
 |---------|-------------|
@@ -150,7 +150,7 @@ my-app/
 
 ---
 
-## 🎨 Customization
+## Customization
 
 ### Personal Information
 Edit `data/socials.ts` to update:
