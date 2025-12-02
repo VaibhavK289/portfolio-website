@@ -116,7 +116,7 @@ Key features include:
 - Mobile-responsive progressive web app
 
 Used by 50+ teams for daily project management.`,
-    image: '/images/projects/taskapp.jpg',
+    image: '',
     tags: ['React', 'TypeScript', 'Firebase', 'Tailwind CSS', 'DnD Kit'],
     liveUrl: 'https://example-tasks.com',
     githubUrl: 'https://github.com/yourusername/taskapp',
@@ -138,7 +138,7 @@ Key features include:
 - API access for enterprise clients
 
 Generates over 100,000 pieces of content monthly.`,
-    image: '/images/projects/ai-generator.jpg',
+    image: '',
     tags: ['Next.js', 'OpenAI API', 'Prisma', 'PostgreSQL', 'Stripe'],
     liveUrl: 'https://example-ai.com',
     githubUrl: 'https://github.com/yourusername/ai-content',
@@ -160,7 +160,7 @@ Key features include:
 - Personal records tracking
 
 Available on iOS and Android with 5,000+ downloads.`,
-    image: '/images/projects/fitness.jpg',
+    image: '',
     tags: ['React Native', 'Node.js', 'MongoDB', 'AWS', 'GraphQL'],
     liveUrl: 'https://example-fitness.com',
     githubUrl: 'https://github.com/yourusername/fitness',
@@ -182,7 +182,7 @@ Key features include:
 - Market analytics dashboard
 
 Lists over 50,000 properties across multiple regions.`,
-    image: '/images/projects/realestate.jpg',
+    image: '',
     tags: ['Next.js', 'Node.js', 'Elasticsearch', 'Mapbox', 'AWS S3'],
     liveUrl: 'https://example-realestate.com',
     githubUrl: 'https://github.com/yourusername/realestate',
@@ -204,7 +204,7 @@ Key features include:
 - Performance optimized
 
 Built with Next.js 14, Tailwind CSS, and Framer Motion.`,
-    image: '/images/projects/portfolio.jpg',
+    image: '',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     liveUrl: 'https://yourportfolio.com',
     githubUrl: 'https://github.com/yourusername/portfolio',

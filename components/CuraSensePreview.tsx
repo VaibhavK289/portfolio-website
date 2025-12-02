@@ -154,14 +154,14 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
             </div>
             
             {/* Content */}
-            <div className="relative w-full h-[calc(100%-48px)] bg-neutral-950">
+            <div className="relative w-full h-[calc(100%-48px)] bg-[#0a0e17]">
               {/* Loading State */}
               {isLoading && !hasError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-neutral-900 z-10">
+                <div className="absolute inset-0 flex items-center justify-center bg-[#0c1628] z-10">
                   <div className="flex flex-col items-center gap-4">
                     <div className="relative">
-                      <div className="w-12 h-12 border-4 border-cyan-500/20 rounded-full" />
-                      <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-t-cyan-500 rounded-full animate-spin" />
+                      <div className="w-12 h-12 border-4 border-emerald-500/20 rounded-full" />
+                      <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-t-emerald-500 rounded-full animate-spin" />
                     </div>
                     <p className="text-neutral-400 text-sm">Loading CuraSense...</p>
                   </div>
@@ -170,7 +170,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
               
               {/* Error State */}
               {hasError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-neutral-900 z-10">
+                <div className="absolute inset-0 flex items-center justify-center bg-[#0c1628] z-10">
                   <div className="flex flex-col items-center gap-4 text-center px-8">
                     <AlertCircle className="w-12 h-12 text-amber-500" />
                     <div>
@@ -182,7 +182,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
                     <div className="flex gap-3">
                       <button
                         onClick={handleRefresh}
-                        className="px-4 py-2 bg-neutral-800 text-white rounded-lg hover:bg-neutral-700 transition-colors text-sm"
+                        className="px-4 py-2 bg-[#1a2438] text-white rounded-lg hover:bg-[#2d3f5f] transition-colors text-sm"
                       >
                         Try Again
                       </button>
@@ -190,7 +190,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
                         href="https://curasense-frontend.vercel.app/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 transition-colors text-sm flex items-center gap-2"
+                        className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 transition-colors text-sm flex items-center gap-2"
                       >
                         Open Site <ExternalLink className="w-4 h-4" />
                       </a>

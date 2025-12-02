@@ -1,0 +1,272 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" fill="none">
+  <defs>
+    <!-- Background gradient - Blend of portfolio (cyan/violet) + CuraSense (dark teal) -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e17"/>
+      <stop offset="30%" style="stop-color:#0c1628"/>
+      <stop offset="60%" style="stop-color:#0d1a2d"/>
+      <stop offset="100%" style="stop-color:#0a1220"/>
+    </linearGradient>
+    
+    <!-- Hero gradient overlay with teal accent -->
+    <linearGradient id="heroOverlay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d4a4a;stop-opacity:0.35"/>
+      <stop offset="50%" style="stop-color:#0a1628;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#1a0a28;stop-opacity:0.3"/>
+    </linearGradient>
+    
+    <!-- Green accent gradient (CuraSense primary) -->
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    
+    <!-- Purple/Magenta text gradient - matching screenshot -->
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c084fc"/>
+      <stop offset="50%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#9333ea"/>
+    </linearGradient>
+    
+    <!-- Card gradient -->
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2438;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#0f1729;stop-opacity:0.98"/>
+    </linearGradient>
+    
+    <!-- CuraSense Logo gradient -->
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Soft glow for text -->
+    <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Grid pattern -->
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#1e3a5f" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+    
+    <!-- Radial gradient for hero glow effect -->
+    <radialGradient id="heroGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#0d4a4a;stop-opacity:0.4"/>
+      <stop offset="50%" style="stop-color:#1a0a3a;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#0a0e17;stop-opacity:0"/>
+    </radialGradient>
+    
+    <!-- Cyan accent glow (portfolio color) -->
+    <radialGradient id="cyanGlow" cx="20%" cy="60%" r="40%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#0a0e17;stop-opacity:0"/>
+    </radialGradient>
+    
+    <!-- Violet accent glow (portfolio color) -->
+    <radialGradient id="violetGlow" cx="80%" cy="40%" r="35%">
+      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#0a0e17;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bgGradient)"/>
+  
+  <!-- Hero glow effects -->
+  <ellipse cx="600" cy="200" rx="500" ry="250" fill="url(#heroGlow)"/>
+  <ellipse cx="200" cy="400" rx="300" ry="200" fill="url(#cyanGlow)"/>
+  <ellipse cx="1000" cy="300" rx="250" ry="180" fill="url(#violetGlow)"/>
+  
+  <!-- Grid overlay -->
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.6"/>
+  
+  <!-- Hero section overlay -->
+  <rect x="70" y="85" width="1060" height="320" rx="20" fill="url(#heroOverlay)"/>
+  
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="60" height="675" fill="#0c1220"/>
+  <rect x="60" y="0" width="1" height="675" fill="#1e3a5f" opacity="0.4"/>
+  
+  <!-- CuraSense Logo in sidebar (Shield with checkmark) -->
+  <rect x="12" y="12" width="36" height="36" rx="10" fill="url(#logoGradient)"/>
+  <path d="M20 28 L27 35 L40 22" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- Home icon active -->
+  <rect x="12" y="100" width="36" height="36" rx="8" fill="#1a2438" stroke="#10b981" stroke-width="1" opacity="0.5"/>
+  <rect x="20" y="108" width="20" height="16" rx="2" stroke="#10b981" stroke-width="1.5" fill="none"/>
+  <path d="M30 108 L30 124" stroke="#10b981" stroke-width="1.5"/>
+  
+  <rect x="12" y="150" width="36" height="36" rx="8" fill="transparent"/>
+  <circle cx="30" cy="168" r="10" stroke="#64748b" stroke-width="2" fill="none"/>
+  <path d="M27 168 L30 171 L33 165" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  
+  <rect x="12" y="200" width="36" height="36" rx="8" fill="transparent"/>
+  <path d="M22 218 C22 210, 38 210, 38 218 L38 226 L22 226 Z" stroke="#64748b" stroke-width="2" fill="none"/>
+  
+  <rect x="12" y="250" width="36" height="36" rx="8" fill="transparent"/>
+  <circle cx="30" cy="268" r="10" stroke="#64748b" stroke-width="2" fill="none"/>
+  <path d="M30 262 L30 274 M24 268 L36 268" stroke="#64748b" stroke-width="2"/>
+  
+  <!-- Header bar -->
+  <rect x="60" y="0" width="1140" height="70" fill="#0c1220" opacity="0.98"/>
+  <rect x="60" y="69" width="1140" height="1" fill="#1e3a5f" opacity="0.3"/>
+  
+  <!-- Logo in header - CuraSense shield -->
+  <rect x="85" y="13" width="44" height="44" rx="12" fill="#1a2438" stroke="#10b981" stroke-width="2"/>
+  <path d="M107 22 L107 42 C107 48 100 52 100 52 C100 52 93 48 93 42 L93 22 L107 22" fill="url(#logoGradient)"/>
+  <path d="M96 34 L99 37 L104 31" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- Brand text -->
+  <text x="140" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="white">Cura</text>
+  <text x="184" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="#10b981">Sense</text>
+  <text x="140" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" letter-spacing="1.5">AI HEALTHCARE</text>
+  
+  <!-- Search bar -->
+  <rect x="440" y="16" width="340" height="40" rx="12" fill="#1a2438" stroke="#2d3f5f" stroke-width="1"/>
+  <circle cx="465" cy="36" r="10" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  <line x1="473" y1="44" x2="479" y2="50" stroke="#64748b" stroke-width="1.5"/>
+  <text x="492" y="41" font-family="system-ui, sans-serif" font-size="14" fill="#64748b">Search or jump to...</text>
+  <rect x="715" y="24" width="55" height="24" rx="6" fill="#374151"/>
+  <text x="726" y="41" font-family="monospace" font-size="11" fill="#9ca3af">Ctrl+K</text>
+  
+  <!-- Header right icons -->
+  <!-- Moon/theme icon -->
+  <circle cx="1020" cy="36" r="16" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  <path d="M1014 36 C1014 30 1020 26 1026 28 C1022 30 1020 34 1022 38 C1024 42 1028 44 1032 42 C1030 48 1022 48 1016 44 C1012 40 1012 34 1014 36" fill="#64748b"/>
+  
+  <!-- Notification bell -->
+  <circle cx="1070" cy="36" r="16" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  <path d="M1065 40 L1065 34 C1065 30 1068 27 1070 27 C1072 27 1075 30 1075 34 L1075 40 L1065 40" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  <circle cx="1070" cy="44" r="2" fill="#64748b"/>
+  <!-- Notification badge -->
+  <circle cx="1080" cy="26" r="7" fill="#ef4444"/>
+  <text x="1077" y="30" font-family="system-ui, sans-serif" font-size="9" fill="white" font-weight="bold">2</text>
+  
+  <!-- User avatar section -->
+  <rect x="1095" y="10" width="95" height="50" rx="12" fill="#1a2438"/>
+  <circle cx="1120" cy="35" r="18" fill="#6366f1"/>
+  <text x="1111" y="40" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="white">DR</text>
+  <text x="1145" y="30" font-family="system-ui, sans-serif" font-size="11" fill="white">Dr. Sarah Chen</text>
+  <text x="1145" y="44" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">👑 Pro Plan</text>
+  
+  <!-- AI Badge -->
+  <rect x="485" y="112" width="230" height="34" rx="17" fill="#0d2818" stroke="#10b981" stroke-width="1.5"/>
+  <circle cx="508" cy="129" r="6" fill="#10b981"/>
+  <text x="524" y="134" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#10b981">AI-Powered Healthcare Assistant</text>
+  
+  <!-- Main heading -->
+  <text x="600" y="195" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">Your Health, Powered by</text>
+  <text x="600" y="262" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="bold" fill="url(#purpleGradient)" text-anchor="middle" filter="url(#textGlow)">Intelligent AI</text>
+  
+  <!-- Subheading -->
+  <text x="600" y="315" font-family="system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">CuraSense combines cutting-edge AI with medical expertise to</text>
+  <text x="600" y="338" font-family="system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">provide instant analysis of prescriptions, medical images, and drug comparisons.</text>
+  
+  <!-- CTA Buttons -->
+  <!-- Start Diagnosis button -->
+  <rect x="400" y="365" width="180" height="52" rx="12" fill="url(#greenGradient)" filter="url(#glow)"/>
+  <circle cx="430" cy="391" r="13" stroke="white" stroke-width="1.5" fill="none"/>
+  <path d="M425 391 L429 395 L435 387" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="452" y="396" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="white">Start Diagnosis</text>
+  <path d="M555 386 L567 391 L555 396" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Compare Medicines button -->
+  <rect x="600" y="365" width="200" height="52" rx="12" fill="transparent" stroke="#4b5563" stroke-width="1.5"/>
+  <path d="M632 383 L642 399 M642 383 L632 399" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  <text x="658" y="396" font-family="system-ui, sans-serif" font-size="15" font-weight="500" fill="white">Compare Medicines</text>
+  
+  <!-- Feature cards at bottom -->
+  <!-- Card 1 - Prescription Analysis (Blue) -->
+  <rect x="95" y="460" width="240" height="185" rx="18" fill="url(#cardGradient)" stroke="#2d3f5f" stroke-width="1"/>
+  <rect x="185" y="490" width="60" height="60" rx="14" fill="#1e3a5f"/>
+  <rect x="202" y="504" width="26" height="32" rx="4" stroke="#3b82f6" stroke-width="2.5" fill="none"/>
+  <line x1="208" y1="514" x2="222" y2="514" stroke="#3b82f6" stroke-width="2"/>
+  <line x1="208" y1="522" x2="218" y2="522" stroke="#3b82f6" stroke-width="2"/>
+  <line x1="208" y1="530" x2="220" y2="530" stroke="#3b82f6" stroke-width="2"/>
+  <text x="215" y="580" font-family="system-ui, sans-serif" font-size="17" font-weight="600" fill="white" text-anchor="middle">Prescription Analysis</text>
+  <text x="215" y="605" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">AI-powered prescription reading</text>
+  <text x="215" y="622" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">and medication insights</text>
+  
+  <!-- Card 2 - Medical Imaging (Green shield) -->
+  <rect x="360" y="460" width="240" height="185" rx="18" fill="url(#cardGradient)" stroke="#2d3f5f" stroke-width="1"/>
+  <rect x="450" y="490" width="60" height="60" rx="14" fill="#0d2818"/>
+  <!-- Shield icon -->
+  <path d="M480 500 L480 530 C480 538 470 544 470 544 C470 544 460 538 460 530 L460 500 L480 500" stroke="#10b981" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M466 518 L469 522 L476 513" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="480" y="580" font-family="system-ui, sans-serif" font-size="17" font-weight="600" fill="white" text-anchor="middle">Medical Imaging</text>
+  <text x="480" y="605" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">X-Ray and CT scan analysis</text>
+  <text x="480" y="622" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">with detailed reports</text>
+  
+  <!-- Card 3 - Fast Processing (Lightning bolt - Orange) -->
+  <rect x="625" y="460" width="240" height="185" rx="18" fill="url(#cardGradient)" stroke="#2d3f5f" stroke-width="1"/>
+  <rect x="715" y="490" width="60" height="60" rx="14" fill="#2a1f0a"/>
+  <!-- Lightning bolt -->
+  <path d="M740 500 L728 522 L740 522 L735 544 L758 518 L744 518 L752 500 Z" fill="#f59e0b"/>
+  <text x="745" y="580" font-family="system-ui, sans-serif" font-size="17" font-weight="600" fill="white" text-anchor="middle">Fast Processing</text>
+  <text x="745" y="605" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Get results in under</text>
+  <text x="745" y="622" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">30 seconds</text>
+  
+  <!-- Card 4 - Drug Comparison (Target/crosshair - Cyan) -->
+  <rect x="890" y="460" width="240" height="185" rx="18" fill="url(#cardGradient)" stroke="#2d3f5f" stroke-width="1"/>
+  <rect x="980" y="490" width="60" height="60" rx="14" fill="#0a2a3a"/>
+  <!-- Target/crosshair icon -->
+  <circle cx="1010" cy="520" r="18" stroke="#06b6d4" stroke-width="2.5" fill="none"/>
+  <circle cx="1010" cy="520" r="10" stroke="#06b6d4" stroke-width="2" fill="none"/>
+  <circle cx="1010" cy="520" r="4" fill="#06b6d4"/>
+  <line x1="1010" y1="498" x2="1010" y2="508" stroke="#06b6d4" stroke-width="2"/>
+  <line x1="1010" y1="532" x2="1010" y2="542" stroke="#06b6d4" stroke-width="2"/>
+  <line x1="988" y1="520" x2="998" y2="520" stroke="#06b6d4" stroke-width="2"/>
+  <line x1="1022" y1="520" x2="1032" y2="520" stroke="#06b6d4" stroke-width="2"/>
+  <text x="1010" y="580" font-family="system-ui, sans-serif" font-size="17" font-weight="600" fill="white" text-anchor="middle">Drug Comparison</text>
+  <text x="1010" y="605" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Compare medications and</text>
+  <text x="1010" y="622" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">check interactions</text>
+  
+  <!-- AI Chat bubble in corner -->
+  <circle cx="1155" cy="620" r="32" fill="url(#purpleGradient)" filter="url(#glow)"/>
+  <circle cx="1155" cy="620" r="30" fill="url(#purpleGradient)"/>
+  <!-- Chat icon -->
+  <path d="M1143 615 C1143 606 1152 600 1162 600 C1172 600 1181 606 1181 615 C1181 624 1172 630 1162 630 L1155 638 L1152 630 C1145 628 1143 622 1143 615" fill="white"/>
+  <!-- AI badge -->
+  <circle cx="1175" cy="598" r="10" fill="#10b981"/>
+  <text x="1170" y="602" font-family="system-ui, sans-serif" font-size="8" fill="white" font-weight="bold">AI</text>
+  
+  <!-- Bottom sidebar icons -->
+  <rect x="12" y="600" width="36" height="36" rx="8" fill="transparent"/>
+  <circle cx="30" cy="618" r="12" stroke="#64748b" stroke-width="2" fill="none"/>
+  <text x="30" y="623" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">?</text>
+  
+  <rect x="12" y="645" width="36" height="36" rx="8" fill="transparent"/>
+  <circle cx="30" cy="663" r="12" stroke="#64748b" stroke-width="2" fill="none"/>
+  <path d="M26 659 L30 663 L34 659 M26 667 L30 663 L34 667" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  
+  <!-- Online indicator -->
+  <circle cx="18" cy="695" r="5" fill="#10b981"/>
+  
+  <!-- Decorative elements - blending portfolio colors -->
+  <circle cx="100" cy="160" r="80" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.12"/>
+  <circle cx="100" cy="160" r="120" fill="none" stroke="#06b6d4" stroke-width="0.3" opacity="0.08"/>
+  <circle cx="1100" cy="180" r="100" fill="none" stroke="#a855f7" stroke-width="0.5" opacity="0.12"/>
+  <circle cx="1100" cy="180" r="150" fill="none" stroke="#a855f7" stroke-width="0.3" opacity="0.08"/>
+  
+  <!-- Floating dots decoration -->
+  <circle cx="160" cy="300" r="3" fill="#10b981" opacity="0.5"/>
+  <circle cx="140" cy="340" r="2" fill="#06b6d4" opacity="0.4"/>
+  <circle cx="180" cy="380" r="2.5" fill="#a855f7" opacity="0.35"/>
+  <circle cx="1040" cy="260" r="3" fill="#06b6d4" opacity="0.5"/>
+  <circle cx="1070" cy="300" r="2" fill="#10b981" opacity="0.4"/>
+  <circle cx="1020" cy="340" r="2.5" fill="#a855f7" opacity="0.35"/>
+</svg>
