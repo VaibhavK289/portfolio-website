@@ -111,6 +111,18 @@ function TechnicalPageNav() {
             >
               Technical
             </Link>
+            <Link
+              href="/projects/curasense/documentation"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              Docs
+            </Link>
+            <Link
+              href="/projects/curasense/deep-dive"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              Deep-Dive
+            </Link>
           </div>
           
           {/* Actions */}

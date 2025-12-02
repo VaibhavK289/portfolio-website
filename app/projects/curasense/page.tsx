@@ -125,6 +125,18 @@ function CuraSensePageNav({ currentPage }: { currentPage: 'overview' | 'technica
             >
               Technical
             </Link>
+            <Link
+              href="/projects/curasense/documentation"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              Docs
+            </Link>
+            <Link
+              href="/projects/curasense/deep-dive"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              Deep-Dive
+            </Link>
           </div>
           
           {/* Actions */}
@@ -251,7 +263,23 @@ function HeroSection() {
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#1a2438] text-gray-700 dark:text-neutral-300 hover:bg-gray-200 dark:hover:bg-[#2d3f5f] transition-colors text-sm font-medium group"
                 >
                   <Code2 className="w-4 h-4 text-emerald-500" />
+                  Technical Overview
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/projects/curasense/deep-dive"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#1a2438] text-gray-700 dark:text-neutral-300 hover:bg-gray-200 dark:hover:bg-[#2d3f5f] transition-colors text-sm font-medium group"
+                >
+                  <Brain className="w-4 h-4 text-violet-500" />
                   Technical Deep-Dive
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/projects/curasense/documentation"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#1a2438] text-gray-700 dark:text-neutral-300 hover:bg-gray-200 dark:hover:bg-[#2d3f5f] transition-colors text-sm font-medium group"
+                >
+                  <FileText className="w-4 h-4 text-cyan-500" />
+                  Documentation
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

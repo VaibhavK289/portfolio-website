@@ -219,162 +219,19 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
   return createPortal(modalContent, document.body);
 }
 
-// CuraSense Screenshot SVG Component
+// CuraSense Screenshot Component using JPEG image
 export function CuraSenseScreenshot({ onClick }: { onClick: () => void }) {
   return (
     <div 
       className="relative w-full h-full cursor-pointer group"
       onClick={onClick}
     >
-      {/* SVG Recreation of CuraSense UI */}
-      <svg
-        viewBox="0 0 1200 700"
-        className="w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Background */}
-        <defs>
-          <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0f172a" />
-            <stop offset="50%" stopColor="#1e293b" />
-            <stop offset="100%" stopColor="#0f172a" />
-          </linearGradient>
-          <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#10b981" />
-            <stop offset="100%" stopColor="#3b82f6" />
-          </linearGradient>
-          <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#a855f7" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-          {/* Grid pattern */}
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
-          </pattern>
-        </defs>
-        
-        {/* Main background */}
-        <rect width="1200" height="700" fill="url(#bgGradient)" />
-        <rect width="1200" height="700" fill="url(#grid)" />
-        
-        {/* Left Sidebar */}
-        <rect x="0" y="0" width="60" height="700" fill="#0f172a" />
-        <rect x="59" y="0" width="1" height="700" fill="#1e293b" />
-        
-        {/* Sidebar icons */}
-        <g fill="#10b981">
-          <rect x="15" y="15" width="30" height="30" rx="8" fill="#10b981" opacity="0.2" />
-          <circle cx="30" cy="30" r="8" fill="#10b981" />
-        </g>
-        
-        {/* Navigation icons */}
-        <g fill="#64748b">
-          <circle cx="30" cy="90" r="10" opacity="0.3" />
-          <circle cx="30" cy="140" r="10" opacity="0.3" />
-          <circle cx="30" cy="190" r="10" opacity="0.3" />
-          <circle cx="30" cy="240" r="10" opacity="0.3" />
-          <circle cx="30" cy="290" r="10" opacity="0.3" />
-        </g>
-        
-        {/* Top Header Bar */}
-        <rect x="60" y="0" width="1140" height="60" fill="#0f172a" />
-        <rect x="60" y="59" width="1140" height="1" fill="#1e293b" />
-        
-        {/* Logo */}
-        <g transform="translate(80, 15)">
-          <rect width="30" height="30" rx="8" fill="#10b981" opacity="0.2" />
-          <text x="40" y="18" fill="#10b981" fontSize="14" fontWeight="bold">Cura</text>
-          <text x="40" y="18" fill="#64748b" fontSize="14" fontWeight="bold" dx="32">Sense</text>
-        </g>
-        
-        {/* Search bar */}
-        <rect x="450" y="15" width="300" height="30" rx="15" fill="#1e293b" />
-        <text x="480" y="35" fill="#64748b" fontSize="12">Search or jump to...</text>
-        <text x="700" y="35" fill="#475569" fontSize="10">Ctrl+K</text>
-        
-        {/* User profile area */}
-        <g transform="translate(1050, 15)">
-          <circle cx="60" cy="15" r="15" fill="#6366f1" />
-          <text x="60" y="20" fill="white" fontSize="10" textAnchor="middle" fontWeight="bold">DR</text>
-          <text x="90" y="12" fill="white" fontSize="11" fontWeight="500">Dr. Sarah Chen</text>
-          <text x="90" y="26" fill="#fbbf24" fontSize="9">👑 Pro Plan</text>
-        </g>
-        
-        {/* Main Content Area */}
-        <rect x="60" y="60" width="1140" height="640" fill="#111827" rx="0" />
-        
-        {/* Hero Section Background */}
-        <rect x="60" y="60" width="1140" height="500" fill="url(#bgGradient)" opacity="0.5" />
-        
-        {/* Badge */}
-        <g transform="translate(520, 110)">
-          <rect width="240" height="28" rx="14" fill="#10b981" opacity="0.15" />
-          <circle cx="15" cy="14" r="4" fill="#10b981" />
-          <text x="30" y="18" fill="#10b981" fontSize="11" fontWeight="500">AI-Powered Healthcare Assistant</text>
-        </g>
-        
-        {/* Main Heading */}
-        <text x="600" y="200" fill="white" fontSize="42" fontWeight="bold" textAnchor="middle">Your Health, Powered by</text>
-        <text x="600" y="260" fill="url(#purpleGradient)" fontSize="42" fontWeight="bold" textAnchor="middle">Intelligent AI</text>
-        
-        {/* Subtitle */}
-        <text x="600" y="320" fill="#94a3b8" fontSize="14" textAnchor="middle">CuraSense combines cutting-edge AI with medical expertise to</text>
-        <text x="600" y="340" fill="#94a3b8" fontSize="14" textAnchor="middle">provide instant analysis of prescriptions, medical images, and drug</text>
-        <text x="600" y="360" fill="#94a3b8" fontSize="14" textAnchor="middle">comparisons.</text>
-        
-        {/* CTA Buttons */}
-        <g transform="translate(420, 400)">
-          {/* Primary button */}
-          <rect width="160" height="44" rx="22" fill="#10b981" />
-          <text x="60" y="28" fill="white" fontSize="13" fontWeight="600">✨ Start Diagnosis →</text>
-          
-          {/* Secondary button */}
-          <rect x="180" width="160" height="44" rx="22" fill="transparent" stroke="#475569" strokeWidth="1" />
-          <text x="240" y="28" fill="white" fontSize="13" fontWeight="500">🔗 Compare Medicines</text>
-        </g>
-        
-        {/* Feature Cards at bottom */}
-        <g transform="translate(100, 580)">
-          {/* Card 1 */}
-          <rect width="240" height="80" rx="12" fill="#1e293b" stroke="#334155" strokeWidth="1" />
-          <rect x="20" y="20" width="40" height="40" rx="8" fill="#0ea5e9" opacity="0.2" />
-          <text x="100" y="45" fill="#0ea5e9" fontSize="20">📄</text>
-          <text x="100" y="65" fill="white" fontSize="11" fontWeight="500">Prescription</text>
-          
-          {/* Card 2 */}
-          <rect x="260" width="240" height="80" rx="12" fill="#1e293b" stroke="#334155" strokeWidth="1" />
-          <rect x="280" y="20" width="40" height="40" rx="8" fill="#10b981" opacity="0.2" />
-          <text x="360" y="45" fill="#10b981" fontSize="20">🛡️</text>
-          <text x="360" y="65" fill="white" fontSize="11" fontWeight="500">Medical Imaging</text>
-          
-          {/* Card 3 */}
-          <rect x="520" width="240" height="80" rx="12" fill="#1e293b" stroke="#334155" strokeWidth="1" />
-          <rect x="540" y="20" width="40" height="40" rx="8" fill="#f59e0b" opacity="0.2" />
-          <text x="620" y="45" fill="#f59e0b" fontSize="20">⚡</text>
-          <text x="620" y="65" fill="white" fontSize="11" fontWeight="500">Fast Analysis</text>
-          
-          {/* Card 4 */}
-          <rect x="780" width="240" height="80" rx="12" fill="#1e293b" stroke="#334155" strokeWidth="1" />
-          <rect x="800" y="20" width="40" height="40" rx="8" fill="#8b5cf6" opacity="0.2" />
-          <text x="880" y="45" fill="#8b5cf6" fontSize="20">🩺</text>
-          <text x="880" y="65" fill="white" fontSize="11" fontWeight="500">Drug Comparison</text>
-        </g>
-        
-        {/* AI Chat bubble */}
-        <g transform="translate(1100, 620)">
-          <circle cx="30" cy="30" r="28" fill="url(#accentGradient)" />
-          <text x="30" y="36" fill="white" fontSize="20" textAnchor="middle">💬</text>
-          <circle cx="50" cy="10" r="8" fill="#ef4444" />
-          <text x="50" y="14" fill="white" fontSize="8" textAnchor="middle" fontWeight="bold">AI</text>
-        </g>
-      </svg>
+      {/* CuraSense Hero Image */}
+      <img
+        src="/images/projects/curasense-hero.jpeg"
+        alt="CuraSense AI Healthcare Platform Preview"
+        className="w-full h-full object-cover object-top"
+      />
       
       {/* Hover overlay */}
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
