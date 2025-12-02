@@ -10,6 +10,15 @@ interface VKLogoProps {
   variant?: 'full' | 'simple' | 'mark';
 }
 
+// Custom hook to handle theme with SSR - defaults to dark
+function useThemeSafe() {
+  const { resolvedTheme, theme } = useTheme();
+  // On server and before hydration, resolvedTheme is undefined
+  // Default to 'dark' to prevent white flash
+  const isDark = resolvedTheme ? resolvedTheme === 'dark' : true;
+  return { isDark, resolvedTheme, theme };
+}
+
 /**
  * VK Logo - Professional Corporate Identity
  * 
@@ -22,10 +31,9 @@ interface VKLogoProps {
  * 6. Light/dark mode adaptive
  * 7. Scalability tested from 16px to 512px
  */
-export function VKLogo({ className = '', size = 48, variant = 'full' }: VKLogoProps) {
+export function VKLogo({ className = '', size = 48 }: VKLogoProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const { isDark } = useThemeSafe();
   const uniqueId = useId();
 
   // Scale factor for consistent sizing
@@ -224,8 +232,7 @@ export function VKLogo({ className = '', size = 48, variant = 'full' }: VKLogoPr
  * - Maximum contrast
  */
 export function VKLogoSimple({ className = '', size = 32 }: Omit<VKLogoProps, 'variant'>) {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const { isDark } = useThemeSafe();
 
   const bgColor = isDark ? '#0a0a0f' : '#f8fafc';
   const letterColor = isDark ? '#06b6d4' : '#0891b2';
@@ -291,8 +298,7 @@ export function VKLogoSimple({ className = '', size = 32 }: Omit<VKLogoProps, 'v
  * Maximum contrast, no border
  */
 export function VKLogoMark({ className = '', size = 16 }: Omit<VKLogoProps, 'variant'>) {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const { isDark } = useThemeSafe();
 
   const bgColor = isDark ? '#0a0a0f' : '#f8fafc';
   const letterColor = isDark ? '#06b6d4' : '#0891b2';
