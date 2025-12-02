@@ -168,22 +168,24 @@ function TableOfContents() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="hidden lg:block fixed left-8 top-1/2 -translate-y-1/2 z-30"
+      className="hidden lg:block absolute left-8 top-[6.5rem] z-30"
     >
-      <div className="p-4 rounded-2xl bg-white/80 dark:bg-[#1a2438]/80 border border-gray-200 dark:border-[#2d3f5f] backdrop-blur-sm">
-        <p className="text-xs font-semibold text-gray-500 dark:text-neutral-500 mb-3 uppercase tracking-wider">Contents</p>
-        <nav className="space-y-1">
-          {sections.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors group"
-            >
-              <section.icon className="w-4 h-4 group-hover:text-emerald-500 transition-colors" />
-              <span>{section.title}</span>
-            </a>
-          ))}
-        </nav>
+      <div className="sticky top-32">
+        <div className="p-4 rounded-2xl bg-white/80 dark:bg-[#1a2438]/80 border border-gray-200 dark:border-[#2d3f5f] backdrop-blur-sm">
+          <p className="text-xs font-semibold text-gray-500 dark:text-neutral-500 mb-3 uppercase tracking-wider">Contents</p>
+          <nav className="space-y-1">
+            {sections.map((section) => (
+              <a
+                key={section.id}
+                href={`#${section.id}`}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors group"
+              >
+                <section.icon className="w-4 h-4 group-hover:text-emerald-500 transition-colors" />
+                <span>{section.title}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
       </div>
     </motion.div>
   );
@@ -279,7 +281,7 @@ function ContentSection({
           <BadgeIcon className="w-4 h-4" />
           {badge}
         </motion.span>
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mb-8">
           {title}
         </h2>
         <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-neutral-400 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-emerald-600 dark:prose-a:text-emerald-400">
@@ -316,7 +318,7 @@ function HighlightBox({
           <Icon className="w-5 h-5" />
         </div>
         <div>
-          <h4 className="font-bold text-gray-900 dark:text-white mb-2">{title}</h4>
+          <h4 className="font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mb-2">{title}</h4>
           <div className="text-gray-600 dark:text-neutral-400">{children}</div>
         </div>
       </div>
@@ -327,7 +329,9 @@ function HighlightBox({
 // Main Content
 function MainContent() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="relative">
+      <TableOfContents />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       {/* Problem Statement */}
       <ContentSection 
         id="problem" 
@@ -372,7 +376,7 @@ function MainContent() {
           CuraSense employs a meticulously designed four-layer architecture that separates concerns while enabling seamless data flow between components. This architectural decision wasn't arbitrary—it emerged from the fundamental requirements of medical AI systems: reliability, interpretability, and the ability to evolve individual components without disrupting the entire system.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">The Presentation Layer</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">The Presentation Layer</h3>
         <p>
           Built with Next.js 14 and React 19, the frontend represents more than just a user interface—it's a carefully crafted experience designed for clinical workflows. The decision to use the App Router architecture enables server-side rendering for initial page loads, critical for environments where network latency varies. React Server Components handle data fetching on the server, reducing the JavaScript payload sent to clients and improving performance on hospital workstations that may not have cutting-edge hardware.
         </p>
@@ -381,7 +385,7 @@ function MainContent() {
           Framer Motion powers the animation system, but beyond aesthetics, animations serve a functional purpose: they provide visual feedback during AI processing, reducing perceived wait times and indicating system state. When a physician uploads a chest X-ray, subtle loading animations communicate that the system is actively working, maintaining trust in the AI's responsiveness.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">The API Layer</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">The API Layer</h3>
         <p>
           FastAPI serves as the backbone of the API layer, chosen specifically for its async-first design and automatic OpenAPI documentation generation. In healthcare contexts, API documentation isn't a luxury—it's a compliance requirement. The ability to auto-generate accurate API specs reduces documentation drift and simplifies integration audits.
         </p>
@@ -394,7 +398,7 @@ function MainContent() {
           WebSockets would have been overkill for CuraSense's communication patterns. Since clients primarily receive updates rather than send continuous data, SSE's simpler protocol reduces complexity, works better with HTTP/2, and requires no special proxy configuration—crucial for deployment in hospital networks with strict firewall policies.
         </HighlightBox>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">The Intelligence Layer</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">The Intelligence Layer</h3>
         <p>
           This is where CuraSense truly differentiates itself. Rather than relying on a single monolithic AI model, the intelligence layer implements a multi-agent architecture using CrewAI for agent orchestration and LangGraph for workflow management. Each agent specializes in a specific domain: document analysis, medical interpretation, drug interaction checking, and report synthesis.
         </p>
@@ -403,7 +407,7 @@ function MainContent() {
           The Gemini Pro model handles textual analysis, while Gemini Vision processes medical imaging. This dual-model approach acknowledges that different AI tasks require different capabilities—language models excel at reasoning over text, while vision models understand spatial relationships in images. By separating these concerns, each model operates in its optimal domain.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">The Data Layer</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">The Data Layer</h3>
         <p>
           ChromaDB serves as the vector database, enabling semantic search over medical knowledge bases. The choice of a vector database over traditional relational storage reflects the nature of medical queries: clinicians don't search for exact string matches—they search for conceptually similar information. A query about "chest pain radiating to left arm" should retrieve information about cardiac symptoms even if those exact words aren't present in the knowledge base.
         </p>
@@ -425,7 +429,7 @@ function MainContent() {
           The multi-agent architecture represents CuraSense's most innovative technical contribution. Traditional AI applications employ single models that handle all tasks—a pattern that struggles with the multifaceted nature of medical diagnosis. CuraSense instead implements a team of specialized AI agents, each with distinct capabilities and responsibilities.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Agent Specialization</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Agent Specialization</h3>
         
         <p>
           <strong>The Document Analyzer Agent</strong> serves as the entry point for all uploaded medical documents. Using advanced PDF parsing libraries combined with Named Entity Recognition (NER) models from Hugging Face, this agent extracts structured data from unstructured medical documents. It identifies medication names, dosages, frequency schedules, and diagnostic codes—transforming a PDF prescription into a machine-readable format that subsequent agents can process.
@@ -455,7 +459,7 @@ function MainContent() {
           Agents communicate through a structured message-passing protocol implemented via LangGraph. Each agent publishes its findings to a shared state graph, enabling downstream agents to access all relevant context. This architecture ensures that the Report Generator, for instance, has access to the original document analysis, medical interpretations, and drug interaction findings when synthesizing the final report.
         </HighlightBox>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Orchestration with CrewAI</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Orchestration with CrewAI</h3>
         <p>
           CrewAI manages the coordination between agents, determining execution order, handling dependencies, and managing failures. The framework implements a supervisor pattern where a coordinator agent oversees the diagnosis process, dynamically routing tasks based on document type and complexity.
         </p>
@@ -481,7 +485,7 @@ function MainContent() {
           CuraSense's RAG pipeline bridges this gap by combining the reasoning capabilities of LLMs with real-time retrieval from up-to-date medical knowledge bases. When the Drug Interaction Agent needs to check for medication conflicts, it doesn't rely solely on the LLM's training data—it actively queries a vector database containing current pharmaceutical data.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Vector Embeddings and Semantic Search</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Vector Embeddings and Semantic Search</h3>
         <p>
           At the core of the RAG system lies ChromaDB, a vector database optimized for semantic search. Medical documents are processed through embedding models that convert text into high-dimensional vectors capturing semantic meaning. When a query arrives—such as "medications contraindicated with warfarin"—the system converts this query to a vector and finds the most semantically similar documents in the database.
         </p>
@@ -490,7 +494,7 @@ function MainContent() {
           This semantic approach vastly outperforms keyword matching. A search for "blood thinners" would correctly retrieve documents about anticoagulants even if that exact phrase never appears. The embedding model understands conceptual relationships that keyword systems miss.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Context Window Optimization</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Context Window Optimization</h3>
         <p>
           One engineering challenge with RAG is managing context window limits. LLMs can only process a finite amount of text—typically 8,000 to 128,000 tokens depending on the model. When retrieval returns numerous relevant documents, naive approaches simply truncate, potentially losing critical information.
         </p>
@@ -516,7 +520,7 @@ function MainContent() {
           Medical imaging interpretation represents one of healthcare's most time-intensive and expertise-dependent tasks. Radiologists spend years developing the pattern recognition skills needed to identify abnormalities in X-rays, CT scans, and MRIs. CuraSense's vision analysis module provides AI-assisted interpretation that augments—rather than replaces—radiological expertise.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Gemini Vision Integration</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Gemini Vision Integration</h3>
         <p>
           The vision pipeline leverages Google's Gemini Vision model, a multimodal AI capable of understanding both images and text. When a physician uploads a chest X-ray, the system processes the image through several stages:
         </p>
@@ -528,7 +532,7 @@ function MainContent() {
           <li><strong>Clinical correlation</strong>: Detected findings are correlated with any provided clinical history to assess significance</li>
         </ul>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Confidence Scoring and Uncertainty</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Confidence Scoring and Uncertainty</h3>
         <p>
           Unlike deterministic software, AI vision systems must communicate uncertainty. CuraSense implements confidence scoring for all imaging findings. When the system identifies a potential nodule, it provides both the finding and a confidence level. A high-confidence finding might recommend immediate follow-up, while a low-confidence detection suggests additional imaging or specialist review.
         </p>
@@ -554,7 +558,7 @@ function MainContent() {
           In clinical settings, perceived responsiveness matters as much as actual processing time. A system that provides no feedback during a 30-second analysis feels slower than one that continuously updates users on progress—even if total processing time is identical. CuraSense implements sophisticated real-time streaming to maintain user engagement throughout the analysis pipeline.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">The SSE Implementation</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">The SSE Implementation</h3>
         <p>
           Server-Sent Events (SSE) provide a unidirectional channel from server to client over a standard HTTP connection. When a user submits a document for analysis, the server immediately establishes an SSE connection and begins streaming updates:
         </p>
@@ -566,7 +570,7 @@ function MainContent() {
           <li><strong>Final synthesis</strong>: The complete report streams incrementally, enabling users to begin reading before generation completes</li>
         </ul>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Frontend Integration</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Frontend Integration</h3>
         <p>
           The React frontend uses the EventSource API to receive SSE streams, parsing each event and updating component state. Framer Motion animates new content into view, creating a fluid experience as analysis results progressively appear. This streaming approach transforms a potentially tedious wait into an engaging, informative experience.
         </p>
@@ -588,7 +592,7 @@ function MainContent() {
           Healthcare applications operate under stringent regulatory requirements. While CuraSense is a demonstration project, its architecture embodies security principles that would satisfy HIPAA requirements in production deployment. Understanding these design decisions illustrates how security consciousness shapes architectural choices.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Session-Based Data Isolation</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Session-Based Data Isolation</h3>
         <p>
           Patient data never persists beyond the analysis session. Each upload receives a unique session identifier, and all extracted data, intermediate results, and final reports are associated with this session. A background task continuously monitors session age, automatically purging any session older than 15 minutes.
         </p>
@@ -597,7 +601,7 @@ function MainContent() {
           This ephemeral approach dramatically reduces security surface area. There's no database of patient records to breach, no historical data to protect with encryption at rest, no backup tapes to secure. Data exists only in memory during active processing, then vanishes.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Authentication with Clerk</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Authentication with Clerk</h3>
         <p>
           User authentication leverages Clerk, a modern authentication platform that handles the complexities of secure identity management. Clerk provides multi-factor authentication, secure session management, and social login integration—all implemented following security best practices that would take months to build from scratch.
         </p>
@@ -623,7 +627,7 @@ function MainContent() {
           Building CuraSense surfaced numerous technical challenges, each requiring creative solutions. These engineering lessons illustrate the gap between conceptual architecture and working systems.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Challenge: LLM Hallucination in Medical Context</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Challenge: LLM Hallucination in Medical Context</h3>
         <p>
           Large language models occasionally generate plausible-sounding but incorrect information—a phenomenon known as hallucination. In medical contexts, hallucinations are dangerous. A fabricated drug interaction could lead to inappropriate treatment decisions.
         </p>
@@ -632,7 +636,7 @@ function MainContent() {
           <strong>Solution:</strong> CuraSense implements multiple hallucination mitigation strategies. The RAG pipeline grounds responses in retrieved documents, reducing the model's need to "invent" information. Agent outputs are cross-validated—if the Drug Interaction Agent flags an interaction, the Medical Expert Agent independently verifies its clinical significance. Confidence thresholds prevent low-confidence assertions from appearing in final reports without appropriate caveats.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Challenge: Latency in Multi-Agent Systems</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Challenge: Latency in Multi-Agent Systems</h3>
         <p>
           Sequential agent execution creates additive latency. If each of four agents takes 5 seconds, users wait 20 seconds for results—unacceptable in clinical workflows.
         </p>
@@ -641,7 +645,7 @@ function MainContent() {
           <strong>Solution:</strong> LangGraph enables parallel execution of independent agents. The Document Analyzer must complete before downstream agents begin, but the Medical Expert and Drug Interaction agents can operate concurrently since neither depends on the other's output. This parallel execution pattern reduced average analysis time by approximately 40% compared to strictly sequential processing.
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-4">Challenge: Variable Document Quality</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mt-10 mb-4">Challenge: Variable Document Quality</h3>
         <p>
           Medical documents arrive in wildly varying quality—blurry scans, handwritten notes, faded thermal paper. Image-based PDFs require OCR, which introduces errors. Poor-quality inputs degrade analysis accuracy.
         </p>
@@ -659,7 +663,7 @@ function MainContent() {
       <section className="py-16 scroll-mt-32">
         <ScrollReveal>
           <div className="p-8 rounded-3xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/5 to-violet-500/10 border border-emerald-500/20">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-gray-900 dark:bg-gradient-to-r dark:from-white dark:to-neutral-500 dark:bg-clip-text dark:text-transparent mb-4">
               Conclusion: The Future of AI in Healthcare
             </h2>
             <p className="text-gray-600 dark:text-neutral-400 mb-6">
@@ -685,6 +689,7 @@ function MainContent() {
           </div>
         </ScrollReveal>
       </section>
+      </div>
     </div>
   );
 }
@@ -696,7 +701,6 @@ export default function CuraSenseDeepDivePage() {
       <ScrollProgress />
       <DeepDiveHero />
       <DeepDivePageNav />
-      <TableOfContents />
       <MainContent />
     </div>
   );

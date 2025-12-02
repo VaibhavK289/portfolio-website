@@ -169,7 +169,7 @@ export function Header() {
                 <VKLogo size={42} />
                 {/* Brand text - hidden on mobile */}
                 <motion.span 
-                  className="hidden sm:block font-bold text-lg bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-neutral-300 dark:to-white bg-clip-text text-transparent"
+                  className="hidden sm:block font-bold text-lg bg-gradient-to-r from-gray-800 via-gray-500 to-gray-800 dark:from-white dark:via-gray-400 dark:to-white bg-clip-text text-transparent"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}

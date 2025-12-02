@@ -34,8 +34,8 @@ export function ThemeToggle() {
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
           background: isDark 
-            ? 'radial-gradient(circle at center, rgba(250, 204, 21, 0.15), transparent 70%)'
-            : 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15), transparent 70%)'
+            ? 'radial-gradient(circle at center, rgba(34, 211, 238, 0.15), transparent 70%)'
+            : 'radial-gradient(circle at center, rgba(167, 139, 250, 0.15), transparent 70%)'
         }}
       />
       
@@ -53,15 +53,15 @@ export function ThemeToggle() {
             >
               {/* Moon with stars */}
               <div className="relative">
-                <Moon className="w-5 h-5 text-yellow-400" />
+                <Moon className="w-5 h-5 text-cyan-400" />
                 {/* Tiny stars around moon */}
                 <motion.span
-                  className="absolute -top-1 -right-1 w-1 h-1 rounded-full bg-yellow-300"
+                  className="absolute -top-1 -right-1 w-1 h-1 rounded-full bg-cyan-300"
                   animate={{ opacity: [0.5, 1, 0.5], scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
                 <motion.span
-                  className="absolute -bottom-0.5 -left-1 w-0.5 h-0.5 rounded-full bg-yellow-300"
+                  className="absolute -bottom-0.5 -left-1 w-0.5 h-0.5 rounded-full bg-violet-400"
                   animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.5, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
                 />
@@ -78,7 +78,7 @@ export function ThemeToggle() {
             >
               {/* Sun with rays */}
               <div className="relative">
-                <Sun className="w-5 h-5 text-orange-500" />
+                <Sun className="w-5 h-5 text-violet-500" />
                 {/* Animated rays */}
                 <motion.div
                   className="absolute inset-0 flex items-center justify-center"
@@ -88,7 +88,7 @@ export function ThemeToggle() {
                   {[...Array(4)].map((_, i) => (
                     <motion.span
                       key={i}
-                      className="absolute w-1 h-1 rounded-full bg-orange-400/50"
+                      className="absolute w-1 h-1 rounded-full bg-violet-400/50"
                       style={{
                         top: i === 0 ? -6 : i === 2 ? 'auto' : '50%',
                         bottom: i === 2 ? -6 : 'auto',
