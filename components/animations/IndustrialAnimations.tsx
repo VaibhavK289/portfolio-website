@@ -1,11 +1,12 @@
 'use client';
 
-import { motion, Variants, useMotionValue, useTransform, animate, useInView, TargetAndTransition } from 'framer-motion';
-import { ReactNode, useRef, useEffect, useState } from 'react';
+import { motion, Variants, useMotionValue, useTransform, animate, useInView, TargetAndTransition, useReducedMotion } from 'framer-motion';
+import { ReactNode, useRef, useEffect, useState, memo } from 'react';
 
 // ============================================
 // INDUSTRIAL MOTION DESIGN SYSTEM
 // Heavy machinery inspired animations
+// Performance optimized version
 // ============================================
 
 // Industrial Easing Curves - Mechanical feel
@@ -25,7 +26,7 @@ export const industrialEasings = {
 };
 
 // ============================================
-// ROTATING GEAR COMPONENT
+// ROTATING GEAR COMPONENT - OPTIMIZED
 // ============================================
 interface RotatingGearProps {
   size?: number;
@@ -36,7 +37,21 @@ interface RotatingGearProps {
   className?: string;
 }
 
-export function RotatingGear({
+// Pre-calculate gear teeth to avoid runtime calculations
+const createGearTeeth = (teeth: number) => {
+  return Array.from({ length: teeth }).map((_, i) => {
+    const angle = (i * 360) / teeth;
+    const radians = (angle * Math.PI) / 180;
+    return {
+      x1: 50 + Math.cos(radians) * 35,
+      y1: 50 + Math.sin(radians) * 35,
+      x2: 50 + Math.cos(radians) * 48,
+      y2: 50 + Math.sin(radians) * 48,
+    };
+  });
+};
+
+export const RotatingGear = memo(function RotatingGear({
   size = 60,
   color = '#06b6d4',
   speed = 10,
@@ -44,7 +59,9 @@ export function RotatingGear({
   teeth = 12,
   className = '',
 }: RotatingGearProps) {
+  const prefersReducedMotion = useReducedMotion();
   const rotation = direction === 'cw' ? 360 : -360;
+  const gearTeeth = createGearTeeth(teeth);
   
   return (
     <motion.svg
@@ -52,70 +69,69 @@ export function RotatingGear({
       height={size}
       viewBox="0 0 100 100"
       className={className}
-      animate={{ rotate: rotation }}
+      style={{ willChange: 'transform' }}
+      animate={prefersReducedMotion ? {} : { rotate: rotation }}
       transition={{ duration: speed, repeat: Infinity, ease: 'linear' }}
     >
-      <motion.g fill={color}>
+      <g fill={color}>
         {/* Outer gear ring with teeth */}
         <circle cx="50" cy="50" r="35" fill="none" stroke={color} strokeWidth="8" opacity="0.3" />
         <circle cx="50" cy="50" r="40" fill="none" stroke={color} strokeWidth="3" />
         
-        {/* Gear teeth */}
-        {Array.from({ length: teeth }).map((_, i) => {
-          const angle = (i * 360) / teeth;
-          const radians = (angle * Math.PI) / 180;
-          const x1 = 50 + Math.cos(radians) * 35;
-          const y1 = 50 + Math.sin(radians) * 35;
-          const x2 = 50 + Math.cos(radians) * 48;
-          const y2 = 50 + Math.sin(radians) * 48;
-          return (
-            <line
-              key={i}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke={color}
-              strokeWidth="6"
-              strokeLinecap="round"
-            />
-          );
-        })}
+        {/* Pre-calculated gear teeth */}
+        {gearTeeth.map((tooth, i) => (
+          <line
+            key={i}
+            x1={tooth.x1}
+            y1={tooth.y1}
+            x2={tooth.x2}
+            y2={tooth.y2}
+            stroke={color}
+            strokeWidth="6"
+            strokeLinecap="round"
+          />
+        ))}
         
         {/* Center hub */}
         <circle cx="50" cy="50" r="15" fill={color} opacity="0.8" />
         <circle cx="50" cy="50" r="8" fill="#0a0f1a" />
         <circle cx="50" cy="50" r="4" fill={color} />
-      </motion.g>
+      </g>
     </motion.svg>
   );
-}
+});
 
 // ============================================
-// INTERLOCKING GEARS SYSTEM
+// INTERLOCKING GEARS SYSTEM - OPTIMIZED
 // ============================================
 interface GearSystemProps {
   className?: string;
 }
 
-export function GearSystem({ className = '' }: GearSystemProps) {
+export const GearSystem = memo(function GearSystem({ className = '' }: GearSystemProps) {
+  const prefersReducedMotion = useReducedMotion();
+  
+  if (prefersReducedMotion) {
+    return null; // Skip complex animations for accessibility
+  }
+  
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} style={{ willChange: 'transform' }}>
       <div className="absolute top-0 left-0">
-        <RotatingGear size={80} speed={8} direction="cw" teeth={16} color="#06b6d4" />
+        <RotatingGear size={80} speed={12} direction="cw" teeth={16} color="#06b6d4" />
       </div>
       <div className="absolute top-[50px] left-[60px]">
-        <RotatingGear size={50} speed={5} direction="ccw" teeth={10} color="#8b5cf6" />
+        <RotatingGear size={50} speed={8} direction="ccw" teeth={10} color="#8b5cf6" />
       </div>
       <div className="absolute top-[-10px] left-[65px]">
-        <RotatingGear size={40} speed={4} direction="cw" teeth={8} color="#3b82f6" />
+        <RotatingGear size={40} speed={6} direction="cw" teeth={8} color="#3b82f6" />
       </div>
     </div>
   );
-}
+});
 
 // ============================================
-// PISTON ANIMATION
+// PISTON ANIMATION - OPTIMIZED
 // ============================================
 interface PistonProps {
   height?: number;
@@ -124,14 +140,16 @@ interface PistonProps {
   className?: string;
 }
 
-export function Piston({
+export const Piston = memo(function Piston({
   height = 80,
   color = '#06b6d4',
-  speed = 1.5,
+  speed = 2,
   className = '',
 }: PistonProps) {
+  const prefersReducedMotion = useReducedMotion();
+  
   return (
-    <div className={`relative ${className}`} style={{ height, width: 30 }}>
+    <div className={`relative ${className}`} style={{ height, width: 30, willChange: 'transform' }}>
       {/* Cylinder */}
       <div
         className="absolute bottom-0 w-full rounded-t-lg"
@@ -149,8 +167,9 @@ export function Piston({
           height: 20,
           background: `linear-gradient(180deg, ${color}, ${color}90)`,
           boxShadow: `0 4px 20px ${color}60`,
+          willChange: 'transform',
         }}
-        animate={{ y: [0, height * 0.4, 0] }}
+        animate={prefersReducedMotion ? {} : { y: [0, height * 0.4, 0] }}
         transition={{
           duration: speed,
           repeat: Infinity,
@@ -164,8 +183,9 @@ export function Piston({
         style={{
           background: `linear-gradient(180deg, ${color}80, ${color}40)`,
           top: 20,
+          willChange: 'transform',
         }}
-        animate={{ height: [height * 0.2, height * 0.5, height * 0.2] }}
+        animate={prefersReducedMotion ? {} : { height: [height * 0.2, height * 0.5, height * 0.2] }}
         transition={{
           duration: speed,
           repeat: Infinity,
@@ -174,10 +194,11 @@ export function Piston({
       />
     </div>
   );
-}
+});
 
 // ============================================
-// SENSOR PULSE EFFECT
+// SENSOR PULSE EFFECT - OPTIMIZED
+// Reduced pulse count for better performance
 // ============================================
 interface SensorPulseProps {
   size?: number;
@@ -186,36 +207,39 @@ interface SensorPulseProps {
   className?: string;
 }
 
-export function SensorPulse({
+export const SensorPulse = memo(function SensorPulse({
   size = 60,
   color = '#06b6d4',
-  pulseCount = 3,
+  pulseCount = 2, // Reduced default from 3
   className = '',
 }: SensorPulseProps) {
+  const prefersReducedMotion = useReducedMotion();
+  
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size }}>
-      {/* Pulse rings */}
-      {Array.from({ length: pulseCount }).map((_, i) => (
+    <div className={`relative ${className}`} style={{ width: size, height: size, willChange: 'transform' }}>
+      {/* Pulse rings - reduced count */}
+      {!prefersReducedMotion && Array.from({ length: pulseCount }).map((_, i) => (
         <motion.div
           key={i}
           className="absolute inset-0 rounded-full"
           style={{
             border: `2px solid ${color}`,
+            willChange: 'transform, opacity',
           }}
           animate={{
             scale: [1, 2.5],
             opacity: [0.6, 0],
           }}
           transition={{
-            duration: 2,
+            duration: 2.5, // Slowed down
             repeat: Infinity,
-            delay: i * 0.6,
+            delay: i * 0.8,
             ease: 'easeOut',
           }}
         />
       ))}
       
-      {/* Core sensor */}
+      {/* Core sensor - static for reduced motion */}
       <motion.div
         className="absolute inset-0 m-auto rounded-full"
         style={{
@@ -223,23 +247,25 @@ export function SensorPulse({
           height: size * 0.4,
           background: color,
           boxShadow: `0 0 20px ${color}80`,
+          willChange: 'transform',
         }}
-        animate={{
-          scale: [1, 1.2, 1],
+        animate={prefersReducedMotion ? {} : {
+          scale: [1, 1.15, 1],
           opacity: [0.8, 1, 0.8],
         }}
         transition={{
-          duration: 1.5,
+          duration: 2,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
       />
     </div>
   );
-}
+});
 
 // ============================================
-// DATA STREAM VISUALIZATION
+// DATA STREAM VISUALIZATION - OPTIMIZED
+// Reduced particles and slower animation
 // ============================================
 interface DataStreamProps {
   width?: number;
@@ -249,17 +275,34 @@ interface DataStreamProps {
   className?: string;
 }
 
-export function DataStream({
+export const DataStream = memo(function DataStream({
   width = 200,
   height = 4,
   color = '#06b6d4',
-  particleCount = 5,
+  particleCount = 3, // Reduced default from 5
   className = '',
 }: DataStreamProps) {
+  const prefersReducedMotion = useReducedMotion();
+  
+  if (prefersReducedMotion) {
+    // Static fallback for reduced motion
+    return (
+      <div
+        className={`relative overflow-hidden ${className}`}
+        style={{ width, height }}
+      >
+        <div
+          className="absolute inset-0 rounded-full opacity-50"
+          style={{ background: color }}
+        />
+      </div>
+    );
+  }
+  
   return (
     <div
       className={`relative overflow-hidden ${className}`}
-      style={{ width, height }}
+      style={{ width, height, willChange: 'transform' }}
     >
       {/* Track */}
       <div
@@ -267,7 +310,7 @@ export function DataStream({
         style={{ background: color }}
       />
       
-      {/* Data particles */}
+      {/* Data particles - reduced count */}
       {Array.from({ length: particleCount }).map((_, i) => (
         <motion.div
           key={i}
@@ -276,20 +319,21 @@ export function DataStream({
             width: 12,
             height: height,
             background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
-            boxShadow: `0 0 10px ${color}`,
+            boxShadow: `0 0 8px ${color}`,
+            willChange: 'transform',
           }}
           animate={{ x: [-20, width + 20] }}
           transition={{
-            duration: 1.5,
+            duration: 2, // Slowed down
             repeat: Infinity,
-            delay: i * 0.3,
+            delay: i * 0.5,
             ease: 'linear',
           }}
         />
       ))}
     </div>
   );
-}
+});
 
 // ============================================
 // TEMPERATURE GAUGE
