@@ -204,6 +204,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     redirect('/projects/curasense');
   }
 
+  // Redirect predictive-maintenance to the new dedicated route
+  if (slug === 'predictive-maintenance') {
+    redirect('/projects/predictive-maintenance');
+  }
+
   // Default project page for other projects
   return (
     <div className="min-h-screen py-20 bg-gray-50 dark:bg-neutral-950">

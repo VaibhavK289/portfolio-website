@@ -30,6 +30,28 @@ export {
   OverlayTransition,
 } from "./PageTransition";
 
+// Re-export industrial animations
+export {
+  RotatingGear,
+  GearSystem,
+  Piston,
+  SensorPulse,
+  DataStream,
+  TemperatureGauge,
+  CircuitPattern,
+  IndustrialSpinner,
+  StatusIndicator,
+  IndustrialCard,
+  AnimatedIcon,
+  Waveform,
+  MachinerySilhouette,
+  industrialHeroVariants,
+  industrialCardContainerVariants,
+  industrialCardVariants,
+  industrialBadgeVariants,
+  industrialEasings,
+} from "./IndustrialAnimations";
+
 /* ============================================
    ANIMATION HIERARCHY SYSTEM
    Different animations for different importance levels
