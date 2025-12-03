@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import { Project } from '@/types';
@@ -83,11 +84,13 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10">
         {project.image && !imageError ? (
           <motion.div className="absolute inset-0" variants={imageVariants}>
-            {/* Use img tag for better SVG compatibility */}
-            <img
+            <Image
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover object-top"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover object-top"
+              quality={90}
               onError={() => setImageError(true)}
             />
           </motion.div>

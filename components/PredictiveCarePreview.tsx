@@ -278,9 +278,10 @@ export function PredictiveCareScreenshot({ onClick }: { onClick: () => void }) {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/projects/precitivecare_homepage.png"
+          src="/images/projects/predicitivecare_homepage.png"
           alt="PredictiveCare Industrial Dashboard"
           fill
+          quality={100}
           className={`object-cover object-top transition-all duration-700 ${
             imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}

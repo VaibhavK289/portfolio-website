@@ -94,7 +94,7 @@ Upload → PDF/Image Parsing → Text Extraction → AI Analysis → Report Gene
 **Backend**: Python, FastAPI, CrewAI, LangGraph, ChromaDB
 **AI/ML**: Google Gemini Pro, Gemini Vision, LangChain
 **Infrastructure**: Vercel (Frontend), Railway/Render (Backend)`,
-    image: '/images/projects/curasense_homepage.jpeg',
+    image: '/images/projects/curasense_homepage.png',
     tags: ['Next.js', 'TypeScript', 'FastAPI', 'Python', 'CrewAI', 'LangGraph', 'ChromaDB', 'Gemini AI', 'Tailwind CSS', 'Framer Motion'],
     liveUrl: 'https://curasense-frontend.vercel.app/',
     githubUrl: 'https://github.com/VaibhavK289/curasense-diagnosis',
@@ -200,7 +200,7 @@ Sensor Data → Feature Engineering → Ensemble Model → Failure Probability �
 **RAG**: ChromaDB, LangChain
 **IoT**: Arduino, DHT Sensors, MQTT
 **Infrastructure**: Vercel (Frontend), Railway/Render (Backend)`,
-    image: '/images/projects/precitivecare_homepage.png',
+    image: '/images/projects/predicitivecare_homepage.png',
     tags: ['Next.js 16', 'React 19', 'FastAPI', 'Python', 'XGBoost', 'LightGBM', 'CatBoost', 'ChromaDB', 'Arduino', 'IoT', 'Tailwind CSS', 'Framer Motion'],
     liveUrl: 'https://predictivecare-ai.vercel.app/',
     githubUrl: 'https://github.com/VaibhavK289/predictive_maintenance_for_industrial_devices',
