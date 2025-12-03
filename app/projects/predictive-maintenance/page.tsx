@@ -64,42 +64,97 @@ import {
 } from '@/components/animations/IndustrialAnimations';
 import PredictiveCarePreviewSection from '@/components/PredictiveCarePreviewSection';
 
-// Industrial-themed Background Component - PERFORMANCE OPTIMIZED
+// Industrial-themed Background Component with Heavy Machinery Animations
 function PredictiveCareBackground() {
   return (
     <>
-      {/* Industrial Gradient Orbs - Reduced count and simplified animations */}
+      {/* Industrial Gradient Orbs - Deep Blue/Purple/Cyan Theme */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-3xl" />
+        <motion.div 
+          className="absolute top-20 right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div 
+          className="absolute bottom-20 left-20 w-80 h-80 bg-violet-600/25 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.35, 0.15] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        />
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div 
+          className="absolute top-40 left-1/3 w-72 h-72 bg-purple-500/15 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+        />
+        {/* Additional industrial accent */}
+        <motion.div 
+          className="absolute bottom-40 right-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.35, 0.2] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
       </div>
       
-      {/* Single rotating gear for visual interest - much slower */}
+      {/* Industrial Rotating Gears - Corner Decorations */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -left-20 opacity-[0.06]">
-          <RotatingGear size={200} speed={120} color="#06b6d4" teeth={24} />
+        {/* Top left gear cluster */}
+        <motion.div 
+          className="absolute -top-20 -left-20 opacity-[0.08]"
+        >
+          <RotatingGear size={200} speed={60} color="#06b6d4" teeth={24} />
+        </motion.div>
+        <motion.div 
+          className="absolute top-24 left-32 opacity-[0.06]"
+        >
+          <RotatingGear size={80} speed={40} direction="ccw" color="#8b5cf6" teeth={12} />
+        </motion.div>
+        
+        {/* Bottom right gear cluster */}
+        <motion.div 
+          className="absolute -bottom-32 -right-32 opacity-[0.08]"
+        >
+          <RotatingGear size={250} speed={80} direction="ccw" color="#06b6d4" teeth={28} />
+        </motion.div>
+        <motion.div 
+          className="absolute bottom-20 right-48 opacity-[0.06]"
+        >
+          <RotatingGear size={100} speed={50} color="#3b82f6" teeth={14} />
+        </motion.div>
+        
+        {/* Data streams flowing across */}
+        <div className="absolute top-1/4 left-0 right-0 flex justify-between">
+          <DataStream width={400} height={2} color="#06b6d4" particleCount={6} />
         </div>
-        <div className="absolute -bottom-32 -right-32 opacity-[0.06]">
-          <RotatingGear size={250} speed={150} direction="ccw" color="#06b6d4" teeth={28} />
+        <div className="absolute bottom-1/3 right-0 transform rotate-180">
+          <DataStream width={350} height={2} color="#8b5cf6" particleCount={5} />
         </div>
       </div>
       
-      {/* Simplified sparkles - reduced density */}
+      {/* Sparkles with industrial cyan color */}
       <div className="absolute inset-0 w-full h-full">
         <SparklesCore
           id="predictivecare-sparkles"
           background="transparent"
           minSize={0.4}
-          maxSize={1}
-          particleDensity={8}
+          maxSize={1.2}
+          particleDensity={15}
           className="w-full h-full"
           particleColor="#06b6d4"
         />
       </div>
 
-      {/* Grid Pattern Overlay - Static, no animation */}
+      {/* Grid Pattern Overlay - Circuit Board Style */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
+      
+      {/* Animated scan lines */}
+      <motion.div
+        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent pointer-events-none"
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+      />
     </>
   );
 }
@@ -192,7 +247,7 @@ function HeroSection() {
     offset: ["start start", "end start"],
   });
   
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   
   if (!project) return null;
@@ -204,15 +259,43 @@ function HeroSection() {
       
       <PredictiveCareBackground />
 
-      {/* Simplified Floating Industrial Elements - reduced count */}
-      <div className="absolute inset-0 pointer-events-none hidden lg:block">
-        {/* Single piston on each side */}
-        <div className="absolute left-8 top-1/3 opacity-15">
-          <Piston height={100} color="#06b6d4" speed={3} />
-        </div>
-        <div className="absolute right-12 top-1/2 opacity-15">
-          <Piston height={80} color="#8b5cf6" speed={3.5} />
-        </div>
+      {/* Floating Industrial Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Animated pistons on the sides */}
+        <motion.div 
+          className="absolute left-8 top-1/3 opacity-20 hidden lg:block"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 0.2, x: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+        >
+          <Piston height={100} color="#06b6d4" speed={2} />
+        </motion.div>
+        <motion.div 
+          className="absolute right-12 top-1/2 opacity-20 hidden lg:block"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 0.2, x: 0 }}
+          transition={{ duration: 1, delay: 0.7 }}
+        >
+          <Piston height={80} color="#8b5cf6" speed={1.8} />
+        </motion.div>
+        
+        {/* Sensor pulses */}
+        <motion.div 
+          className="absolute left-1/4 top-20"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          <SensorPulse size={50} color="#06b6d4" pulseCount={3} />
+        </motion.div>
+        <motion.div 
+          className="absolute right-1/3 bottom-32"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+        >
+          <SensorPulse size={40} color="#22c55e" pulseCount={2} />
+        </motion.div>
       </div>
 
       <motion.div 
@@ -246,36 +329,64 @@ function HeroSection() {
             initial="hidden"
             animate="visible"
           >
-            {/* Badge with industrial animation - simplified */}
+            {/* Badge with industrial animation */}
             <motion.div
               variants={industrialBadgeVariants}
               initial="hidden"
               animate="visible"
               className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/15 to-blue-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-medium mb-6 backdrop-blur-sm"
             >
-              <Cog className="w-4 h-4" />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              >
+                <Cog className="w-4 h-4" />
+              </motion.div>
               <StatusIndicator status="operational" size={8} />
               <span>Featured Project • {project.year}</span>
             </motion.div>
 
-            {/* Title - simplified animations */}
+            {/* Title with staggered reveal */}
             <motion.h1 
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: industrialEasings.hydraulic }}
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 inline-block">
+              <motion.span 
+                className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 inline-block"
+                animate={{ 
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+                style={{ backgroundSize: '200% 200%' }}
+              >
                 Predictive
-              </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-purple-500 inline-block">
+              </motion.span>
+              <motion.span 
+                className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-purple-500 inline-block"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
                 Care
-              </span>
+              </motion.span>
               <br />
-              <span className="text-white inline-flex items-center gap-4">
+              <motion.span 
+                className="text-white inline-flex items-center gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
                 Industrial AI
-                <Cog className="w-8 h-8 text-cyan-500 hidden sm:block" />
-              </span>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                  className="hidden sm:block"
+                >
+                  <RotatingGear size={40} speed={8} color="#06b6d4" teeth={10} />
+                </motion.div>
+              </motion.span>
             </motion.h1>
 
             {/* Description */}
@@ -288,21 +399,31 @@ function HeroSection() {
               {project.description}
             </motion.p>
 
-            {/* Action Buttons - simplified */}
+            {/* Action Buttons with industrial styling */}
             <motion.div 
               className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                href={project.liveUrl}
-                className="bg-[#0a0f1a] text-white flex items-center gap-2 px-6 py-2"
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <Gauge className="w-4 h-4" />
-                <span>View Dashboard</span>
-              </HoverBorderGradient>
+                <HoverBorderGradient
+                  containerClassName="rounded-full"
+                  href={project.liveUrl}
+                  className="bg-[#0a0f1a] text-white flex items-center gap-2 px-6 py-2"
+                >
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Gauge className="w-4 h-4" />
+                  </motion.div>
+                  <span>View Dashboard</span>
+                </HoverBorderGradient>
+              </motion.div>
               
               <Button href={project.githubUrl} variant="outline" external className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10">
                 <Github className="w-4 h-4" />
@@ -310,14 +431,15 @@ function HeroSection() {
               </Button>
             </motion.div>
 
-            {/* Quick Navigation - simplified */}
+            {/* Quick Navigation with industrial icons */}
             <motion.div
               className="mt-12 pt-8 border-t border-cyan-900/30"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
             >
-              <p className="text-sm text-neutral-500 mb-4">
+              <p className="text-sm text-neutral-500 mb-4 flex items-center gap-2">
+                <DataStream width={60} height={2} color="#06b6d4" particleCount={2} />
                 Explore this project
               </p>
               <div className="flex flex-wrap gap-3">
@@ -325,7 +447,12 @@ function HeroSection() {
                   href="/projects/predictive-maintenance/technical"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1a2438] text-neutral-300 hover:bg-[#2d3f5f] transition-all text-sm font-medium group border border-transparent hover:border-cyan-500/30"
                 >
-                  <Code2 className="w-4 h-4 text-cyan-500" />
+                  <motion.div
+                    whileHover={{ rotate: 180 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Code2 className="w-4 h-4 text-cyan-500" />
+                  </motion.div>
                   Technical Overview
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -335,7 +462,12 @@ function HeroSection() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1a2438] text-neutral-300 hover:bg-[#2d3f5f] transition-all text-sm font-medium group border border-transparent hover:border-violet-500/30"
                 >
-                  <Zap className="w-4 h-4 text-violet-500" />
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <Zap className="w-4 h-4 text-violet-500" />
+                  </motion.div>
                   Features
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
@@ -343,29 +475,70 @@ function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Visual Element - Simplified decorations */}
+          {/* Visual Element - Enhanced with Industrial Dashboard */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: industrialEasings.hydraulic }}
+            initial={{ opacity: 0, scale: 0.85, rotateY: -15 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1, delay: 0.5, ease: industrialEasings.hydraulic }}
             className="relative hidden lg:block"
           >
-            {/* Static decorations - no infinite animations */}
-            <div className="absolute -top-8 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl shadow-cyan-500/30 z-20">
-              <Cpu className="w-10 h-10 text-white" />
-            </div>
+            {/* Floating Industrial Decorations */}
+            <motion.div
+              animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute -top-8 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl shadow-cyan-500/30 z-20"
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              >
+                <Cpu className="w-10 h-10 text-white" />
+              </motion.div>
+            </motion.div>
             
-            <div className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-xl shadow-violet-500/30 z-20">
-              <Brain className="w-8 h-8 text-white" />
-            </div>
+            <motion.div
+              animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+              className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-xl shadow-violet-500/30 z-20"
+            >
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Brain className="w-8 h-8 text-white" />
+              </motion.div>
+            </motion.div>
 
-            <div className="absolute top-1/2 -right-4 w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 rotate-12">
-              <Cog className="w-7 h-7 text-white" />
-            </div>
+            <motion.div
+              animate={{ y: [-5, 15, -5], x: [0, 5, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+              className="absolute top-1/2 -right-4 w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 rotate-12"
+            >
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+              >
+                <Cog className="w-7 h-7 text-white" />
+              </motion.div>
+            </motion.div>
+
+            {/* Sensor pulse decoration */}
+            <motion.div
+              className="absolute -top-4 left-1/4 z-20"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1, duration: 0.5 }}
+            >
+              <SensorPulse size={30} color="#22c55e" pulseCount={2} />
+            </motion.div>
 
             {/* Main Card with Image */}
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/30 via-blue-500/20 to-violet-500/25 rounded-3xl blur-2xl" />
+              <motion.div 
+                className="absolute -inset-4 bg-gradient-to-r from-cyan-500/35 via-blue-500/25 to-violet-500/30 rounded-3xl blur-2xl"
+                animate={{ opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              />
               <div className="relative rounded-2xl overflow-hidden border border-cyan-500/20 bg-[#0c1628]/90 backdrop-blur-sm shadow-2xl">
                 {project.image ? (
                   <div className="relative aspect-[4/3]">

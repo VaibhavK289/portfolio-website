@@ -52,6 +52,25 @@ export {
   industrialEasings,
 } from "./IndustrialAnimations";
 
+// Re-export healthcare animations
+export {
+  HeartbeatPulse,
+  DNAHelix,
+  ECGLine,
+  NeuralNetwork,
+  MedicalCross,
+  FloatingPills,
+  ScanLine,
+  Molecule,
+  HealthcareCard,
+  AnimatedHealthIcon,
+  VitalsDisplay,
+  healthcareEasings,
+  healthcareCardContainerVariants,
+  healthcareCardVariants,
+  healthcareBadgeVariants,
+} from "./HealthcareAnimations";
+
 /* ============================================
    ANIMATION HIERARCHY SYSTEM
    Different animations for different importance levels
