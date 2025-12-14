@@ -116,17 +116,18 @@ export function CuraSenseBackground() {
   );
 }
 
-// Page Navigation Component
+// Page Navigation Component - Mobile Optimized
 function CuraSensePageNav({ currentPage }: { currentPage: 'overview' | 'technical' }) {
   return (
     <motion.div 
-      className="sticky top-20 z-40 bg-white/80 dark:bg-[#0a0e17]/80 backdrop-blur-xl border-b border-gray-200 dark:border-emerald-900/30"
+      className="sticky top-16 sm:top-20 z-40 bg-white/80 dark:bg-[#0a0e17]/80 backdrop-blur-xl border-b border-gray-200 dark:border-emerald-900/30"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Desktop Layout */}
+        <div className="hidden sm:flex items-center justify-between py-4">
           {/* Project Title with Medical Cross */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center relative">
@@ -138,7 +139,7 @@ function CuraSensePageNav({ currentPage }: { currentPage: 'overview' | 'technica
             </div>
           </div>
           
-          {/* Page Tabs */}
+          {/* Page Tabs - Desktop */}
           <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#1a2438] rounded-xl">
             <Link
               href="/projects/curasense"
@@ -174,12 +175,73 @@ function CuraSensePageNav({ currentPage }: { currentPage: 'overview' | 'technica
             </Link>
           </div>
           
-          {/* Actions */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Actions - Desktop */}
+          <div className="flex items-center gap-3">
             <Button href="https://curasense-frontend.vercel.app/" variant="outline" external className="text-sm">
               <Play className="w-4 h-4" />
               Live Demo
             </Button>
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="sm:hidden">
+          {/* Top row: Logo + Live Demo button */}
+          <div className="flex items-center justify-between py-2.5">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                <MedicalCross size={18} color="white" />
+              </div>
+              <div>
+                <h2 className="font-bold text-gray-900 dark:text-white text-xs">CuraSense</h2>
+                <p className="text-[10px] text-gray-500 dark:text-neutral-500">AI Healthcare</p>
+              </div>
+            </div>
+            <a
+              href="https://curasense-frontend.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium shadow-lg shadow-emerald-500/25"
+            >
+              <Play className="w-3 h-3" />
+              Demo
+            </a>
+          </div>
+          
+          {/* Bottom row: Scrollable tabs */}
+          <div className="flex items-center gap-1 pb-2.5 overflow-x-auto scrollbar-hide -mx-3 px-3">
+            <Link
+              href="/projects/curasense"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'overview'
+                  ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                  : 'bg-gray-100 dark:bg-[#1a2438] text-gray-600 dark:text-neutral-400'
+              }`}
+            >
+              Overview
+            </Link>
+            <Link
+              href="/projects/curasense/technical"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'technical'
+                  ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                  : 'bg-gray-100 dark:bg-[#1a2438] text-gray-600 dark:text-neutral-400'
+              }`}
+            >
+              Technical
+            </Link>
+            <Link
+              href="/projects/curasense/documentation"
+              className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-gray-100 dark:bg-[#1a2438] text-gray-600 dark:text-neutral-400"
+            >
+              Docs
+            </Link>
+            <Link
+              href="/projects/curasense/deep-dive"
+              className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-gray-100 dark:bg-[#1a2438] text-gray-600 dark:text-neutral-400"
+            >
+              Deep-Dive
+            </Link>
           </div>
         </div>
       </div>

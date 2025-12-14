@@ -159,17 +159,18 @@ function PredictiveCareBackground() {
   );
 }
 
-// Page Navigation Component
+// Page Navigation Component - Mobile Optimized
 function PredictiveCarePageNav({ currentPage }: { currentPage: 'overview' | 'technical' | 'docs' | 'deep-dive' }) {
   return (
     <motion.div 
-      className="sticky top-20 z-40 bg-[#0a0f1a]/90 backdrop-blur-xl border-b border-cyan-900/30"
+      className="sticky top-16 sm:top-20 z-40 bg-[#0a0f1a]/90 backdrop-blur-xl border-b border-cyan-900/30"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Desktop Layout */}
+        <div className="hidden sm:flex items-center justify-between py-4">
           {/* Project Title */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
@@ -181,7 +182,7 @@ function PredictiveCarePageNav({ currentPage }: { currentPage: 'overview' | 'tec
             </div>
           </div>
           
-          {/* Page Tabs */}
+          {/* Page Tabs - Desktop */}
           <div className="flex items-center gap-1 p-1 bg-[#1a2438] rounded-xl">
             <Link
               href="/projects/predictive-maintenance"
@@ -225,12 +226,81 @@ function PredictiveCarePageNav({ currentPage }: { currentPage: 'overview' | 'tec
             </Link>
           </div>
           
-          {/* Actions */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Actions - Desktop */}
+          <div className="flex items-center gap-3">
             <Button href="https://predictivecare-ai.vercel.app/dashboard" variant="outline" external className="text-sm border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10">
               <Gauge className="w-4 h-4" />
               Dashboard
             </Button>
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="sm:hidden">
+          {/* Top row: Logo + Dashboard button */}
+          <div className="flex items-center justify-between py-2.5">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                <Factory className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h2 className="font-bold text-white text-xs">PredictiveCare</h2>
+                <p className="text-[10px] text-neutral-500">Industrial AI</p>
+              </div>
+            </div>
+            <a
+              href="https://predictivecare-ai.vercel.app/dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-medium shadow-lg shadow-cyan-500/25"
+            >
+              <Gauge className="w-3 h-3" />
+              Dashboard
+            </a>
+          </div>
+          
+          {/* Bottom row: Scrollable tabs */}
+          <div className="flex items-center gap-1 pb-2.5 overflow-x-auto scrollbar-hide -mx-3 px-3">
+            <Link
+              href="/projects/predictive-maintenance"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'overview'
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                  : 'bg-[#1a2438] text-neutral-400'
+              }`}
+            >
+              Overview
+            </Link>
+            <Link
+              href="/projects/predictive-maintenance/technical"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'technical'
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                  : 'bg-[#1a2438] text-neutral-400'
+              }`}
+            >
+              Technical
+            </Link>
+            <Link
+              href="/projects/predictive-maintenance/docs"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'docs'
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                  : 'bg-[#1a2438] text-neutral-400'
+              }`}
+            >
+              Docs
+            </Link>
+            <Link
+              href="/projects/predictive-maintenance/deep-dive"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'deep-dive'
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                  : 'bg-[#1a2438] text-neutral-400'
+              }`}
+            >
+              Deep-Dive
+            </Link>
           </div>
         </div>
       </div>

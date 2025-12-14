@@ -87,62 +87,46 @@ function DocsBackground() {
   );
 }
 
-// Page Navigation Component
+// Page Navigation Component - Mobile Optimized
 function DocsPageNav() {
   return (
     <motion.div 
-      className="sticky top-20 z-40 bg-[#0a0f1a]/90 backdrop-blur-xl border-b border-cyan-900/30"
+      className="sticky top-16 sm:top-20 z-40 bg-[#0a0f1a]/90 backdrop-blur-xl border-b border-cyan-900/30"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4">
-          {/* Project Title */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Desktop Layout */}
+        <div className="hidden sm:flex items-center justify-between py-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
-              <Factory className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h2 className="font-bold text-white text-sm">PredictiveCare</h2>
-              <p className="text-xs text-neutral-500">Documentation</p>
-            </div>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center"><Factory className="w-5 h-5 text-white" /></div>
+            <div><h2 className="font-bold text-white text-sm">PredictiveCare</h2><p className="text-xs text-neutral-500">Documentation</p></div>
           </div>
-          
-          {/* Page Tabs */}
           <div className="flex items-center gap-1 p-1 bg-[#1a2438] rounded-xl">
-            <Link
-              href="/projects/predictive-maintenance"
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white"
-            >
-              Overview
-            </Link>
-            <Link
-              href="/projects/predictive-maintenance/technical"
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white"
-            >
-              Technical
-            </Link>
-            <Link
-              href="/projects/predictive-maintenance/docs"
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-cyan-500/20 text-cyan-400 shadow-sm"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/projects/predictive-maintenance/deep-dive"
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white"
-            >
-              Deep-Dive
-            </Link>
+            <Link href="/projects/predictive-maintenance" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white">Overview</Link>
+            <Link href="/projects/predictive-maintenance/technical" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white">Technical</Link>
+            <Link href="/projects/predictive-maintenance/docs" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-cyan-500/20 text-cyan-400 shadow-sm">Docs</Link>
+            <Link href="/projects/predictive-maintenance/deep-dive" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white">Deep-Dive</Link>
           </div>
-          
-          {/* Actions */}
-          <div className="hidden sm:flex items-center gap-3">
-            <Button href="https://github.com/VaibhavK289/predictive_maintenance_for_industrial_devices" variant="outline" external className="text-sm border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10">
-              <Github className="w-4 h-4" />
-              Source
-            </Button>
+          <div className="flex items-center gap-3">
+            <Button href="https://github.com/VaibhavK289/predictive_maintenance_for_industrial_devices" variant="outline" external className="text-sm border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10"><Github className="w-4 h-4" />Source</Button>
+          </div>
+        </div>
+        {/* Mobile Layout */}
+        <div className="sm:hidden">
+          <div className="flex items-center justify-between py-2.5">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center"><Factory className="w-4 h-4 text-white" /></div>
+              <div><h2 className="font-bold text-white text-xs">PredictiveCare</h2><p className="text-[10px] text-neutral-500">Documentation</p></div>
+            </div>
+            <a href="https://github.com/VaibhavK289/predictive_maintenance_for_industrial_devices" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-medium shadow-lg shadow-cyan-500/25"><Github className="w-3 h-3" />Source</a>
+          </div>
+          <div className="flex items-center gap-1 pb-2.5 overflow-x-auto scrollbar-hide -mx-3 px-3">
+            <Link href="/projects/predictive-maintenance" className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-[#1a2438] text-neutral-400">Overview</Link>
+            <Link href="/projects/predictive-maintenance/technical" className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-[#1a2438] text-neutral-400">Technical</Link>
+            <Link href="/projects/predictive-maintenance/docs" className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">Docs</Link>
+            <Link href="/projects/predictive-maintenance/deep-dive" className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-[#1a2438] text-neutral-400">Deep-Dive</Link>
           </div>
         </div>
       </div>

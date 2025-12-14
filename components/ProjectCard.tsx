@@ -75,13 +75,13 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         ease: [0.25, 0.46, 0.45, 0.94]
       }}
       whileHover="hover"
-      className="group relative bg-white dark:bg-neutral-900 rounded-xl md:rounded-2xl lg:rounded-3xl border border-gray-200/80 dark:border-neutral-800 overflow-hidden hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-colors duration-300 ease-out shadow-sm hover:shadow-2xl hover:shadow-primary-500/10"
+      className="group relative bg-white dark:bg-neutral-900 rounded-xl sm:rounded-2xl lg:rounded-3xl border border-gray-200/80 dark:border-neutral-800 overflow-hidden hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-colors duration-300 ease-out shadow-sm hover:shadow-2xl hover:shadow-primary-500/10"
     >
-      {/* Geometric accent - floating circle */}
-      <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary-500/20 to-accent-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Geometric accent - floating circle - hidden on mobile for performance */}
+      <div className="hidden sm:block absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary-500/20 to-accent-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       
-      {/* Image with enhanced hover effect */}
-      <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10">
+      {/* Image with enhanced hover effect - Responsive height */}
+      <div className="relative h-40 xs:h-44 sm:h-48 md:h-56 overflow-hidden bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10">
         {project.image && !imageError ? (
           <motion.div className="absolute inset-0" variants={imageVariants}>
             <Image
@@ -110,16 +110,16 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         {/* Corner accent shape */}
         <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-accent-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         
-        {/* Quick links on hover */}
-        <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+        {/* Quick links on hover - Touch optimized */}
+        <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 flex items-center gap-1.5 sm:gap-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
           {project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm font-medium text-gray-900 hover:bg-white transition-colors shadow-lg"
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-gray-900 hover:bg-white transition-colors shadow-lg"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
+              <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               Live
             </a>
           )}
@@ -128,51 +128,51 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm font-medium text-gray-900 hover:bg-white transition-colors shadow-lg"
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-gray-900 hover:bg-white transition-colors shadow-lg"
             >
-              <Github className="w-3.5 h-3.5" />
+              <Github className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               Code
             </a>
           )}
         </div>
 
-        {/* Featured badge */}
+        {/* Featured badge - Responsive */}
         {project.featured && (
-          <div className="absolute top-4 right-4">
-            <span className="px-3 py-1 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-xs font-semibold rounded-full shadow-lg">
+          <div className="absolute top-2 sm:top-4 right-2 sm:right-4">
+            <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-[10px] sm:text-xs font-semibold rounded-full shadow-lg">
               Featured
             </span>
           </div>
         )}
       </div>
 
-      {/* Content with shift animation */}
-      <motion.div className="p-6" variants={contentVariants}>
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs text-gray-500 dark:text-neutral-500">{project.year}</span>
+      {/* Content with shift animation - Mobile optimized padding */}
+      <motion.div className="p-4 sm:p-5 md:p-6" variants={contentVariants}>
+        <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+          <span className="text-[10px] sm:text-xs text-gray-500 dark:text-neutral-500">{project.year}</span>
         </div>
         
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors duration-300">
+        <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors duration-300 line-clamp-1">
           {project.title}
         </h3>
         
-        <p className="text-gray-600 dark:text-neutral-400 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-600 dark:text-neutral-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
           {project.description}
         </p>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tags.slice(0, 4).map((tag) => (
+        {/* Tags - Responsive */}
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+          {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="px-2.5 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-400 text-xs font-medium rounded-full"
+              className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-400 text-[10px] sm:text-xs font-medium rounded-full"
             >
               {tag}
             </span>
           ))}
-          {project.tags.length > 4 && (
-            <span className="px-2.5 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-500 dark:text-neutral-500 text-xs font-medium rounded-full">
-              +{project.tags.length - 4}
+          {project.tags.length > 3 && (
+            <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-gray-100 dark:bg-neutral-800 text-gray-500 dark:text-neutral-500 text-[10px] sm:text-xs font-medium rounded-full">
+              +{project.tags.length - 3}
             </span>
           )}
         </div>
@@ -180,7 +180,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         {/* View details link */}
         <Link
           href={`/projects/${project.slug}`}
-          className="inline-flex items-center gap-1.5 text-primary-500 hover:text-primary-600 font-medium text-sm group/link"
+          className="inline-flex items-center gap-1 sm:gap-1.5 text-primary-500 hover:text-primary-600 font-medium text-xs sm:text-sm group/link"
         >
           View Case Study
           <motion.span
