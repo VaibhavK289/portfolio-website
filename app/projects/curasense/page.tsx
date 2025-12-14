@@ -60,10 +60,34 @@ import {
 } from '@/components/animations';
 
 // Shared background component for CuraSense pages - Healthcare themed
+import { useLowPerformance } from '@/lib/utils';
 export function CuraSenseBackground() {
+  const isLowPerf = useLowPerformance();
+  if (isLowPerf) {
+    return (
+      <>
+        {/* Static gradient orbs only, no animation or sparkles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/8 rounded-full blur-3xl" />
+        </div>
+        {/* DNA Helix and Molecules - desktop only */}
+        <div className="absolute top-20 left-10 opacity-20 dark:opacity-10 hidden lg:block">
+          <DNAHelix width={40} height={100} color1="#10b981" color2="#06b6d4" />
+        </div>
+        <div className="absolute bottom-40 right-10 opacity-20 dark:opacity-10 hidden lg:block">
+          <DNAHelix width={30} height={80} color1="#8b5cf6" color2="#06b6d4" />
+        </div>
+        <div className="absolute top-1/3 right-1/4 opacity-15 hidden lg:block">
+          <Molecule size={60} color1="#10b981" color2="#06b6d4" />
+        </div>
+      </>
+    );
+  }
   return (
     <>
-      {/* Gradient Orbs - Softer, more medical feel */}
+      {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
           className="absolute top-20 right-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl"
@@ -86,7 +110,6 @@ export function CuraSenseBackground() {
           transition={{ duration: 11, repeat: Infinity, ease: healthcareEasings.breath, delay: 3 }}
         />
       </div>
-      
       {/* DNA Helix decorations */}
       <div className="absolute top-20 left-10 opacity-20 dark:opacity-10 hidden lg:block">
         <DNAHelix width={40} height={100} color1="#10b981" color2="#06b6d4" />
@@ -94,20 +117,18 @@ export function CuraSenseBackground() {
       <div className="absolute bottom-40 right-10 opacity-20 dark:opacity-10 hidden lg:block">
         <DNAHelix width={30} height={80} color1="#8b5cf6" color2="#06b6d4" />
       </div>
-      
       {/* Floating Molecules */}
       <div className="absolute top-1/3 right-1/4 opacity-15 hidden lg:block">
         <Molecule size={60} color1="#10b981" color2="#06b6d4" />
       </div>
-      
-      {/* Sparkles */}
-      <div className="absolute inset-0 w-full h-full">
+      {/* Sparkles - desktop only, reduced density */}
+      <div className="absolute inset-0 w-full h-full hidden md:block">
         <SparklesCore
           id="curasense-sparkles"
           background="transparent"
           minSize={0.4}
           maxSize={1.0}
-          particleDensity={20}
+          particleDensity={8}
           className="w-full h-full"
           particleColor="var(--color-sparkle)"
         />

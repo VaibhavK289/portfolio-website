@@ -41,8 +41,19 @@ import {
   easings,
 } from '@/components/animations';
 
-// Shared background component
+import { useLowPerformance } from '@/lib/utils';
+// Shared background component - Mobile Optimized
 function TechnicalBackground() {
+  const isLowPerf = useLowPerformance();
+  if (isLowPerf) {
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-40 left-10 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-3xl" />
+      </div>
+    );
+  }
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div 
@@ -60,13 +71,13 @@ function TechnicalBackground() {
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full hidden md:block">
         <SparklesCore
           id="technical-sparkles"
           background="transparent"
           minSize={0.3}
           maxSize={1}
-          particleDensity={15}
+          particleDensity={8}
           className="w-full h-full"
           particleColor="#10b981"
         />
