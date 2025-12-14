@@ -63,9 +63,29 @@ import {
   industrialEasings,
 } from '@/components/animations/IndustrialAnimations';
 import PredictiveCarePreviewSection from '@/components/PredictiveCarePreviewSection';
+import { useLowPerformance } from '@/lib/utils';
 
 // Industrial-themed Background Component with Heavy Machinery Animations
+// Performance optimized - disables heavy animations on mobile/low-end devices
 function PredictiveCareBackground() {
+  const isLowPerf = useLowPerformance();
+  
+  // Simplified static background for mobile/low-performance devices
+  if (isLowPerf) {
+    return (
+      <>
+        {/* Static gradient orbs - no animation */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl" />
+        </div>
+        {/* Static grid pattern only */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
+      </>
+    );
+  }
+  
   return (
     <>
       {/* Industrial Gradient Orbs - Deep Blue/Purple/Cyan Theme */}
@@ -98,8 +118,8 @@ function PredictiveCareBackground() {
         />
       </div>
       
-      {/* Industrial Rotating Gears - Corner Decorations */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Industrial Rotating Gears - Corner Decorations - Desktop only */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden lg:block">
         {/* Top left gear cluster */}
         <motion.div 
           className="absolute -top-20 -left-20 opacity-[0.08]"
@@ -126,21 +146,21 @@ function PredictiveCareBackground() {
         
         {/* Data streams flowing across */}
         <div className="absolute top-1/4 left-0 right-0 flex justify-between">
-          <DataStream width={400} height={2} color="#06b6d4" particleCount={6} />
+          <DataStream width={400} height={2} color="#06b6d4" particleCount={4} />
         </div>
         <div className="absolute bottom-1/3 right-0 transform rotate-180">
-          <DataStream width={350} height={2} color="#8b5cf6" particleCount={5} />
+          <DataStream width={350} height={2} color="#8b5cf6" particleCount={3} />
         </div>
       </div>
       
-      {/* Sparkles with industrial cyan color */}
-      <div className="absolute inset-0 w-full h-full">
+      {/* Sparkles - reduced density, desktop only */}
+      <div className="absolute inset-0 w-full h-full hidden md:block">
         <SparklesCore
           id="predictivecare-sparkles"
           background="transparent"
           minSize={0.4}
-          maxSize={1.2}
-          particleDensity={15}
+          maxSize={1.0}
+          particleDensity={8}
           className="w-full h-full"
           particleColor="#06b6d4"
         />
@@ -149,9 +169,9 @@ function PredictiveCareBackground() {
       {/* Grid Pattern Overlay - Circuit Board Style */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
       
-      {/* Animated scan lines */}
+      {/* Animated scan lines - desktop only */}
       <motion.div
-        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent pointer-events-none"
+        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent pointer-events-none hidden md:block"
         animate={{ top: ['0%', '100%'] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
       />

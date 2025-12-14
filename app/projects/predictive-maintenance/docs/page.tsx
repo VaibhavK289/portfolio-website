@@ -50,9 +50,22 @@ import {
   easings,
 } from '@/components/animations';
 import { useState } from 'react';
+import { useLowPerformance } from '@/lib/utils';
 
-// Industrial-themed Background Component
+// Industrial-themed Background Component - Mobile Optimized
 function DocsBackground() {
+  const isLowPerf = useLowPerformance();
+  
+  if (isLowPerf) {
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-40 left-10 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      </div>
+    );
+  }
+  
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div 
@@ -70,13 +83,13 @@ function DocsBackground() {
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full hidden md:block">
         <SparklesCore
           id="docs-sparkles"
           background="transparent"
           minSize={0.3}
           maxSize={1}
-          particleDensity={15}
+          particleDensity={8}
           className="w-full h-full"
           particleColor="#06b6d4"
         />

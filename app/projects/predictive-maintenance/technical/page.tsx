@@ -52,9 +52,24 @@ import {
   cardVariants,
   easings,
 } from '@/components/animations';
+import { useLowPerformance } from '@/lib/utils';
 
-// Industrial-themed Background Component
+// Industrial-themed Background Component - Mobile Optimized
 function PredictiveCareBackground() {
+  const isLowPerf = useLowPerformance();
+  
+  if (isLowPerf) {
+    return (
+      <>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl" />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
+      </>
+    );
+  }
+  
   return (
     <>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -75,13 +90,13 @@ function PredictiveCareBackground() {
         />
       </div>
       
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full hidden md:block">
         <SparklesCore
           id="predictivecare-tech-sparkles"
           background="transparent"
           minSize={0.4}
-          maxSize={1.2}
-          particleDensity={15}
+          maxSize={1.0}
+          particleDensity={8}
           className="w-full h-full"
           particleColor="#06b6d4"
         />
