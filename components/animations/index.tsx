@@ -17,6 +17,7 @@ export {
   useScrollVelocity,
   useReducedMotion,
   useIsMobile,
+  useDeviceTier,
   ScrollMorphCircleToHex,
   ScrollExpandShape,
   ScrollMorphBlob,

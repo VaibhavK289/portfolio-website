@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect, memo } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
   gradientTo?: string;
 }
 
-export function MagicCard({
+export const MagicCard = memo(function MagicCard({
   children,
   className,
   gradientSize = 200,
@@ -26,21 +26,25 @@ export function MagicCard({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+  }, []);
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (cardRef.current) {
-        const { left, top } = cardRef.current.getBoundingClientRect();
-        mouseX.set(e.clientX - left);
-        mouseY.set(e.clientY - top);
-      }
+      if (isMobile || !cardRef.current) return;
+      const { left, top } = cardRef.current.getBoundingClientRect();
+      mouseX.set(e.clientX - left);
+      mouseY.set(e.clientY - top);
     },
-    [mouseX, mouseY]
+    [mouseX, mouseY, isMobile]
   );
 
   const handleMouseEnter = useCallback(() => {
-    setIsHovering(true);
-  }, []);
+    if (!isMobile) setIsHovering(true);
+  }, [isMobile]);
 
   const handleMouseLeave = useCallback(() => {
     setIsHovering(false);
@@ -53,6 +57,22 @@ export function MagicCard({
   const borderGradient = useMotionTemplate`
     radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientFrom}, ${gradientTo}, transparent 100%)
   `;
+
+  // Simplified version for mobile - no hover effects
+  if (isMobile) {
+    return (
+      <div
+        ref={cardRef}
+        className={cn(
+          "group relative flex size-full overflow-hidden rounded-[20px] bg-white dark:bg-neutral-900 border border-gray-200/80 dark:border-neutral-800 shadow-sm",
+          className
+        )}
+        {...props}
+      >
+        <div className="relative z-10 w-full">{children}</div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -71,10 +91,11 @@ export function MagicCard({
       
       {/* Border gradient overlay */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-[20px] group-hover:rounded-[24px] transition-all duration-300"
+        className="pointer-events-none absolute -inset-px rounded-[20px] group-hover:rounded-[24px] transition-all duration-300 will-change-transform"
         style={{
           background: borderGradient,
           opacity: isHovering ? 1 : 0,
+          transform: 'translateZ(0)',
         }}
       />
       
@@ -88,10 +109,11 @@ export function MagicCard({
       
       {/* Spotlight effect */}
       <motion.div
-        className="pointer-events-none absolute inset-0 rounded-[20px] group-hover:rounded-[24px] transition-all duration-300"
+        className="pointer-events-none absolute inset-0 rounded-[20px] group-hover:rounded-[24px] transition-all duration-300 will-change-transform"
         style={{
           background,
           opacity: isHovering ? gradientOpacity : 0,
+          transform: 'translateZ(0)',
         }}
       />
       
@@ -101,4 +123,4 @@ export function MagicCard({
       </div>
     </div>
   );
-}
+});

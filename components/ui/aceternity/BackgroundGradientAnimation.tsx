@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 
 export const BackgroundGradientAnimation = ({
   gradientBackgroundStart = "rgb(108, 0, 162)",
@@ -34,11 +34,13 @@ export const BackgroundGradientAnimation = ({
   containerClassName?: string;
 }) => {
   const interactiveRef = useRef<HTMLDivElement>(null);
-
-  const [curX, setCurX] = useState(0);
-  const [curY, setCurY] = useState(0);
-  const [tgX, setTgX] = useState(0);
-  const [tgY, setTgY] = useState(0);
+  
+  // Use refs instead of state to avoid re-renders during animation
+  const curXRef = useRef(0);
+  const curYRef = useRef(0);
+  const tgXRef = useRef(0);
+  const tgYRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     document.body.style.setProperty(
@@ -70,37 +72,54 @@ export const BackgroundGradientAnimation = ({
     thirdColor,
   ]);
 
+  // Optimized RAF loop - no React state updates, direct DOM manipulation only
   useEffect(() => {
-    function move() {
-      if (!interactiveRef.current) return;
-
-      setCurX((prev) => prev + (tgX - prev) / 20);
-      setCurY((prev) => prev + (tgY - prev) / 20);
-      interactiveRef.current.style.transform = `translate(${Math.round(
-        curX
-      )}px, ${Math.round(curY)}px)`;
+    if (!interactive) return;
+    
+    function animate() {
+      if (!interactiveRef.current) {
+        rafIdRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      
+      // Smooth interpolation using refs (no setState!)
+      curXRef.current += (tgXRef.current - curXRef.current) * 0.05;
+      curYRef.current += (tgYRef.current - curYRef.current) * 0.05;
+      
+      // Direct DOM update - bypasses React entirely
+      interactiveRef.current.style.transform = `translate3d(${Math.round(curXRef.current)}px, ${Math.round(curYRef.current)}px, 0)`;
+      
+      rafIdRef.current = requestAnimationFrame(animate);
     }
+    
+    rafIdRef.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, [interactive]);
 
-    const animationFrame = requestAnimationFrame(function animate() {
-      move();
-      requestAnimationFrame(animate);
-    });
-
-    return () => cancelAnimationFrame(animationFrame);
-  }, [curX, curY, tgX, tgY]);
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+  // Optimized mouse handler - updates refs, not state
+  const handleMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (interactiveRef.current) {
       const rect = interactiveRef.current.getBoundingClientRect();
-      setTgX(event.clientX - rect.left);
-      setTgY(event.clientY - rect.top);
+      tgXRef.current = event.clientX - rect.left;
+      tgYRef.current = event.clientY - rect.top;
     }
-  };
+  }, []);
 
   const [isSafari, setIsSafari] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   useEffect(() => {
     setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+    setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
   }, []);
+
+  // Reduce orb count on mobile for performance
+  const orbCount = isMobile ? 3 : 5;
 
   return (
     <div
@@ -108,13 +127,14 @@ export const BackgroundGradientAnimation = ({
         "h-screen w-screen relative overflow-hidden top-0 left-0 bg-[linear-gradient(40deg,var(--gradient-background-start),var(--gradient-background-end))]",
         containerClassName
       )}
+      style={{ contain: 'layout style paint' }}
     >
       <svg className="hidden">
         <defs>
           <filter id="blurMe">
             <feGaussianBlur
               in="SourceGraphic"
-              stdDeviation="10"
+              stdDeviation={isSafari ? "8" : "10"}
               result="blur"
             />
             <feColorMatrix
@@ -133,7 +153,9 @@ export const BackgroundGradientAnimation = ({
           "gradients-container h-full w-full blur-lg",
           isSafari ? "blur-2xl" : "[filter:url(#blurMe)_blur(40px)]"
         )}
+        style={{ transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' }}
       >
+        {/* First orb - always visible */}
         <div
           className={cn(
             `absolute [background:radial-gradient(circle_at_center,_rgba(var(--first-color),_0.8)_0,_rgba(var(--first-color),_0)_50%)_no-repeat]`,
@@ -142,7 +164,9 @@ export const BackgroundGradientAnimation = ({
             `animate-first`,
             `opacity-100`
           )}
+          style={{ willChange: 'transform' }}
         ></div>
+        {/* Second orb - always visible */}
         <div
           className={cn(
             `absolute [background:radial-gradient(circle_at_center,_rgba(var(--second-color),_0.8)_0,_rgba(var(--second-color),_0)_50%)_no-repeat]`,
@@ -151,7 +175,9 @@ export const BackgroundGradientAnimation = ({
             `animate-second`,
             `opacity-100`
           )}
+          style={{ willChange: 'transform' }}
         ></div>
+        {/* Third orb - always visible */}
         <div
           className={cn(
             `absolute [background:radial-gradient(circle_at_center,_rgba(var(--third-color),_0.8)_0,_rgba(var(--third-color),_0)_50%)_no-repeat]`,
@@ -160,35 +186,45 @@ export const BackgroundGradientAnimation = ({
             `animate-third`,
             `opacity-100`
           )}
+          style={{ willChange: 'transform' }}
         ></div>
-        <div
-          className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_rgba(var(--fourth-color),_0.8)_0,_rgba(var(--fourth-color),_0)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:calc(50%-200px)]`,
-            `animate-fourth`,
-            `opacity-70`
-          )}
-        ></div>
-        <div
-          className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_rgba(var(--fifth-color),_0.8)_0,_rgba(var(--fifth-color),_0)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:calc(50%-800px)_calc(50%+800px)]`,
-            `animate-fifth`,
-            `opacity-100`
-          )}
-        ></div>
+        {/* Fourth and fifth orbs - hidden on mobile for performance */}
+        {!isMobile && (
+          <>
+            <div
+              className={cn(
+                `absolute [background:radial-gradient(circle_at_center,_rgba(var(--fourth-color),_0.8)_0,_rgba(var(--fourth-color),_0)_50%)_no-repeat]`,
+                `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
+                `[transform-origin:calc(50%-200px)]`,
+                `animate-fourth`,
+                `opacity-70`
+              )}
+              style={{ willChange: 'transform' }}
+            ></div>
+            <div
+              className={cn(
+                `absolute [background:radial-gradient(circle_at_center,_rgba(var(--fifth-color),_0.8)_0,_rgba(var(--fifth-color),_0)_50%)_no-repeat]`,
+                `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
+                `[transform-origin:calc(50%-800px)_calc(50%+800px)]`,
+                `animate-fifth`,
+                `opacity-100`
+              )}
+              style={{ willChange: 'transform' }}
+            ></div>
+          </>
+        )}
 
-        {interactive && (
+        {interactive && !isMobile && (
           <div
             ref={interactiveRef}
             onMouseMove={handleMouseMove}
             className={cn(
               `absolute [background:radial-gradient(circle_at_center,_rgba(var(--pointer-color),_0.8)_0,_rgba(var(--pointer-color),_0)_50%)_no-repeat]`,
               `[mix-blend-mode:var(--blending-value)] w-full h-full -top-1/2 -left-1/2`,
-              `opacity-70`
+              `opacity-70`,
+              `will-change-transform`
             )}
+            style={{ transform: 'translate3d(0, 0, 0)' }}
           ></div>
         )}
       </div>

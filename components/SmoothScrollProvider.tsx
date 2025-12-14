@@ -23,19 +23,24 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     // Also check for mobile devices - reduce smooth scroll intensity
     const isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
     
+    // Check for low-power devices
+    const isLowPower = 'deviceMemory' in navigator && 
+      (navigator as { deviceMemory?: number }).deviceMemory !== undefined && 
+      (navigator as { deviceMemory: number }).deviceMemory < 4;
+    
     if (prefersReducedMotion) {
       return; // Skip smooth scroll for accessibility
     }
 
     // Initialize Lenis with settings optimized for device
     const lenis = new Lenis({
-      duration: isMobile ? 0.8 : 1.0, // Faster on mobile
+      duration: isMobile ? 0.6 : isLowPower ? 0.8 : 1.0, // Faster on mobile/low-power
       easing: silkyEasing,
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: isMobile ? 0.5 : 0.7, // Less aggressive on mobile
-      touchMultiplier: 1.5,
+      wheelMultiplier: isMobile ? 0.4 : isLowPower ? 0.5 : 0.7, // Less aggressive on mobile
+      touchMultiplier: 1.2,
       infinite: false,
       autoResize: true,
     });
@@ -50,19 +55,25 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     
     rafRef.current = requestAnimationFrame(raf);
 
-    // Listen for resize to update mobile detection
+    // Throttled resize handler
+    let resizeTimeout: NodeJS.Timeout | null = null;
     const handleResize = () => {
-      const newIsMobile = window.innerWidth < 768;
-      if (lenis) {
-        lenis.options.wheelMultiplier = newIsMobile ? 0.5 : 0.7;
-      }
+      if (resizeTimeout) return;
+      resizeTimeout = setTimeout(() => {
+        const newIsMobile = window.innerWidth < 768;
+        if (lenis) {
+          lenis.options.wheelMultiplier = newIsMobile ? 0.4 : 0.7;
+        }
+        resizeTimeout = null;
+      }, 150);
     };
     
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }

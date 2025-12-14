@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform, useVelocity, useMotionValue, useAnimationFrame } from "framer-motion";
-import { ReactNode, useRef, useEffect, useState, createContext, useContext } from "react";
+import { motion, useScroll, useSpring, useTransform, useVelocity, useMotionValue } from "framer-motion";
+import { ReactNode, useRef, useEffect, useState, createContext, useContext, useMemo } from "react";
 
 /* ============================================
    MOTION DESIGN SYSTEM
@@ -9,34 +9,52 @@ import { ReactNode, useRef, useEffect, useState, createContext, useContext } fro
    reduced motion support, and morphing shapes
    ============================================ */
 
-// Context for scroll velocity awareness
+// Context for scroll velocity awareness - now uses motion values instead of state
 interface ScrollVelocityContextType {
-  velocity: number;
+  velocityValue: ReturnType<typeof useMotionValue<number>>;
   isScrollingFast: boolean;
 }
 
-const ScrollVelocityContext = createContext<ScrollVelocityContextType>({
-  velocity: 0,
-  isScrollingFast: false,
-});
+const ScrollVelocityContext = createContext<ScrollVelocityContextType | null>(null);
 
-export const useScrollVelocity = () => useContext(ScrollVelocityContext);
+export const useScrollVelocity = () => {
+  const context = useContext(ScrollVelocityContext);
+  // Return safe defaults if no provider
+  return context ?? { velocityValue: null, isScrollingFast: false };
+};
 
-// Scroll velocity provider - detects fast scrolling for simpler animations
+// Optimized scroll velocity provider - NO setState in animation frame
 export function ScrollVelocityProvider({ children }: { children: ReactNode }) {
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
-  const [velocity, setVelocity] = useState(0);
+  const velocityValue = useMotionValue(0);
   const [isScrollingFast, setIsScrollingFast] = useState(false);
+  const lastUpdateRef = useRef(0);
   
-  useAnimationFrame(() => {
-    const currentVelocity = Math.abs(scrollVelocity.get());
-    setVelocity(currentVelocity);
-    setIsScrollingFast(currentVelocity > 1000); // threshold for "fast" scrolling
-  });
+  // Throttled velocity check - only updates state every 100ms, not every frame
+  useEffect(() => {
+    const unsubscribe = scrollVelocity.on("change", (latest) => {
+      const now = Date.now();
+      const absVelocity = Math.abs(latest);
+      
+      // Update motion value (no re-render)
+      velocityValue.set(absVelocity);
+      
+      // Throttle state updates to every 100ms
+      if (now - lastUpdateRef.current > 100) {
+        const isFast = absVelocity > 1000;
+        setIsScrollingFast(prev => prev !== isFast ? isFast : prev);
+        lastUpdateRef.current = now;
+      }
+    });
+    
+    return unsubscribe;
+  }, [scrollVelocity, velocityValue]);
+  
+  const contextValue = useMemo(() => ({ velocityValue, isScrollingFast }), [velocityValue, isScrollingFast]);
   
   return (
-    <ScrollVelocityContext.Provider value={{ velocity, isScrollingFast }}>
+    <ScrollVelocityContext.Provider value={contextValue}>
       {children}
     </ScrollVelocityContext.Provider>
   );
@@ -58,7 +76,7 @@ export function useReducedMotion() {
   return prefersReducedMotion;
 }
 
-// Hook to detect mobile devices
+// Hook to detect mobile devices - with passive resize listener
 export function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   
@@ -67,11 +85,34 @@ export function useIsMobile() {
       setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkMobile, { passive: true });
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
   return isMobile;
+}
+
+// Hook to detect device performance tier
+export function useDeviceTier(): 'high' | 'medium' | 'low' {
+  const [tier, setTier] = useState<'high' | 'medium' | 'low'>('high');
+  
+  useEffect(() => {
+    // Check for low-power mode indicators
+    const isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
+    const isLowMemory = 'deviceMemory' in navigator && (navigator as { deviceMemory?: number }).deviceMemory !== undefined && (navigator as { deviceMemory: number }).deviceMemory < 4;
+    const isSlowCPU = 'hardwareConcurrency' in navigator && navigator.hardwareConcurrency < 4;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (prefersReducedMotion || (isMobile && (isLowMemory || isSlowCPU))) {
+      setTier('low');
+    } else if (isMobile) {
+      setTier('medium');
+    } else {
+      setTier('high');
+    }
+  }, []);
+  
+  return tier;
 }
 
 interface SmoothSectionProps {
@@ -422,18 +463,15 @@ export function ScrollExpandShape({ className = "" }: ScrollMorphShapeProps) {
 // Blob shape that morphs its clip-path as you scroll
 export function ScrollMorphBlob({ className = "" }: ScrollMorphShapeProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   
-  const reducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
-  
-  if (reducedMotion || isMobile) {
-    return <div ref={ref} className={className} />;
-  }
-  
+  // All hooks must be called before conditional returns
   const smoothProgress = useSpring(scrollYProgress, ultraSmoothSpring);
   
   // SVG morph between blob states
@@ -447,15 +485,19 @@ export function ScrollMorphBlob({ className = "" }: ScrollMorphShapeProps) {
     ]
   );
   
-  const rotate = useTransform(smoothProgress, [0, 1], [0, 180]);
+  const rotate = useTransform(smoothProgress, [0, 1], reducedMotion ? [0, 0] : [0, 180]);
+  
+  // Render simplified version for mobile/reduced motion
+  if (reducedMotion || isMobile) {
+    return <div ref={ref} className={className} />;
+  }
 
   return (
-    <motion.div ref={ref} className={`${className} relative`} style={{ rotate }}>
+    <motion.div ref={ref} className={`${className} relative will-change-transform`} style={{ rotate }}>
       <svg viewBox="0 0 100 100" className="w-full h-full">
         <motion.path
           d={pathD}
           fill="currentColor"
-          className="will-change-[d]"
         />
       </svg>
     </motion.div>

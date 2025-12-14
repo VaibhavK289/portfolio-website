@@ -216,6 +216,10 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* ============================================
+   GPU ACCELERATION & PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
 /* GPU Compositing Layer Hints - Use sparingly */
 @media (min-width: 768px) {
   /* Only apply GPU hints on larger screens for performance */
@@ -223,6 +227,160 @@ html.lenis body {
     transform: translateZ(0);
     will-change: transform;
     backface-visibility: hidden;
+  }
+}
+
+/* Force GPU acceleration for animated elements */
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* CSS-based sparkle animation (replaces Framer Motion) */
+@keyframes sparkle-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) translateZ(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+.sparkle-animate {
+  animation: sparkle-pulse ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Content visibility for offscreen sections - major performance boost */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .sparkle-animate {
+    animation: none;
+    opacity: 0.6;
+    transform: scale(0.8) translateZ(0);
+  }
+}
+
+/* Safari-specific optimizations */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  
+  /* Reduce blur intensity on Safari for performance */
+  .blur-3xl {
+    filter: blur(48px);
+  }
+  
+  /* Safari compositor optimization */
+  .blur-lg, .blur-xl, .blur-2xl, .blur-3xl {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+/* macOS/Safari retina display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Force GPU compositing on retina displays */
+  .animate-first,
+  .animate-second,
+  .animate-third,
+  .animate-fourth,
+  .animate-fifth {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Reduce gradient complexity on high-DPI */
+  .gradients-container {
+    image-rendering: optimizeSpeed;
+  }
+}
+
+/* WebKit-specific animation optimizations */
+@-webkit-keyframes sparkle-pulse {
+  0%, 100% {
+    opacity: 0;
+    -webkit-transform: scale(0) translateZ(0);
+    transform: scale(0) translateZ(0);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1) translateZ(0);
+    transform: scale(1) translateZ(0);
+  }
+}
+
+/* Glowing stars CSS animation */
+@keyframes glowing-star {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) translateZ(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+.glowing-star {
+  animation: glowing-star ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Optimize fixed/sticky elements */
+.fixed, [class*="fixed"] {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Optimize scrolling containers */
+.overflow-auto,
+.overflow-scroll,
+.overflow-y-auto,
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* iOS Safari touch optimization */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Prevent iOS Safari from zooming on input focus */
+    touch-action: manipulation;
+  }
+  
+  /* Optimize animations for iOS */
+  .animate-spotlight,
+  .animate-first,
+  .animate-second,
+  .animate-third,
+  .animate-fourth,
+  .animate-fifth {
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
   }
 }
 

@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, memo } from "react";
 import {
   motion,
-  useAnimationFrame,
   useMotionTemplate,
   useMotionValue,
   useTransform,
@@ -10,7 +9,7 @@ import {
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
-export function MovingBorder({
+export const MovingBorder = memo(function MovingBorder({
   borderRadius = "1.75rem",
   children,
   as: Component = "button",
@@ -29,6 +28,40 @@ export function MovingBorder({
   className?: string;
   [key: string]: unknown;
 }) {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+  }, []);
+  
+  // Simplified static border on mobile for performance
+  if (isMobile) {
+    return (
+      <Component
+        className={cn(
+          "bg-transparent relative text-xl h-16 w-40 p-[1px] overflow-hidden",
+          containerClassName
+        )}
+        style={{ borderRadius }}
+        {...otherProps}
+      >
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-primary-500/50 to-accent-500/50"
+          style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
+        />
+        <div
+          className={cn(
+            "relative bg-slate-900/[0.8] dark:bg-slate-900 border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
+            className
+          )}
+          style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
+        >
+          {children}
+        </div>
+      </Component>
+    );
+  }
+  
   return (
     <Component
       className={cn(
@@ -67,9 +100,12 @@ export function MovingBorder({
       </div>
     </Component>
   );
-}
+});
 
-export const MovingBorderAnimation = ({
+// Import useAnimationFrame only for the animation component
+import { useAnimationFrame } from "framer-motion";
+
+export const MovingBorderAnimation = memo(function MovingBorderAnimation({
   children,
   duration = 2000,
   rx,
@@ -81,7 +117,7 @@ export const MovingBorderAnimation = ({
   rx?: string;
   ry?: string;
   [key: string]: unknown;
-}) => {
+}) {
   const pathRef = useRef<SVGRectElement | null>(null);
   const progress = useMotionValue<number>(0);
 
@@ -102,7 +138,7 @@ export const MovingBorderAnimation = ({
     (val) => pathRef.current?.getPointAtLength(val).y ?? 0
   );
 
-  const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
+  const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%) translateZ(0)`;
 
   return (
     <>
@@ -130,10 +166,11 @@ export const MovingBorderAnimation = ({
           left: 0,
           display: "inline-block",
           transform,
+          willChange: 'transform',
         }}
       >
         {children}
       </motion.div>
     </>
   );
-};
+});

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, memo } from "react";
 import { cn } from "@/lib/utils";
 
 type SpotlightProps = {
@@ -7,16 +7,37 @@ type SpotlightProps = {
   fill?: string;
 };
 
-export const Spotlight = ({ className, fill }: SpotlightProps) => {
+export const Spotlight = memo(function Spotlight({ className, fill }: SpotlightProps) {
+  const [isSafari, setIsSafari] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+    setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+  }, []);
+  
+  // Disable spotlight on mobile for performance
+  if (isMobile) {
+    return null;
+  }
+  
+  // Safari gets reduced blur for better performance
+  const blurAmount = isSafari ? 100 : 151;
+  
   return (
     <svg
       className={cn(
         "animate-spotlight pointer-events-none absolute z-[1] h-[169%] w-[138%] lg:w-[84%] opacity-0",
+        "will-change-transform",
         className
       )}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 3787 2842"
       fill="none"
+      style={{ 
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)',
+      }}
     >
       <g filter="url(#filter)">
         <ellipse
@@ -47,11 +68,11 @@ export const Spotlight = ({ className, fill }: SpotlightProps) => {
             result="shape"
           ></feBlend>
           <feGaussianBlur
-            stdDeviation="151"
+            stdDeviation={blurAmount}
             result="effect1_foregroundBlur_1065_8"
           ></feGaussianBlur>
         </filter>
       </defs>
     </svg>
   );
-};
+});

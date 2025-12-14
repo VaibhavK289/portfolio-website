@@ -116,10 +116,25 @@ export function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
+    let ticking = false;
+    let lastScrollY = 0;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      lastScrollY = window.scrollY;
+      
+      if (!ticking) {
+        // Use requestAnimationFrame for throttling - runs max once per frame
+        requestAnimationFrame(() => {
+          const shouldBeScrolled = lastScrollY > 20;
+          // Only update state if value changed
+          setIsScrolled(prev => prev !== shouldBeScrolled ? shouldBeScrolled : prev);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
