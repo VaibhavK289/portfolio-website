@@ -1,0 +1,2 @@
+Blog section
+Certificate section
