@@ -117,9 +117,9 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-neutral-800">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-gray-600 dark:text-neutral-400 text-sm flex items-center gap-1">
+            <p className="text-gray-600 dark:text-neutral-400 text-sm flex items-center gap-2">
               © {currentYear} Portfolio. Built with{' '}
-              <Heart className="w-4 h-4 text-red-500 fill-red-500" /> using Next.js
+              <Heart className="w-4 h-4 text-red-500 fill-red-500" /> by Vaibhav
             </p>
             <p className="text-gray-500 dark:text-neutral-500 text-sm">
               Designed & Developed by Vaibhav Kumar Kandhway
