@@ -25,6 +25,7 @@ import {
   Workflow,
   Eye,
   Zap,
+  Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { getProjectBySlug } from '@/data/projects';
@@ -52,8 +53,8 @@ import {
 } from '@/components/animations';
 import { useLowPerformance } from '@/lib/utils';
 
-// AI/Privacy-themed Background Component
-function AllmaBackground() {
+// Shared Background Component - exported for use in other Allma pages
+export function AllmaBackground() {
   const isLowPerf = useLowPerformance();
   
   if (isLowPerf) {
@@ -114,6 +115,160 @@ function AllmaBackground() {
       {/* Subtle background beams */}
       <BackgroundBeams className="opacity-20" />
     </>
+  );
+}
+
+// Page Navigation Component - Violet/Indigo Theme
+export function AllmaPageNav({ currentPage }: { currentPage: 'overview' | 'technical' | 'docs' | 'deep-dive' }) {
+  return (
+    <motion.div 
+      className="sticky top-16 sm:top-20 z-40 bg-[#08080c]/80 backdrop-blur-xl border-b border-violet-900/30"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+    >
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Desktop Layout */}
+        <div className="hidden sm:flex items-center justify-between py-4">
+          {/* Project Title with Brain Icon */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center relative">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h2 className="font-bold text-white text-sm">Allma Studio</h2>
+              <p className="text-xs text-neutral-500">AI Chat Platform</p>
+            </div>
+          </div>
+          
+          {/* Page Tabs - Desktop */}
+          <div className="flex items-center gap-1 p-1 bg-[#1a1a2e] rounded-xl">
+            <Link
+              href="/projects/allma-studio"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                currentPage === 'overview'
+                  ? 'bg-violet-500/20 text-violet-400 shadow-sm'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Overview
+            </Link>
+            <Link
+              href="/projects/allma-studio/technical"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                currentPage === 'technical'
+                  ? 'bg-violet-500/20 text-violet-400 shadow-sm'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Technical
+            </Link>
+            <Link
+              href="/projects/allma-studio/docs"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                currentPage === 'docs'
+                  ? 'bg-violet-500/20 text-violet-400 shadow-sm'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Docs
+            </Link>
+            <Link
+              href="/projects/allma-studio/deep-dive"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                currentPage === 'deep-dive'
+                  ? 'bg-violet-500/20 text-violet-400 shadow-sm'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Deep-Dive
+            </Link>
+          </div>
+          
+          {/* Actions - Desktop */}
+          <div className="flex items-center gap-3">
+            <a
+              href="https://allma-studio.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-violet-500/50 text-violet-400 hover:bg-violet-500/10 transition-colors text-sm font-medium"
+            >
+              <Play className="w-4 h-4" />
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="sm:hidden">
+          {/* Top row: Logo + Live Demo button */}
+          <div className="flex items-center justify-between py-2.5">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+                <Brain className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h2 className="font-bold text-white text-xs">Allma Studio</h2>
+                <p className="text-[10px] text-neutral-500">AI Platform</p>
+              </div>
+            </div>
+            <a
+              href="https://allma-studio.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-medium shadow-lg shadow-violet-500/25"
+            >
+              <Play className="w-3 h-3" />
+              Demo
+            </a>
+          </div>
+          
+          {/* Bottom row: Scrollable tabs */}
+          <div className="flex items-center gap-1 pb-2.5 overflow-x-auto scrollbar-hide -mx-3 px-3">
+            <Link
+              href="/projects/allma-studio"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'overview'
+                  ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30'
+                  : 'bg-[#1a1a2e] text-neutral-400'
+              }`}
+            >
+              Overview
+            </Link>
+            <Link
+              href="/projects/allma-studio/technical"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'technical'
+                  ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30'
+                  : 'bg-[#1a1a2e] text-neutral-400'
+              }`}
+            >
+              Technical
+            </Link>
+            <Link
+              href="/projects/allma-studio/docs"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'docs'
+                  ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30'
+                  : 'bg-[#1a1a2e] text-neutral-400'
+              }`}
+            >
+              Docs
+            </Link>
+            <Link
+              href="/projects/allma-studio/deep-dive"
+              className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${
+                currentPage === 'deep-dive'
+                  ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30'
+                  : 'bg-[#1a1a2e] text-neutral-400'
+              }`}
+            >
+              Deep-Dive
+            </Link>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -200,10 +355,13 @@ export default function AllmaStudioPage() {
         <AllmaBackground />
       </div>
 
+      {/* Page Navigation */}
+      <AllmaPageNav currentPage="overview" />
+
       {/* Hero Section */}
       <motion.section 
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 sm:py-24"
+        className="relative min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-20 sm:py-24"
         style={{ opacity: heroOpacity, scale: heroScale }}
       >
         <Spotlight className="absolute -top-40 left-0 md:left-60" fill="#8b5cf6" />
