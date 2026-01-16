@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import { Button } from './ui/Button';
 
 const contactSchema = z.object({
@@ -18,7 +18,7 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 // Input focus animation - expands border on focus
-const inputClasses = "w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-0 focus:border-primary-500 dark:focus:border-primary-400 focus:shadow-[0_0_0_3px_rgba(6,182,212,0.15)] transition-all duration-300 ease-out outline-none";
+const inputClasses = "w-full px-5 py-3.5 rounded-lg border-2 border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:ring-0 focus:border-primary-500 dark:focus:border-primary-400 focus:shadow-[0_0_0_4px_rgba(6,182,212,0.1)] transition-all duration-300 ease-out outline-none";
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');

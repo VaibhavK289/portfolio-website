@@ -1,24 +1,53 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Zap, Heart, Trophy, Mail, MapPin } from 'lucide-react';
 import { ContactForm } from '@/components/ContactForm';
+import { SocialConnectCard } from '@/components/SocialConnectCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { personalInfo, socials } from '@/data/socials';
-import { Github, Linkedin, Twitter } from 'lucide-react';
-import { MagicCard } from '@/components/ui/magicui';
+import { PremiumCard } from '@/components/PremiumCard';
+import { personalInfo } from '@/data/socials';
 
 // export const metadata: Metadata = {
 //   title: 'Contact',
 //   description: 'Get in touch with me for collaboration, job opportunities, or just to say hello.',
 // };
 
-const iconMap: { [key: string]: React.ElementType } = {
-  Github,
-  Linkedin,
-  Twitter,
-  Mail,
-};
+const connectionMethods = [
+  {
+    icon: <Zap className="w-5 h-5" />,
+    title: 'Quick Reply',
+    description: 'Email or LinkedIn for urgent discussions',
+    time: '24-48 hours',
+  },
+  {
+    icon: <Heart className="w-5 h-5" />,
+    title: 'Open to Opportunities',
+    description: 'Full-time roles, freelance, or projects',
+    status: 'Active',
+  },
+  {
+    icon: <Trophy className="w-5 h-5" />,
+    title: 'Always Learning',
+    description: 'Keen to collaborate on innovative tech',
+    status: 'Ready',
+  },
+];
+
+const contactDetails = [
+  {
+    icon: <Mail className="w-5 h-5" />,
+    label: 'Email',
+    value: personalInfo.email,
+    href: `mailto:${personalInfo.email}`,
+  },
+  {
+    icon: <MapPin className="w-5 h-5" />,
+    label: 'Location',
+    value: personalInfo.location,
+    href: null,
+  },
+];
 
 export default function ContactPage() {
   return (
@@ -26,164 +55,232 @@ export default function ContactPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen py-20 bg-gray-50 dark:bg-neutral-950"
+      className="min-h-screen py-12 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-500/5 to-transparent rounded-full blur-3xl"
+          animate={{
+            y: [0, 40, 0],
+            x: [0, 40, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-accent-500/5 to-transparent rounded-full blur-3xl"
+          animate={{
+            y: [0, -40, 0],
+            x: [0, -40, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            delay: 0.5,
+          }}
+        />
+      </div>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="text-center mb-12 md:mb-16"
         >
           <SectionHeading
-            title="Get In Touch"
-            subtitle="Have a project in mind or want to collaborate? I'd love to hear from you!"
+            title="Let's Build Something Amazing"
+            subtitle="Have a project idea, want to collaborate, or just want to chat? I'm ready to connect."
           />
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
+        {/* Connection Methods Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 md:mb-16"
+        >
+          {connectionMethods.map((method, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
+              whileHover={{ y: -4 }}
+              className="group p-6 rounded-xl bg-white dark:bg-neutral-800/50 border border-gray-200 dark:border-neutral-700 backdrop-blur-sm hover:border-primary-500/50 dark:hover:border-primary-500/50 transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary-500/10"
+            >
+              <motion.div
+                className="inline-flex p-3 rounded-lg bg-gradient-to-br from-primary-100 to-accent-100 dark:from-primary-900/30 dark:to-accent-900/30 text-primary-600 dark:text-primary-400 mb-4 group-hover:scale-110"
+                transition={{ duration: 0.3 }}
+              >
+                {method.icon}
+              </motion.div>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">
+                {method.title}
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-neutral-400 mb-3">
+                {method.description}
+              </p>
+              <p className="text-xs font-semibold text-primary-600 dark:text-primary-400">
+                {method.time || method.status} ✓
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 md:gap-6">
+          {/* Left Column - Social Connect & Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6"
           >
-            <MagicCard className="mb-8 cursor-pointer" gradientColor="#262626">
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-                  Contact Information
+            {/* Social Connect Card */}
+            <PremiumCard delay={0.25}>
+              <SocialConnectCard />
+            </PremiumCard>
+
+            {/* Contact Info Card */}
+            <PremiumCard delay={0.3}>
+              <div>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5">
+                  Direct Contact
                 </h3>
 
-                <div className="space-y-6">
-                  <motion.div 
-                    className="flex items-start gap-4"
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-neutral-500 mb-1">Email</p>
-                      <a
-                        href={`mailto:${personalInfo.email}`}
-                        className="text-gray-900 dark:text-white hover:text-primary-500 dark:hover:text-primary-400 font-medium transition-colors"
-                      >
-                        {personalInfo.email}
-                      </a>
-                    </div>
-                  </motion.div>
-
-                  <motion.div 
-                    className="flex items-start gap-4"
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
-                      <MapPin className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-neutral-500 mb-1">Location</p>
-                      <p className="text-gray-900 dark:text-white font-medium">
-                        {personalInfo.location}
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  <motion.div 
-                    className="flex items-start gap-4"
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="p-3 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-500 dark:text-primary-400">
-                      <Clock className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-neutral-500 mb-1">Availability</p>
-                      <p className="text-gray-900 dark:text-white font-medium">
-                        Open to opportunities
-                      </p>
-                    </div>
-                  </motion.div>
+                <div className="space-y-4">
+                  {contactDetails.map((detail, index) => (
+                    <motion.div 
+                      key={index}
+                      className="flex items-start gap-3"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.35 + index * 0.1 }}
+                      whileHover={{ x: 4 }}
+                    >
+                      <div className="p-2.5 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5">
+                        {detail.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-neutral-500 uppercase tracking-wide mb-1">
+                          {detail.label}
+                        </p>
+                        {detail.href ? (
+                          <a
+                            href={detail.href}
+                            className="text-sm text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 font-medium break-all transition-colors"
+                          >
+                            {detail.value}
+                          </a>
+                        ) : (
+                          <p className="text-sm text-gray-900 dark:text-white font-medium">
+                            {detail.value}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
-              </div>
-            </MagicCard>
 
-            {/* Social Links */}
-            <MagicCard className="cursor-pointer" gradientColor="#262626">
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-                  Connect With Me
-                </h3>
-
-                <div className="grid grid-cols-2 gap-4">
-                  {socials.map((social, index) => {
-                    const Icon = iconMap[social.icon] || Mail;
-                    return (
-                      <motion.a
-                        key={social.name}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        className="flex items-center gap-3 p-4 rounded-xl bg-gray-100 dark:bg-neutral-800/50 border border-gray-200 dark:border-neutral-700 hover:border-primary-500/50 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all group"
-                      >
-                        <Icon className="w-5 h-5 text-gray-500 dark:text-neutral-400 group-hover:text-primary-500 dark:group-hover:text-primary-400" />
-                        <span className="font-medium text-gray-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">
-                          {social.name}
-                        </span>
-                      </motion.a>
-                    );
-                  })}
-                </div>
-              </div>
-            </MagicCard>
-
-            {/* Quick Response Note */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-primary-100 dark:from-primary-950/50 to-accent-100 dark:to-accent-950/50 border border-primary-200 dark:border-primary-800"
-            >
-              <div className="flex items-start gap-4">
+                {/* Availability Badge */}
                 <motion.div 
-                  className="p-2 rounded-lg bg-primary-200 dark:bg-primary-900/50"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                  className="mt-5 p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 dark:border-green-500/50"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
                 >
-                  <Send className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                  <div className="flex items-center gap-2">
+                    <motion.div
+                      className="w-2 h-2 rounded-full bg-green-500"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <p className="text-xs font-medium text-green-700 dark:text-green-400">
+                      Available for opportunities
+                    </p>
+                  </div>
                 </motion.div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
-                    Quick Response
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-neutral-400">
-                    I typically respond within 24-48 hours. Looking forward to hearing from you!
-                  </p>
-                </div>
               </div>
-            </motion.div>
+            </PremiumCard>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Right Columns - Contact Form (spans 2 columns on lg) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="lg:col-span-2"
           >
-            <MagicCard className="h-full cursor-pointer" gradientColor="#262626">
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-                  Send a Message
-                </h3>
+            <PremiumCard delay={0.4}>
+              <div>
+                <div className="mb-6">
+                  <motion.h3 
+                    className="text-xl font-bold text-gray-900 dark:text-white mb-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.45 }}
+                  >
+                    Send Me a Message
+                  </motion.h3>
+                  <motion.p 
+                    className="text-sm text-gray-600 dark:text-neutral-400"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    Fill out the form and I'll respond within 24-48 hours. For urgent matters, reach out via email or LinkedIn.
+                  </motion.p>
+                </div>
+
                 <ContactForm />
               </div>
-            </MagicCard>
+            </PremiumCard>
           </motion.div>
         </div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="mt-12 md:mt-16 p-8 md:p-10 rounded-2xl bg-gradient-to-r from-primary-500 to-accent-500 dark:from-primary-600 dark:to-accent-600 text-white text-center hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-300"
+        >
+          <h3 className="text-2xl font-bold mb-3">Ready to Start Something Great?</h3>
+          <p className="mb-6 text-white/95 max-w-2xl mx-auto text-sm md:text-base">
+            Whether you have a specific project in mind or just want to explore opportunities, let's create something meaningful together.
+          </p>
+          <motion.div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.55 }}
+          >
+            <a 
+              href="https://linkedin.com/in/vaibhav-kumar-kandhway"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 rounded-lg bg-white text-primary-600 font-semibold hover:bg-gray-100 transition-all duration-300 hover:shadow-lg"
+            >
+              Connect on LinkedIn
+            </a>
+            <a 
+              href="https://github.com/VaibhavK289"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 rounded-lg border-2 border-white text-white font-semibold hover:bg-white/10 transition-all duration-300"
+            >
+              View My GitHub
+            </a>
+          </motion.div>
+        </motion.div>
       </div>
     </motion.div>
   );
