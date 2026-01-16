@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Zap, Heart, Trophy, Mail, MapPin } from 'lucide-react';
+import { Zap, Heart, Trophy } from 'lucide-react';
 import { ContactForm } from '@/components/ContactForm';
 import { SocialConnectCard } from '@/components/SocialConnectCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -31,21 +31,6 @@ const connectionMethods = [
     title: 'Always Learning',
     description: 'Keen to collaborate on innovative tech',
     status: 'Ready',
-  },
-];
-
-const contactDetails = [
-  {
-    icon: <Mail className="w-5 h-5" />,
-    label: 'Email',
-    value: personalInfo.email,
-    href: `mailto:${personalInfo.email}`,
-  },
-  {
-    icon: <MapPin className="w-5 h-5" />,
-    label: 'Location',
-    value: personalInfo.location,
-    href: null,
   },
 ];
 
@@ -137,7 +122,7 @@ export default function ContactPage() {
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-8 md:gap-6">
-          {/* Left Column - Social Connect & Info */}
+          {/* Left Column - Social Connect */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -147,68 +132,6 @@ export default function ContactPage() {
             {/* Social Connect Card */}
             <PremiumCard delay={0.25}>
               <SocialConnectCard />
-            </PremiumCard>
-
-            {/* Contact Info Card */}
-            <PremiumCard delay={0.3}>
-              <div className="flex flex-col h-full">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">
-                  Direct Contact
-                </h3>
-
-                <div className="space-y-5 flex-grow">
-                  {contactDetails.map((detail, index) => (
-                    <motion.div 
-                      key={index}
-                      className="flex items-start gap-4"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.35 + index * 0.1 }}
-                      whileHover={{ x: 4 }}
-                    >
-                      <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex-shrink-0">
-                        {detail.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-neutral-500 uppercase tracking-wide mb-1">
-                          {detail.label}
-                        </p>
-                        {detail.href ? (
-                          <a
-                            href={detail.href}
-                            className="text-sm text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 font-medium break-words transition-colors"
-                          >
-                            {detail.value}
-                          </a>
-                        ) : (
-                          <p className="text-sm text-gray-900 dark:text-white font-medium">
-                            {detail.value}
-                          </p>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Availability Badge */}
-                <motion.div 
-                  className="mt-6 p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 dark:border-green-500/50"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div className="flex items-center gap-2">
-                    <motion.div
-                      className="w-2.5 h-2.5 rounded-full bg-green-500 flex-shrink-0"
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <p className="text-xs font-medium text-green-700 dark:text-green-400">
-                      Available for opportunities
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
             </PremiumCard>
           </motion.div>
 
