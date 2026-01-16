@@ -72,6 +72,23 @@ export {
   healthcareBadgeVariants,
 } from "./HealthcareAnimations";
 
+// Re-export AI/Privacy animations for Allma Studio
+export {
+  NeuralNode,
+  DataFlowLine,
+  PrivacyShield,
+  ChatTyping,
+  LocalLLMPulse,
+  DocumentVector,
+  AINetworkGrid,
+  StreamingText,
+  AICard,
+  aiEasings,
+  aiCardContainerVariants,
+  aiCardVariants,
+  aiBadgeVariants,
+} from "./AIAnimations";
+
 /* ============================================
    ANIMATION HIERARCHY SYSTEM
    Different animations for different importance levels

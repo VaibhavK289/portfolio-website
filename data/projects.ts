@@ -2,6 +2,120 @@ import { Project } from '@/types';
 
 export const projects: Project[] = [
   {
+    slug: 'allma-studio',
+    title: 'Allma Studio - Local AI Chat Platform',
+    description: 'A privacy-first AI chat application with RAG capabilities, running entirely on your local machine via Ollama for complete data sovereignty and zero cloud dependency.',
+    longDescription: `Allma Studio is a sophisticated full-stack AI chat platform that runs entirely on your local machine, ensuring complete privacy and data sovereignty. It seamlessly combines the power of local Large Language Models (LLMs) via Ollama with Retrieval-Augmented Generation (RAG) to deliver intelligent, context-aware responses grounded in your own documents.
+
+## 🎯 Problem Statement
+
+Modern AI chatbots present significant concerns:
+- **Data Privacy**: Conversations and documents sent to cloud servers
+- **Recurring Costs**: Pay-per-token pricing models add up quickly
+- **Internet Dependency**: Requires constant connectivity
+- **Limited Context**: Generic responses without access to personal knowledge base
+- **Vendor Lock-in**: Tied to specific cloud providers and their terms
+
+## 💡 Solution
+
+Allma Studio fundamentally reimagines AI interaction by bringing the entire pipeline locally:
+
+### 1. 100% Local Processing
+All AI inference happens on your machine. Your data never leaves your device, ensuring complete privacy and security for sensitive conversations.
+
+### 2. RAG-Powered Intelligence
+Upload your documents (PDFs, text files, markdown) and get AI responses that are grounded in your own knowledge base with accurate source citations.
+
+### 3. Model Flexibility
+Switch between multiple local LLMs (DeepSeek, Gemma, Qwen, LLaMA) based on your task—reasoning, coding, or general conversation.
+
+## 🏗️ System Architecture
+
+### Frontend (React + Vite)
+- **Framework**: React 18 with Vite for lightning-fast development
+- **UI/UX**: Modern, responsive interface with TailwindCSS
+- **Real-time**: Token-by-token streaming for natural conversation flow
+- **Theming**: Automatic dark/light mode with smooth transitions
+- **Markdown**: Rich text rendering with syntax highlighting
+- **Mobile**: Fully responsive design for all device sizes
+
+### Backend (FastAPI + Python)
+- **API Framework**: FastAPI for high-performance async operations
+- **Orchestration**: Intelligent routing between RAG and direct chat
+- **Vector Store**: ChromaDB for semantic document search
+- **Embeddings**: Nomic Embed Text for high-quality document vectors
+- **Streaming**: Server-Sent Events for real-time responses
+- **Sessions**: Persistent conversation history with context awareness
+
+### AI/ML Stack
+- **Ollama Integration**: Seamless connection to local LLM runtime
+- **Multi-Model Support**: DeepSeek R1, Gemma 2, Qwen 2.5 Coder, LLaMA 3.2
+- **Smart Chunking**: Intelligent document splitting for optimal retrieval
+- **Semantic Search**: ChromaDB-powered similarity search
+
+### Infrastructure
+- **Docker Ready**: One-command deployment with Docker Compose
+- **Kubernetes**: Production-ready Helm charts for orchestration
+- **CI/CD**: GitHub Actions for automated testing and deployment
+- **Demo Mode**: Vercel deployment with simulated AI for demos
+
+## 🚀 Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Privacy First** | Zero telemetry, no data collection, offline capable |
+| **Real-time Streaming** | Natural typing effect with token-by-token display |
+| **Document RAG** | Upload PDFs/docs and query your knowledge base |
+| **Model Switching** | Hot-swap between LLMs based on task requirements |
+| **Conversation Memory** | Persistent chat history with context awareness |
+| **Code Highlighting** | Syntax-highlighted code blocks in responses |
+| **Dark/Light Mode** | Automatic theme detection with manual toggle |
+| **Security Hardened** | Non-root containers, CORS protection, rate limiting |
+
+## 🔧 Technical Implementation
+
+### RAG Pipeline
+\`\`\`
+Document Upload → Text Extraction → Chunking → Embedding → ChromaDB Storage
+Query → Semantic Search → Context Retrieval → LLM + Context → Response
+\`\`\`
+
+### Data Flow Architecture
+1. **User Query** → React Frontend captures user input
+2. **API Gateway** → FastAPI routes to appropriate service
+3. **Orchestrator** → Determines if RAG is needed
+4. **RAG Service** → Retrieves relevant document chunks
+5. **LLM Service** → Generates response with context
+6. **Streaming** → SSE delivers tokens to frontend
+
+### Vector Store System
+- Document embedding using Nomic Embed Text
+- ChromaDB persistence for efficient vector storage
+- Semantic similarity search for relevant context
+- Source attribution in responses
+
+## 📊 Performance Highlights
+
+- **100% Local**: No cloud dependency whatsoever
+- **Free Forever**: Zero ongoing costs after setup
+- **Offline Capable**: Works without internet
+- **Multi-Model**: Support for 5+ local LLMs
+- **Document Types**: PDF, TXT, MD, DOCX support
+
+## 🛠️ Tech Stack
+
+**Frontend**: React 18, Vite, TailwindCSS, Axios, React Markdown, Lucide React
+**Backend**: Python 3.11+, FastAPI, Uvicorn, SQLAlchemy, ChromaDB, aiosqlite
+**AI/ML**: Ollama, Nomic Embed Text, DeepSeek, Gemma 2, Qwen 2.5 Coder
+**Infrastructure**: Docker, Docker Compose, Kubernetes, Helm, GitHub Actions, Vercel`,
+    image: '/images/projects/allma_homepage.png',
+    tags: ['React', 'FastAPI', 'Python', 'Ollama', 'ChromaDB', 'RAG', 'Docker', 'TailwindCSS', 'Vite', 'Local AI'],
+    liveUrl: 'https://allma-studio.vercel.app/',
+    githubUrl: 'https://github.com/VaibhavK289/Allma',
+    featured: true,
+    year: '2025',
+  },
+  {
     slug: 'curasense',
     title: 'CuraSense - AI Healthcare Platform',
     description: 'An AI-powered healthcare assistant combining cutting-edge machine learning with medical expertise for prescription analysis, medical imaging diagnosis, and drug comparison.',
