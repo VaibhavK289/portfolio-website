@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Check if Resend API key is configured
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'vaibhav.kumar.kandhway@gmail.com';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'vaibhav.kumar.kandhway@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'vaibhavkrkandhway@gmail.com';
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Store contact in logs
-    console.log('Contact form submission:', {
+    console.log('📧 Contact form submission:', {
       name,
       email,
       subject,
@@ -38,8 +37,12 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend if API key is configured
     if (RESEND_API_KEY) {
+      console.log('🚀 Sending email via Resend to:', ADMIN_EMAIL);
+      
       try {
         // Send admin notification email
+        // NOTE: On Resend free tier, use 'onboarding@resend.dev' as sender
+        // and you can only send to your Resend account email address
         const adminResponse = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
@@ -47,74 +50,58 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${RESEND_API_KEY}`,
           },
           body: JSON.stringify({
-            from: 'Portfolio Contact <noreply@resend.dev>',
-            to: ADMIN_EMAIL,
-            subject: `New Contact Form: ${subject}`,
+            from: 'Vaibhav Portfolio <onboarding@resend.dev>',
+            to: [ADMIN_EMAIL],
+            reply_to: email,
+            subject: `📬 New Contact: ${subject}`,
             html: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #333;">New Contact Form Submission</h2>
-                <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px;">
-                  <p><strong>From:</strong> ${name}</p>
-                  <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-                  <p><strong>Subject:</strong> ${subject}</p>
-                  <h3 style="color: #333; margin-top: 20px;">Message:</h3>
-                  <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
+              <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+                <div style="background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); padding: 30px; border-radius: 12px 12px 0 0;">
+                  <h1 style="color: white; margin: 0; font-size: 24px;">📬 New Contact Form Message</h1>
                 </div>
-                <p style="color: #999; font-size: 12px; margin-top: 20px;">
-                  Sent at ${new Date().toLocaleString()}
-                </p>
+                <div style="padding: 30px; background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px;">
+                  <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #06b6d4;">From:</strong> ${name}</p>
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #06b6d4;">Email:</strong> <a href="mailto:${email}" style="color: #8b5cf6;">${email}</a></p>
+                    <p style="margin: 0;"><strong style="color: #06b6d4;">Subject:</strong> ${subject}</p>
+                  </div>
+                  <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <h3 style="color: #333; margin: 0 0 15px 0; font-size: 16px;">💬 Message:</h3>
+                    <p style="white-space: pre-wrap; line-height: 1.6; color: #555; margin: 0;">${message}</p>
+                  </div>
+                  <p style="color: #94a3b8; font-size: 12px; margin-top: 20px; text-align: center;">
+                    Received on ${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}
+                  </p>
+                  <p style="color: #64748b; font-size: 12px; margin-top: 10px; text-align: center;">
+                    💡 Reply directly to this email to respond to ${name}
+                  </p>
+                </div>
               </div>
             `,
           }),
         });
 
+        const adminResult = await adminResponse.json();
+        
         if (!adminResponse.ok) {
-          console.error('Failed to send admin email:', await adminResponse.text());
+          console.error('❌ Failed to send admin email:', adminResult);
+          return NextResponse.json(
+            { error: 'Failed to send message. Please try again or email directly.' },
+            { status: 500 }
+          );
         }
+        
+        console.log('✅ Admin email sent successfully:', adminResult);
 
-        // Send confirmation email to user
-        const userResponse = await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: 'Vaibhav Kumar <noreply@resend.dev>',
-            to: email,
-            subject: 'Thank you for reaching out!',
-            html: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #333;">Thank you for your message!</h2>
-                <p>Hi ${name},</p>
-                <p>I've received your message and appreciate you taking the time to reach out. I typically respond within 24-48 hours.</p>
-                <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                  <p><strong>Your message:</strong></p>
-                  <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
-                </div>
-                <p>In the meantime, feel free to connect with me on:</p>
-                <ul style="list-style: none; padding: 0;">
-                  <li>📧 <a href="mailto:vaibhav.kumar.kandhway@gmail.com">Email</a></li>
-                  <li>💼 <a href="https://linkedin.com/in/vaibhav-kumar-kandhway">LinkedIn</a></li>
-                  <li>💻 <a href="https://github.com/VaibhavK289">GitHub</a></li>
-                </ul>
-                <p style="color: #999; font-size: 12px; margin-top: 30px;">
-                  Best regards,<br>Vaibhav Kumar Kandhway
-                </p>
-              </div>
-            `,
-          }),
-        });
-
-        if (!userResponse.ok) {
-          console.error('Failed to send user confirmation email:', await userResponse.text());
-        }
       } catch (emailError) {
-        console.error('Email service error:', emailError);
-        // Don't fail the request if email fails, still return success
+        console.error('❌ Email service error:', emailError);
+        return NextResponse.json(
+          { error: 'Email service error. Please try again later.' },
+          { status: 500 }
+        );
       }
     } else {
-      console.warn('RESEND_API_KEY not configured. Install Resend for email notifications.');
+      console.warn('⚠️ RESEND_API_KEY not configured. Email not sent.');
     }
 
     return NextResponse.json(
@@ -122,7 +109,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('❌ Contact form error:', error);
     return NextResponse.json(
       { error: 'Failed to send message. Please try again later.' },
       { status: 500 }
