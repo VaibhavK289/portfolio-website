@@ -151,22 +151,22 @@ export default function ContactPage() {
 
             {/* Contact Info Card */}
             <PremiumCard delay={0.3}>
-              <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5">
+              <div className="flex flex-col h-full">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">
                   Direct Contact
                 </h3>
 
-                <div className="space-y-4">
+                <div className="space-y-5 flex-grow">
                   {contactDetails.map((detail, index) => (
                     <motion.div 
                       key={index}
-                      className="flex items-start gap-3"
+                      className="flex items-start gap-4"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.4, delay: 0.35 + index * 0.1 }}
                       whileHover={{ x: 4 }}
                     >
-                      <div className="p-2.5 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5">
+                      <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex-shrink-0">
                         {detail.icon}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -176,7 +176,7 @@ export default function ContactPage() {
                         {detail.href ? (
                           <a
                             href={detail.href}
-                            className="text-sm text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 font-medium break-all transition-colors"
+                            className="text-sm text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 font-medium break-words transition-colors"
                           >
                             {detail.value}
                           </a>
@@ -192,14 +192,14 @@ export default function ContactPage() {
 
                 {/* Availability Badge */}
                 <motion.div 
-                  className="mt-5 p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 dark:border-green-500/50"
+                  className="mt-6 p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 dark:border-green-500/50"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
                   <div className="flex items-center gap-2">
                     <motion.div
-                      className="w-2 h-2 rounded-full bg-green-500"
+                      className="w-2.5 h-2.5 rounded-full bg-green-500 flex-shrink-0"
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
