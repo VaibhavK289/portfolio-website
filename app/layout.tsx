@@ -25,7 +25,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vaibhavk-portfolio.vercel.app"),
+  metadataBase: new URL("https://vaibhavkandhway.dev"),
   title: {
     default: "Vaibhav Kumar Kandhway | Full-Stack Developer",
     template: "%s | Vaibhav Kumar Kandhway",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://vaibhavk-portfolio.vercel.app",
+    url: "https://vaibhavkandhway.dev",
     siteName: "Vaibhav Kumar Kandhway Portfolio",
     title: "Vaibhav Kumar Kandhway | Full-Stack Developer",
     description:

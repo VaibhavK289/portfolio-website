@@ -378,6 +378,320 @@ function AccessPointsSection() {
   );
 }
 
+// API Reference Section
+function APIReferenceSection() {
+  return (
+    <section className="relative py-12 px-4 sm:px-6 bg-gradient-to-b from-transparent via-cyan-950/10 to-transparent">
+      <div className="max-w-4xl mx-auto">
+        <ScrollReveal>
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+            <Code2 className="w-6 h-6 text-cyan-400" />
+            API Reference
+          </h2>
+          <p className="text-neutral-400 mb-6 text-sm">Base URL: <code className="text-cyan-400">http://localhost:8000</code></p>
+        </ScrollReveal>
+
+        <div className="space-y-6">
+          {/* Health Endpoint */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2 py-1 text-xs font-bold rounded bg-emerald-500/20 text-emerald-400">GET</span>
+              <code className="text-white font-mono text-sm">/health</code>
+              <span className="text-neutral-500 text-sm">— Check system health</span>
+            </div>
+            <CodeBlock 
+              language="json"
+              code={`{
+  "status": "healthy",
+  "components": {
+    "ollama": { "status": "connected", "model": "deepseek-r1:latest" },
+    "vector_store": { "status": "ready", "documents_count": 150 },
+    "database": { "status": "connected" }
+  },
+  "version": "1.0.0"
+}`} />
+          </div>
+
+          {/* Chat Endpoint */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2 py-1 text-xs font-bold rounded bg-amber-500/20 text-amber-400">POST</span>
+              <code className="text-white font-mono text-sm">/chat/</code>
+              <span className="text-neutral-500 text-sm">— Send a chat message</span>
+            </div>
+            <h4 className="text-sm font-medium text-violet-400 mb-2">Request Body:</h4>
+            <CodeBlock 
+              language="json"
+              code={`{
+  "message": "Explain quantum computing",
+  "use_rag": false,
+  "conversation_id": "optional-uuid",
+  "stream": true,
+  "temperature": 0.7,
+  "max_tokens": 2048
+}`} />
+            <h4 className="text-sm font-medium text-violet-400 mt-4 mb-2">Response (Streaming):</h4>
+            <CodeBlock 
+              language="text"
+              code={`data: {"content": "Quantum", "done": false}
+data: {"content": " computing", "done": false}
+data: {"content": "", "done": true, "sources": []}`} />
+          </div>
+
+          {/* RAG Ingest Endpoint */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2 py-1 text-xs font-bold rounded bg-amber-500/20 text-amber-400">POST</span>
+              <code className="text-white font-mono text-sm">/rag/ingest</code>
+              <span className="text-neutral-500 text-sm">— Upload document for RAG</span>
+            </div>
+            <h4 className="text-sm font-medium text-violet-400 mb-2">Request (multipart/form-data):</h4>
+            <CodeBlock 
+              language="bash"
+              code={`curl -X POST http://localhost:8000/rag/ingest \\
+  -F "file=@document.pdf"`} />
+            <h4 className="text-sm font-medium text-violet-400 mt-4 mb-2">Response:</h4>
+            <CodeBlock 
+              language="json"
+              code={`{
+  "success": true,
+  "document_id": "doc_abc123",
+  "filename": "document.pdf",
+  "chunks_created": 25,
+  "processing_time_ms": 1250
+}`} />
+          </div>
+
+          {/* RAG Search Endpoint */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2 py-1 text-xs font-bold rounded bg-amber-500/20 text-amber-400">POST</span>
+              <code className="text-white font-mono text-sm">/rag/search</code>
+              <span className="text-neutral-500 text-sm">— Search documents</span>
+            </div>
+            <h4 className="text-sm font-medium text-violet-400 mb-2">Request Body:</h4>
+            <CodeBlock 
+              language="json"
+              code={`{
+  "query": "What is quantum entanglement?",
+  "k": 5,
+  "threshold": 0.7
+}`} />
+            <h4 className="text-sm font-medium text-violet-400 mt-4 mb-2">Response:</h4>
+            <CodeBlock 
+              language="json"
+              code={`{
+  "results": [
+    {
+      "chunk_id": "chunk_001",
+      "source": "quantum_physics.pdf",
+      "content": "Quantum entanglement is...",
+      "score": 0.95
+    }
+  ],
+  "search_time_ms": 45
+}`} />
+          </div>
+
+          {/* Models Endpoint */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2 py-1 text-xs font-bold rounded bg-emerald-500/20 text-emerald-400">GET</span>
+              <code className="text-white font-mono text-sm">/models/</code>
+              <span className="text-neutral-500 text-sm">— List available models</span>
+            </div>
+            <CodeBlock 
+              language="json"
+              code={`{
+  "models": [
+    {
+      "name": "deepseek-r1:latest",
+      "size_human": "5.2 GB",
+      "details": { "parameter_size": "8B", "quantization": "Q4_K_M" }
+    }
+  ],
+  "current_model": "deepseek-r1:latest"
+}`} />
+          </div>
+
+          {/* Switch Model Endpoint */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2 py-1 text-xs font-bold rounded bg-amber-500/20 text-amber-400">POST</span>
+              <code className="text-white font-mono text-sm">/models/switch</code>
+              <span className="text-neutral-500 text-sm">— Switch active model</span>
+            </div>
+            <CodeBlock 
+              language="json"
+              code={`// Request
+{ "model_name": "gemma2:9b" }
+
+// Response
+{
+  "success": true,
+  "previous_model": "deepseek-r1:latest",
+  "current_model": "gemma2:9b"
+}`} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Error Codes Section
+function ErrorCodesSection() {
+  const errorCodes = [
+    { code: 'VALIDATION_ERROR', status: '400', desc: 'Invalid request format' },
+    { code: 'NOT_FOUND', status: '404', desc: 'Resource not found' },
+    { code: 'UNSUPPORTED_FILE_TYPE', status: '400', desc: 'File type not supported' },
+    { code: 'MODEL_NOT_FOUND', status: '404', desc: 'Ollama model not installed' },
+    { code: 'OLLAMA_UNAVAILABLE', status: '503', desc: 'Cannot connect to Ollama' },
+    { code: 'RATE_LIMITED', status: '429', desc: 'Too many requests' },
+  ];
+
+  return (
+    <section className="relative py-12 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        <ScrollReveal>
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <Lock className="w-6 h-6 text-red-400" />
+            Error Codes
+          </h2>
+        </ScrollReveal>
+
+        <div className="overflow-x-auto rounded-2xl bg-neutral-900/60 border border-neutral-800">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-neutral-700">
+                <th className="text-left px-4 py-3 text-neutral-400 font-medium">Code</th>
+                <th className="text-left px-4 py-3 text-neutral-400 font-medium">HTTP</th>
+                <th className="text-left px-4 py-3 text-neutral-400 font-medium">Description</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-800">
+              {errorCodes.map((err) => (
+                <tr key={err.code}>
+                  <td className="px-4 py-3 font-mono text-red-400 text-xs">{err.code}</td>
+                  <td className="px-4 py-3 text-neutral-400">{err.status}</td>
+                  <td className="px-4 py-3 text-neutral-400">{err.desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-6 p-4 rounded-xl bg-neutral-900/60 border border-neutral-800">
+          <h4 className="text-sm font-medium text-white mb-2">Error Response Format:</h4>
+          <CodeBlock 
+            language="json"
+            code={`{
+  "detail": {
+    "error": "OLLAMA_UNAVAILABLE",
+    "message": "Cannot connect to Ollama server at http://localhost:11434",
+    "timestamp": "2024-01-15T10:30:00.000Z"
+  }
+}`} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// SDK Examples Section
+function SDKExamplesSection() {
+  return (
+    <section className="relative py-12 px-4 sm:px-6 bg-gradient-to-b from-transparent via-indigo-950/10 to-transparent">
+      <div className="max-w-4xl mx-auto">
+        <ScrollReveal>
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <Terminal className="w-6 h-6 text-indigo-400" />
+            SDK Examples
+          </h2>
+        </ScrollReveal>
+
+        <div className="space-y-6">
+          {/* Python Example */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <span className="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-400">Python</span>
+            </h3>
+            <CodeBlock 
+              language="python"
+              code={`import httpx
+
+client = httpx.Client(base_url="http://localhost:8000")
+
+# Chat
+response = client.post("/chat/", json={
+    "message": "Explain AI",
+    "use_rag": False
+})
+print(response.json())
+
+# Ingest document
+with open("doc.pdf", "rb") as f:
+    response = client.post("/rag/ingest", files={"file": f})
+print(response.json())`} />
+          </div>
+
+          {/* JavaScript Example */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <span className="px-2 py-1 text-xs rounded bg-amber-500/20 text-amber-400">JavaScript</span>
+            </h3>
+            <CodeBlock 
+              language="javascript"
+              code={`// Streaming chat with EventSource
+const eventSource = new EventSource('/api/chat?' + new URLSearchParams({
+  message: 'Hello!',
+  use_rag: 'false'
+}));
+
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  if (data.done) {
+    console.log('Sources:', data.sources);
+    eventSource.close();
+  } else {
+    process.stdout.write(data.content);
+  }
+};
+
+// Upload document
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+await fetch('/rag/ingest', { method: 'POST', body: formData });`} />
+          </div>
+
+          {/* cURL Example */}
+          <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <span className="px-2 py-1 text-xs rounded bg-emerald-500/20 text-emerald-400">cURL</span>
+            </h3>
+            <CodeBlock 
+              language="bash"
+              code={`# Health check
+curl http://localhost:8000/health
+
+# Chat
+curl -X POST http://localhost:8000/chat/ \\
+  -H "Content-Type: application/json" \\
+  -d '{"message": "Hello!", "use_rag": false}'
+
+# Ingest document
+curl -X POST http://localhost:8000/rag/ingest \\
+  -F "file=@document.pdf"
+
+# List models
+curl http://localhost:8000/models/`} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Navigation Footer
 function NavigationFooter() {
   return (
@@ -420,6 +734,9 @@ export default function AllmaDocsPage() {
       <ManualSetupSection />
       <ConfigurationSection />
       <AccessPointsSection />
+      <APIReferenceSection />
+      <ErrorCodesSection />
+      <SDKExamplesSection />
       <NavigationFooter />
     </div>
   );

@@ -11,7 +11,7 @@
 
 A modern, responsive, and beautifully animated portfolio website showcasing my projects, skills, and experience as an aspiring full-stack developer.
 
-[**🌐 Live Demo**](https://vaibhavk-portfolio.vercel.app) · [**📧 Contact**](mailto:vaibhav.kumar.kandhway@gmail.com)
+[**🌐 Live Demo**](https://vaibhavkandhway.dev) · [**📧 Contact**](mailto:vaibhavkrkandhway@gmail.com)
 
 </div>
 
@@ -224,8 +224,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Vaibhav Kumar Kandhway**
 
-- 🌐 Portfolio: [vaibhavk-portfolio.vercel.app](https://vaibhavk-portfolio.vercel.app)
-- 📧 Email: [vaibhav.kumar.kandhway@gmail.com](mailto:vaibhav.kumar.kandhway@gmail.com)
+- 🌐 Portfolio: [vaibhavkandhway.dev](https://vaibhavkandhway.dev)
+- 📧 Email: [vaibhavkrkandhway@gmail.com](mailto:vaibhavkrkandhway@gmail.com)
 - 🎓 Vellore Institute Of Technology
 
 ---

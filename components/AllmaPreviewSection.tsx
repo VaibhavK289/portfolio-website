@@ -10,7 +10,12 @@ import {
   Zap,
   MessageSquare,
   Globe,
+  WifiOff,
+  Shield,
+  Database,
+  Cpu,
 } from 'lucide-react';
+import { AllmaPreview, AllmaScreenshot } from '@/components/AllmaPreview';
 import {
   NeuralNode,
   PrivacyShield,
@@ -22,14 +27,15 @@ import {
 
 export function AllmaPreviewSection() {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const quickStats = [
-    { icon: Lock, value: '100%', label: 'Local', color: 'emerald' },
-    { icon: Brain, value: '5+', label: 'Models', color: 'violet' },
-    { icon: FileText, value: 'RAG', label: 'Powered', color: 'cyan' },
-    { icon: Zap, value: 'Free', label: 'Forever', color: 'amber' },
+    { icon: WifiOff, value: '100%', label: 'Offline Ready', color: 'emerald' },
+    { icon: Brain, value: '5+', label: 'Local Models', color: 'violet' },
+    { icon: Shield, value: '100%', label: 'Data Privacy', color: 'cyan' },
+    { icon: Database, value: '$0', label: 'Cloud Cost', color: 'amber' },
   ];
 
   return (
@@ -146,179 +152,30 @@ export function AllmaPreviewSection() {
 
           {/* Screenshot Container */}
           <div className="relative h-[280px] xs:h-[320px] sm:h-[400px] md:h-[500px] lg:h-[550px] rounded-xl sm:rounded-2xl overflow-hidden border border-violet-900/40 bg-[#050508] shadow-xl sm:shadow-2xl shadow-violet-500/10">
-            {/* Screenshot or Placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-              {/* AI Chat Interface Mockup */}
-              <div className="w-full h-full flex">
-                {/* Sidebar */}
-                <div className="w-16 sm:w-48 lg:w-56 bg-slate-900/80 border-r border-slate-700/50 p-3 sm:p-4 hidden xs:flex flex-col">
-                  <div className="flex items-center gap-2 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
-                      <Brain className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-sm font-semibold text-white hidden sm:block">Allma</span>
-                  </div>
-                  
-                  {/* New Chat Button */}
-                  <motion.div 
-                    className="p-2 sm:p-3 rounded-lg bg-violet-500/20 border border-violet-500/30 mb-4 cursor-pointer"
-                    whileHover={{ scale: 1.02, borderColor: 'rgba(139, 92, 246, 0.5)' }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-violet-400" />
-                      <span className="text-xs text-violet-300 hidden sm:block">New Chat</span>
-                    </div>
-                  </motion.div>
-
-                  {/* Recent chats skeleton */}
-                  <div className="space-y-2 flex-1">
-                    {[1, 2, 3].map((i) => (
-                      <div key={i} className="p-2 rounded-lg bg-slate-800/50 opacity-50">
-                        <div className="h-2 bg-slate-700 rounded w-3/4 hidden sm:block" />
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Privacy indicator */}
-                  <div className="mt-auto pt-4 border-t border-slate-700/50 hidden sm:block">
-                    <div className="flex items-center gap-2 text-xs text-emerald-400">
-                      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>100% Local</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Main Chat Area */}
-                <div className="flex-1 flex flex-col">
-                  {/* Header */}
-                  <div className="p-3 sm:p-4 border-b border-slate-700/50 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <LocalLLMPulse size={32} color="#8b5cf6" />
-                      <div className="hidden sm:block">
-                        <div className="text-sm font-medium text-white">DeepSeek R1</div>
-                        <div className="text-xs text-slate-400">Local Model</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30">
-                        <Globe className="w-3 h-3 text-emerald-400" />
-                        <span className="text-xs text-emerald-400">Offline Ready</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Chat Messages */}
-                  <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-hidden">
-                    {/* Welcome Message */}
-                    <motion.div 
-                      className="flex items-start gap-3"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center flex-shrink-0">
-                        <Brain className="w-4 h-4 text-white" />
-                      </div>
-                      <div className="flex-1 p-3 sm:p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-                        <p className="text-xs sm:text-sm text-slate-300">
-                          Welcome to Allma! I&apos;m your private AI assistant running locally on your machine. How can I help you today?
-                        </p>
-                      </div>
-                    </motion.div>
-
-                    {/* User Message */}
-                    <motion.div 
-                      className="flex items-start gap-3 justify-end"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ delay: 0.8 }}
-                    >
-                      <div className="p-3 sm:p-4 rounded-2xl bg-violet-600/30 border border-violet-500/30 max-w-[80%]">
-                        <p className="text-xs sm:text-sm text-violet-100">
-                          Can you analyze my uploaded documents?
-                        </p>
-                      </div>
-                    </motion.div>
-
-                    {/* AI Response with RAG */}
-                    <motion.div 
-                      className="flex items-start gap-3"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ delay: 1.1 }}
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center flex-shrink-0">
-                        <Brain className="w-4 h-4 text-white" />
-                      </div>
-                      <div className="flex-1 p-3 sm:p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-                        <div className="flex items-center gap-2 mb-2 pb-2 border-b border-slate-700/50">
-                          <FileText className="w-3 h-3 text-cyan-400" />
-                          <span className="text-xs text-cyan-400">RAG-Enhanced Response</span>
-                        </div>
-                        <p className="text-xs sm:text-sm text-slate-300">
-                          I&apos;ve found relevant context from your documents. Based on the information in your knowledge base...
-                        </p>
-                        {isHovered && (
-                          <motion.div 
-                            className="mt-2 flex items-center gap-1"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                          >
-                            <ChatTyping color="#818cf8" />
-                          </motion.div>
-                        )}
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Input Area */}
-                  <div className="p-3 sm:p-4 border-t border-slate-700/50">
-                    <div className="flex items-center gap-2 p-2 sm:p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
-                      <input 
-                        type="text" 
-                        placeholder="Type a message..." 
-                        className="flex-1 bg-transparent text-xs sm:text-sm text-slate-300 placeholder-slate-500 outline-none"
-                        readOnly
-                      />
-                      <motion.button
-                        className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <svg viewBox="0 0 24 24" className="w-4 h-4 text-white" fill="currentColor">
-                          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                        </svg>
-                      </motion.button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Hover overlay with CTA */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent flex items-end justify-center pb-6 sm:pb-8 pointer-events-none"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isHovered ? 1 : 0.5 }}
-            >
-              <motion.a
-                href="https://allma-studio.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pointer-events-auto px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-600 text-white text-sm sm:text-base font-medium flex items-center gap-2 shadow-lg shadow-violet-500/25 border border-white/10 hover:scale-105 transition-transform"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Brain className="w-4 h-4" />
-                <span>Try Live Demo</span>
-              </motion.a>
-            </motion.div>
+            <AllmaScreenshot onClick={() => setIsPreviewOpen(true)} />
           </div>
+          
+          {/* Bottom CTA */}
+          <motion.div
+            className="mt-4 sm:mt-0 sm:absolute sm:-bottom-6 sm:left-1/2 sm:-translate-x-1/2 z-20 flex justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <button
+              onClick={() => setIsPreviewOpen(true)}
+              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-600 text-white text-sm sm:text-base font-medium flex items-center justify-center gap-2 shadow-lg sm:shadow-xl shadow-violet-500/25 border border-white/10 active:scale-95 sm:hover:scale-105 transition-transform"
+            >
+              <Cpu className="w-4 h-4" />
+              <span className="sm:hidden">Try Allma Studio</span>
+              <span className="hidden sm:inline">Launch Interactive Preview</span>
+            </button>
+          </motion.div>
         </motion.div>
 
         {/* Feature Highlights */}
         <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-10 sm:mt-14"
           variants={aiCardContainerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -341,6 +198,12 @@ export function AllmaPreviewSection() {
           ))}
         </motion.div>
       </div>
+      
+      {/* Preview Modal */}
+      <AllmaPreview 
+        isOpen={isPreviewOpen} 
+        onClose={() => setIsPreviewOpen(false)} 
+      />
     </section>
   );
 }

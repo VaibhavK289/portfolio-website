@@ -59,7 +59,7 @@
 ### [Portfolio Website](https://github.com/VaibhavK289/portfolio-website)
 > Modern, animated portfolio built with cutting-edge web technologies
 
-**🔗 [Live Site](https://my-app-eta-black-17.vercel.app/)** | **📂 [Source Code](https://github.com/VaibhavK289/portfolio-website)**
+**🔗 [Live Site](https://vaibhavkandhway.dev)** | **📂 [Source Code](https://github.com/VaibhavK289/portfolio-website)**
 
 - Designed with Aceternity UI, Framer Motion animations, and glassmorphism
 - Implemented dark mode, smooth scrolling, and responsive design
