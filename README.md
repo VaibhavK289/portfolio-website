@@ -11,7 +11,7 @@
 
 A modern, responsive, and beautifully animated portfolio website showcasing my projects, skills, and experience as an aspiring full-stack developer.
 
-[**🌐 Live Demo**](https://vaibhavkandhway.dev) · [**📧 Contact**](mailto:vaibhavkrkandhway@gmail.com)
+[** Live Demo**](https://vaibhavkandhway.dev) · [** Contact**](mailto:vaibhavkrkandhway@gmail.com)
 
 </div>
 
@@ -31,7 +31,7 @@ A modern, responsive, and beautifully animated portfolio website showcasing my p
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 | Technology | Purpose |
@@ -180,7 +180,7 @@ Edit `data/skills.ts` to update:
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
 This project is optimized for deployment on **Vercel**:
 
@@ -193,7 +193,7 @@ This project is optimized for deployment on **Vercel**:
 
 ---
 
-## 📊 Performance
+##  Performance
 
 - ⚡ **100** Lighthouse Performance Score
 - ♿ **100** Accessibility Score
@@ -202,7 +202,7 @@ This project is optimized for deployment on **Vercel**:
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/VaibhavK289/portfolio-website/issues).
 
@@ -214,13 +214,13 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ---
 
-## 📄 License
+##  License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 👤 Author
+##  Author
 
 **Vaibhav Kumar Kandhway**
 
@@ -230,7 +230,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [Aceternity UI](https://ui.aceternity.com/) - Beautiful UI components
 - [Magic UI](https://magicui.design/) - Stunning animation components
