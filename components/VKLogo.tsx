@@ -294,14 +294,14 @@ export function VKLogoSimple({ className = '', size = 32 }: Omit<VKLogoProps, 'v
 /**
  * VKLogoMark - Ultra-simplified for favicon (16x16)
  * 
- * Only the "V" mark - recognizable at tiny sizes
- * Maximum contrast, no border
+ * Transparent background with rounded edges
+ * Optimized for browser tabs and bookmarks
  */
 export function VKLogoMark({ className = '', size = 16 }: Omit<VKLogoProps, 'variant'>) {
   const { isDark } = useThemeSafe();
 
-  const bgColor = isDark ? '#0a0a0f' : '#f8fafc';
-  const letterColor = isDark ? '#06b6d4' : '#0891b2';
+  // Always use cyan - visible on both light and dark browser UIs
+  const letterColor = '#06b6d4';
 
   return (
     <div className={`relative ${className}`} style={{ width: size, height: size }}>
@@ -314,17 +314,17 @@ export function VKLogoMark({ className = '', size = 16 }: Omit<VKLogoProps, 'var
         aria-label="VK Logo"
         role="img"
       >
-        {/* Solid container - maximum simplicity */}
+        {/* Transparent background with rounded corners */}
         <rect
           x="0"
           y="0"
           width="48"
           height="48"
           rx="12"
-          fill={bgColor}
+          fill="transparent"
         />
 
-        {/* Just the V - ultra simplified, centered */}
+        {/* VK ligature - solid cyan, no white parts */}
         <path
           d="M10 10 L24 38 L38 10"
           stroke={letterColor}

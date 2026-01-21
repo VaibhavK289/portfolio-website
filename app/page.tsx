@@ -215,14 +215,14 @@ export default function HomePage() {
                 </HoverBorderGradient>
                 
                 <Button
-                  href={personalInfo.resumeUrl}
+                  href="https://github.com/VaibhavK289/resume/blob/main/Vaibhav_Kumar_Kandhway_resume.pdf"
                   variant="outline"
                   size="lg"
                   external
                   className="border-gray-300 dark:border-neutral-700 text-gray-700 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-neutral-800"
                 >
                   <Download className="w-5 h-5" />
-                  Download CV
+                  Download Resume
                 </Button>
               </div>
 
