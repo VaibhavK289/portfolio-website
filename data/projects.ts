@@ -108,12 +108,12 @@ Query → Semantic Search → Context Retrieval → LLM + Context → Response
 **Backend**: Python 3.11+, FastAPI, Uvicorn, SQLAlchemy, ChromaDB, aiosqlite
 **AI/ML**: Ollama, Nomic Embed Text, DeepSeek, Gemma 2, Qwen 2.5 Coder
 **Infrastructure**: Docker, Docker Compose, Kubernetes, Helm, GitHub Actions, Vercel`,
-    image: '/images/projects/allma_homepage.png',
+    image: '/images/projects/allma-studio-project.png',
     tags: ['React', 'FastAPI', 'Python', 'Ollama', 'ChromaDB', 'RAG', 'Docker', 'TailwindCSS', 'Vite', 'Local AI'],
     liveUrl: 'https://allma-studio.vercel.app/',
     githubUrl: 'https://github.com/VaibhavK289/Allma',
     featured: true,
-    year: '2025',
+    year: '2026',
   },
   {
     slug: 'curasense',
@@ -320,116 +320,6 @@ Sensor Data → Feature Engineering → Ensemble Model → Failure Probability �
     githubUrl: 'https://github.com/VaibhavK289/predictive_maintenance_for_industrial_devices',
     featured: true,
     year: '2024',
-  },
-  {
-    slug: 'task-management-app',
-    title: 'Task Management App',
-    description: 'Collaborative task management tool with real-time updates, team workspaces, and integrations.',
-    longDescription: `Developed a Trello-inspired task management application for teams.
-
-Key features include:
-- Drag-and-drop kanban boards
-- Real-time collaboration with presence indicators
-- Team workspaces and permission management
-- Integration with Slack and GitHub
-- Time tracking and reporting
-- Mobile-responsive progressive web app
-
-Used by 50+ teams for daily project management.`,
-    image: '',
-    tags: ['React', 'TypeScript', 'Firebase', 'Tailwind CSS', 'DnD Kit'],
-    liveUrl: 'https://example-tasks.com',
-    githubUrl: 'https://github.com/yourusername/taskapp',
-    featured: true,
-    year: '2025',
-  },
-  {
-    slug: 'ai-content-generator',
-    title: 'AI Content Generator',
-    description: 'SaaS platform leveraging AI to generate marketing copy, blog posts, and social media content.',
-    longDescription: `Created an AI-powered content generation platform using OpenAI's GPT API.
-
-Key features include:
-- Multiple content templates (blogs, ads, social posts)
-- Brand voice customization
-- Content history and versioning
-- Team collaboration features
-- Usage analytics and quotas
-- API access for enterprise clients
-
-Generates over 100,000 pieces of content monthly.`,
-    image: '',
-    tags: ['Next.js', 'OpenAI API', 'Prisma', 'PostgreSQL', 'Stripe'],
-    liveUrl: 'https://example-ai.com',
-    githubUrl: 'https://github.com/yourusername/ai-content',
-    featured: true,
-    year: '2024',
-  },
-  {
-    slug: 'fitness-tracking-app',
-    title: 'Fitness Tracking App',
-    description: 'Mobile-first fitness app with workout logging, progress tracking, and social features.',
-    longDescription: `Built a comprehensive fitness tracking application with React Native.
-
-Key features include:
-- Custom workout builder
-- Progress photos and measurements
-- Social feed and challenges
-- Integration with wearables
-- Nutrition logging
-- Personal records tracking
-
-Available on iOS and Android with 5,000+ downloads.`,
-    image: '',
-    tags: ['React Native', 'Node.js', 'MongoDB', 'AWS', 'GraphQL'],
-    liveUrl: 'https://example-fitness.com',
-    githubUrl: 'https://github.com/yourusername/fitness',
-    featured: false,
-    year: '2024',
-  },
-  {
-    slug: 'real-estate-platform',
-    title: 'Real Estate Platform',
-    description: 'Property listing platform with advanced search, virtual tours, and mortgage calculator.',
-    longDescription: `Developed a modern real estate platform for property listings and searches.
-
-Key features include:
-- Advanced search with map integration
-- Virtual 3D property tours
-- Mortgage and affordability calculators
-- Agent profiles and direct messaging
-- Saved searches and alerts
-- Market analytics dashboard
-
-Lists over 50,000 properties across multiple regions.`,
-    image: '',
-    tags: ['Next.js', 'Node.js', 'Elasticsearch', 'Mapbox', 'AWS S3'],
-    liveUrl: 'https://example-realestate.com',
-    githubUrl: 'https://github.com/yourusername/realestate',
-    featured: false,
-    year: '2024',
-  },
-  {
-    slug: 'developer-portfolio',
-    title: 'Developer Portfolio',
-    description: 'This very portfolio website built with Next.js, featuring dark mode and smooth animations.',
-    longDescription: `Created this portfolio to showcase my work and skills as a full-stack developer.
-
-Key features include:
-- Modern, responsive design
-- Dark/light mode toggle
-- Smooth page transitions and animations
-- Contact form with validation
-- SEO optimized
-- Performance optimized
-
-Built with Next.js 14, Tailwind CSS, and Framer Motion.`,
-    image: '',
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    liveUrl: 'https://yourportfolio.com',
-    githubUrl: 'https://github.com/yourusername/portfolio',
-    featured: false,
-    year: '2025',
   },
 ];
 
