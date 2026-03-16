@@ -4,6 +4,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { ArrowLeft, Clock, CalendarDays, Share2, BookmarkPlus } from "lucide-react";
 import Link from "next/link";
 import { Post, Tag } from "@prisma/client";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] } }) {
   const { scrollYProgress } = useScroll();
@@ -33,7 +34,7 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
           </Link>
 
           <div className="flex gap-2 mb-6">
-            {post.tags?.map(tag => (
+            {post.tags?.map((tag: any) => (
               <span key={tag.id} className="text-xs font-semibold px-3 py-1 bg-primary-500/10 text-primary-400 rounded-full border border-primary-500/20">
                 {tag.name}
               </span>
@@ -77,9 +78,24 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex-1 max-w-3xl font-sans prose prose-lg prose-invert text-neutral-400"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+            className="flex-1 max-w-3xl font-sans text-neutral-400"
+          >
+             <MDXRemote 
+                source={post.content} 
+                components={{
+                  h1: (props: any) => <h1 className="text-4xl font-display font-bold text-white mt-12 mb-6" {...props} />,
+                  h2: (props: any) => <h2 className="text-3xl font-display font-bold text-white mt-10 mb-4" {...props} />,
+                  h3: (props: any) => <h3 className="text-2xl font-display font-bold text-white mt-8 mb-4" {...props} />,
+                  p: (props: any) => <p className="text-lg leading-relaxed text-neutral-300 mb-6" {...props} />,
+                  a: (props: any) => <a className="text-primary-400 hover:text-accent-400 underline decoration-primary-500/30 underline-offset-4 transition-colors" {...props} />,
+                  blockquote: (props: any) => <blockquote className="border-l-4 border-primary-500 pl-4 py-2 italic text-neutral-400 my-8 bg-neutral-900/40 rounded-r-xl" {...props} />,
+                  ul: (props: any) => <ul className="list-disc list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
+                  ol: (props: any) => <ol className="list-decimal list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
+                  code: (props: any) => <code className="bg-neutral-900 border border-neutral-800 rounded-md px-1.5 py-0.5 font-mono text-sm text-neutral-300" {...props} />,
+                  pre: (props: any) => <pre className="bg-neutral-950 border border-neutral-800 rounded-xl p-4 overflow-x-auto my-8 shape-ticket" {...props} />
+                }}
+             />
+          </motion.div>
 
           {/* Sticky Sidebar / Actions */}
           <aside className="w-full md:w-64 space-y-8">
