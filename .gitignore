@@ -43,3 +43,13 @@ next-env.d.ts
 .vercel
 
 /lib/generated/prisma
+
+# Logs and Data
+*.log
+*.txt
+prisma/dev.db
+prisma/dev.db-journal
+build-log.txt
+lint-results.txt
+lint-utf8.txt
+
