@@ -1,13 +1,45 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { ArrowLeft, Clock, CalendarDays, Share2, BookmarkPlus } from "lucide-react";
 import Link from "next/link";
-import { Post, Tag } from "@prisma/client";
-import { MDXRemote } from "next-mdx-remote/rsc";
 
-export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] } }) {
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  excerpt?: string | null;
+  readingTime?: number | null;
+  createdAt: Date | string;
+  updatedAt?: Date | string;
+  slug?: string;
+  authorId?: string;
+}
+
+interface Tag {
+  id: string;
+  name: string;
+  slug?: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+}
+
+export default function BlogPostClient({ 
+  post, 
+  children 
+}: { 
+  post: Post & { tags?: Tag[] };
+  children: React.ReactNode;
+}) {
+  const [isMounted, setIsMounted] = useState(false);
   const { scrollYProgress } = useScroll();
+  
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -74,7 +106,12 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
           <div className="flex items-center gap-6 text-sm text-neutral-500 pb-16 border-b border-neutral-800/50">
             <div className="flex items-center gap-2">
               <CalendarDays className="w-4 h-4" />
-              <time>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+              <time>
+                {isMounted 
+                  ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                  : ''
+                }
+              </time>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -93,21 +130,7 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
             transition={{ delay: 0.2 }}
             className="flex-1 max-w-3xl font-sans text-neutral-400"
           >
-             <MDXRemote 
-                source={post.content} 
-                components={{
-                  h1: (props) => <h1 className="text-4xl font-display font-bold text-white mt-12 mb-6" {...props} />,
-                  h2: (props) => <h2 className="text-3xl font-display font-bold text-white mt-10 mb-4" {...props} />,
-                  h3: (props) => <h3 className="text-2xl font-display font-bold text-white mt-8 mb-4" {...props} />,
-                  p: (props) => <p className="text-lg leading-relaxed text-neutral-300 mb-6" {...props} />,
-                  a: (props) => <a className="text-primary-400 hover:text-accent-400 underline decoration-primary-500/30 underline-offset-4 transition-colors" {...props} />,
-                  blockquote: (props) => <blockquote className="border-l-4 border-primary-500 pl-4 py-2 italic text-neutral-400 my-8 bg-neutral-900/40 rounded-r-xl" {...props} />,
-                  ul: (props) => <ul className="list-disc list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
-                  ol: (props) => <ol className="list-decimal list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
-                  code: (props) => <code className="bg-neutral-900 border border-neutral-800 rounded-md px-1.5 py-0.5 font-mono text-sm text-neutral-300" {...props} />,
-                  pre: (props) => <pre className="bg-neutral-950 border border-neutral-800 rounded-xl p-4 overflow-x-auto my-8 shape-ticket" {...props} />
-                }}
-             />
+             {children}
           </motion.div>
 
           {/* Sticky Sidebar / Actions */}

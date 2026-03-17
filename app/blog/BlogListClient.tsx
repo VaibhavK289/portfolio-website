@@ -1,16 +1,39 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import Link from "next/link";
-import { Post, Tag } from "@prisma/client";
 import Fuse from "fuse.js";
+
+interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  content: string;
+  readingTime?: number | null;
+  createdAt: Date | string;
+  published: boolean;
+}
+
+interface Tag {
+  id: string;
+  name: string;
+  slug?: string;
+}
 
 interface BlogListClientProps {
   initialPosts: (Post & { tags?: Tag[] })[];
 }
 
 export default function BlogListClient({ initialPosts }: BlogListClientProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   
   const fuse = new Fuse(initialPosts, {
@@ -19,7 +42,7 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
   });
 
   const filteredPosts = searchQuery 
-    ? fuse.search(searchQuery).map(result => result.item)
+    ? fuse.search(searchQuery).map((result: { item: Post & { tags?: Tag[] } }) => result.item)
     : initialPosts;
 
   return (
@@ -42,9 +65,8 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
         </div>
       </motion.div>
 
-      {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPosts.map((post, index) => (
+        {filteredPosts.map((post: Post & { tags?: Tag[] }, index: number) => (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,7 +81,7 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-accent-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
               
               <div className="flex gap-2 mb-4 flex-wrap">
-                {post.tags?.map((tag: any) => (
+                {post.tags?.map((tag: Tag) => (
                   <span key={tag.id} className="text-xs font-semibold px-2.5 py-1 bg-neutral-800 text-neutral-300 rounded-full group-hover:bg-primary-500/10 group-hover:text-primary-400 transition-colors">
                     {tag.name}
                   </span>
@@ -75,7 +97,12 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
               </p>
               
               <div className="flex items-center justify-between text-xs font-medium text-neutral-500 mt-auto pt-4 border-t border-neutral-800/50">
-                <span>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                <span>
+                  {isMounted 
+                    ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                    : ''
+                  }
+                </span>
                 <span className="flex items-center gap-1">⏱️ {post.readingTime} min read</span>
               </div>
             </Link>

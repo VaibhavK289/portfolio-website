@@ -11,7 +11,8 @@ import {
   RefreshCw, 
   Shield,
   Download,
-  FileText
+  FileText,
+  Eye
 } from 'lucide-react';
 import { personalInfo } from '@/data/socials';
 
@@ -32,8 +33,17 @@ interface ResumeModalProps {
 export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const [iframeKey, setIframeKey] = useState(0);
   const isMounted = useIsMounted();
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    checkMobile();
+  }, []);
 
   // Handle escape key
   useEffect(() => {
@@ -69,6 +79,12 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
 
   if (!isMounted) return null;
 
+  // For mobile, we might want to use a more reliable viewer URL or just provide a direct link
+  // Google Docs viewer is a common fallback for mobile iframes
+  const baseUrl = isMounted ? window.location.origin : '';
+  const fullPdfUrl = `${baseUrl}${personalInfo.resumeUrl}`;
+  const mobileViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullPdfUrl)}&embedded=true`;
+
   const modalContent = (
     <AnimatePresence>
       {isOpen && (
@@ -101,10 +117,10 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={onClose}
-                    className="w-3.5 h-3.5 rounded-full bg-red-500 hover:bg-red-400 transition-colors group flex items-center justify-center"
+                    className="w-4 h-4 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500 hover:bg-red-400 transition-colors group flex items-center justify-center"
                     aria-label="Close"
                   >
-                    <X className="w-2 h-2 text-red-900 opacity-0 group-hover:opacity-100" />
+                    <X className="w-2.5 h-2.5 sm:w-2 sm:h-2 text-red-900 opacity-100 sm:opacity-0 sm:group-hover:opacity-100" />
                   </button>
                   <button 
                     className="w-3.5 h-3.5 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors hidden sm:block"
@@ -112,7 +128,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                   />
                   <button
                     onClick={() => setIsFullscreen(!isFullscreen)}
-                    className="w-3.5 h-3.5 rounded-full bg-green-500 hover:bg-green-400 transition-colors group flex items-center justify-center"
+                    className="w-3.5 h-3.5 rounded-full bg-green-500 hover:bg-green-400 transition-colors group flex items-center justify-center hidden sm:flex"
                     aria-label="Fullscreen"
                   >
                     {isFullscreen ? (
@@ -143,7 +159,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               <div className="flex items-center gap-1 sm:gap-2">
                 <button
                   onClick={handleRefresh}
-                  className="p-1.5 sm:p-2 text-neutral-400 hover:text-white transition-colors rounded-lg hover:bg-neutral-800"
+                  className="p-1.5 sm:p-2 text-neutral-400 hover:text-white transition-colors rounded-lg hover:bg-neutral-800 hidden sm:block"
                   aria-label="Refresh"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -170,20 +186,44 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             
             {/* Content */}
             <div className="relative w-full h-[calc(100%-48px)] sm:h-[calc(100%-52px)] bg-neutral-950">
+              {/* Mobile Fallback UI */}
+              {isMobile && !isLoading && (
+                <div className="absolute inset-x-0 bottom-4 px-4 z-20">
+                  <motion.a
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    href={personalInfo.resumeUrl}
+                    target="_blank"
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-primary-500 text-white rounded-xl font-bold shadow-xl shadow-primary-500/30"
+                  >
+                    <Eye className="w-5 h-5" />
+                    Open Full PDF for Mobile
+                  </motion.a>
+                </div>
+              )}
+
               {/* Loading State */}
               {isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-950 z-10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-950 z-10 text-center px-6">
                   <div className="w-10 h-10 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
                   <p className="mt-4 text-neutral-400 text-sm font-medium animate-pulse">
                     Loading Resume Document...
                   </p>
+                  {isMobile && (
+                    <p className="mt-2 text-neutral-500 text-xs italic">
+                      Mobile browsers may take longer to preview PDFs
+                    </p>
+                  )}
                 </div>
               )}
               
-              {/* PDF Preview Iframe */}
+              {/* PDF Preview Iframe - Use Google Viewer as fallback for mobile if direct fails */}
               <iframe
                 key={iframeKey}
-                src={`${personalInfo.resumeUrl}#toolbar=0&navpanes=0&scrollbar=1`}
+                src={isMobile 
+                  ? mobileViewerUrl 
+                  : `${personalInfo.resumeUrl}#toolbar=0&navpanes=0&scrollbar=1`
+                }
                 className="w-full h-full border-0"
                 onLoad={handleIframeLoad}
                 title="Resume Preview"

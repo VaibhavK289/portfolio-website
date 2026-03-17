@@ -528,10 +528,10 @@ function HeroSection() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.7 }}
             >
-              <p className="text-sm text-neutral-500 mb-4 flex items-center gap-2">
+              <div className="text-sm text-neutral-500 mb-4 flex items-center gap-2">
                 <DataStream width={60} height={2} color="#06b6d4" particleCount={2} />
                 Explore this project
-              </p>
+              </div>
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="/projects/predictive-maintenance/technical"
