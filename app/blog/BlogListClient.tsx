@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
 import { Post, Tag } from "@prisma/client";
+import Fuse from "fuse.js";
 
 interface BlogListClientProps {
   initialPosts: (Post & { tags?: Tag[] })[];
@@ -12,10 +13,14 @@ interface BlogListClientProps {
 export default function BlogListClient({ initialPosts }: BlogListClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   
-  const filteredPosts = initialPosts.filter(post => 
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    post.tags?.some(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const fuse = new Fuse(initialPosts, {
+    keys: ["title", "tags.name", "excerpt"],
+    threshold: 0.3,
+  });
+
+  const filteredPosts = searchQuery 
+    ? fuse.search(searchQuery).map(result => result.item)
+    : initialPosts;
 
   return (
     <>
@@ -54,7 +59,7 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-accent-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
               
               <div className="flex gap-2 mb-4 flex-wrap">
-                {post.tags?.map(tag => (
+                {post.tags?.map((tag: any) => (
                   <span key={tag.id} className="text-xs font-semibold px-2.5 py-1 bg-neutral-800 text-neutral-300 rounded-full group-hover:bg-primary-500/10 group-hover:text-primary-400 transition-colors">
                     {tag.name}
                   </span>
