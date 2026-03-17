@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   ArrowRight,
   Download,
@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ProjectCard } from '@/components/ProjectCard';
 import { SkillsSection } from '@/components/SkillsSection';
+import { ResumeModal } from '@/components/ResumeModal';
 import { getFeaturedProjects } from '@/data/projects';
 import { personalInfo, socials } from '@/data/socials';
 import {
@@ -70,6 +71,7 @@ const itemVariants = {
 };
 
 export default function HomePage() {
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
   const featuredProjects = getFeaturedProjects();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -215,14 +217,13 @@ export default function HomePage() {
                 </HoverBorderGradient>
                 
                 <Button
-                  href="https://github.com/VaibhavK289/resume/blob/main/Vaibhav_Kumar_Kandhway_resume.pdf"
+                  onClick={() => setIsResumeOpen(true)}
                   variant="outline"
                   size="lg"
-                  external
                   className="border-gray-300 dark:border-neutral-700 text-gray-700 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-neutral-800"
                 >
                   <Download className="w-5 h-5" />
-                  Download Resume
+                  View Resume
                 </Button>
               </div>
 
@@ -737,6 +738,10 @@ export default function HomePage() {
           </div>
         </section>
       </ScrollReveal>
+      <ResumeModal 
+        isOpen={isResumeOpen} 
+        onClose={() => setIsResumeOpen(false)} 
+      />
     </div>
   );
 }

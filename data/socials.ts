@@ -44,6 +44,6 @@ My stack centers on React/Next.js for frontends that feel native, Node.js backen
 What sets me apart: I don't just build tutorials — I ship. CuraSense predicts diseases with ML models. EmoSync processes real-time sentiment. Nexora handles production-grade e-commerce. Each project taught me something new about building software that matters.
 
 I'm looking for a team where I can contribute from day one, learn from senior engineers, and grow into a developer who makes complex things simple.`,
-  resumeUrl: 'https://github.com/VaibhavK289/resume/raw/main/resume.pdf',
+  resumeUrl: '/vaibhav_kumar_kandhway_resume.pdf',
   avatarUrl: '/images/avatar.jpg',
 };

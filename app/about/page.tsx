@@ -2,11 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, GraduationCap } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { SkillsSection } from '@/components/SkillsSection';
 import { personalInfo } from '@/data/socials';
 import { MagicCard } from '@/components/ui/magicui';
+import { ResumeModal } from '@/components/ResumeModal';
 
 // export const metadata: Metadata = {
 //   title: 'About',
@@ -47,6 +49,7 @@ const interests = [
 ];
 
 export default function AboutPage() {
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -80,9 +83,12 @@ export default function AboutPage() {
                 Get In Touch
                 <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button href={personalInfo.resumeUrl} variant="outline" external>
+              <Button 
+                onClick={() => setIsResumeOpen(true)}
+                variant="outline"
+              >
                 <Download className="w-4 h-4" />
-                Download Resume
+                View Resume
               </Button>
             </motion.div>
           </motion.div>
@@ -260,6 +266,10 @@ export default function AboutPage() {
           </div>
         </section>
       </div>
+      <ResumeModal 
+        isOpen={isResumeOpen} 
+        onClose={() => setIsResumeOpen(false)} 
+      />
     </motion.div>
   );
 }
