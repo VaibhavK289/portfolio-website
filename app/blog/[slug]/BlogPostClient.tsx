@@ -14,6 +14,19 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
     restDelta: 0.001
   });
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: post.title,
+        text: post.excerpt || '',
+        url: window.location.href,
+      }).catch(console.error);
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
+
   return (
     <>
       {/* Reading Progress Bar */}
@@ -24,7 +37,7 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
 
       <article className="min-h-screen py-24">
         {/* Header Section */}
-        <header className="container mx-auto px-4 max-w-4xl pt-12 pb-16 border-b border-grid-white/[0.02]">
+        <header className="container mx-auto px-4 max-w-5xl pt-12 pb-16">
           <Link 
             href="/blog"
             className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-primary-400 transition-colors mb-12 group"
@@ -34,7 +47,7 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
           </Link>
 
           <div className="flex gap-2 mb-6">
-            {post.tags?.map((tag: any) => (
+            {post.tags?.map((tag) => (
               <span key={tag.id} className="text-xs font-semibold px-3 py-1 bg-primary-500/10 text-primary-400 rounded-full border border-primary-500/20">
                 {tag.name}
               </span>
@@ -58,7 +71,7 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
             {post.excerpt}
           </motion.p>
 
-          <div className="flex items-center gap-6 text-sm text-neutral-500">
+          <div className="flex items-center gap-6 text-sm text-neutral-500 pb-16 border-b border-neutral-800/50">
             <div className="flex items-center gap-2">
               <CalendarDays className="w-4 h-4" />
               <time>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
@@ -71,7 +84,7 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
         </header>
 
         {/* Content Layout */}
-        <div className="container mx-auto px-4 max-w-6xl mt-16 flex flex-col md:flex-row gap-12 relative">
+        <div className="container mx-auto px-4 max-w-5xl mt-16 flex flex-col md:flex-row gap-16 relative">
           
           {/* Main Content */}
           <motion.div 
@@ -83,31 +96,42 @@ export default function BlogPostClient({ post }: { post: Post & { tags?: Tag[] }
              <MDXRemote 
                 source={post.content} 
                 components={{
-                  h1: (props: any) => <h1 className="text-4xl font-display font-bold text-white mt-12 mb-6" {...props} />,
-                  h2: (props: any) => <h2 className="text-3xl font-display font-bold text-white mt-10 mb-4" {...props} />,
-                  h3: (props: any) => <h3 className="text-2xl font-display font-bold text-white mt-8 mb-4" {...props} />,
-                  p: (props: any) => <p className="text-lg leading-relaxed text-neutral-300 mb-6" {...props} />,
-                  a: (props: any) => <a className="text-primary-400 hover:text-accent-400 underline decoration-primary-500/30 underline-offset-4 transition-colors" {...props} />,
-                  blockquote: (props: any) => <blockquote className="border-l-4 border-primary-500 pl-4 py-2 italic text-neutral-400 my-8 bg-neutral-900/40 rounded-r-xl" {...props} />,
-                  ul: (props: any) => <ul className="list-disc list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
-                  ol: (props: any) => <ol className="list-decimal list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
-                  code: (props: any) => <code className="bg-neutral-900 border border-neutral-800 rounded-md px-1.5 py-0.5 font-mono text-sm text-neutral-300" {...props} />,
-                  pre: (props: any) => <pre className="bg-neutral-950 border border-neutral-800 rounded-xl p-4 overflow-x-auto my-8 shape-ticket" {...props} />
+                  h1: (props) => <h1 className="text-4xl font-display font-bold text-white mt-12 mb-6" {...props} />,
+                  h2: (props) => <h2 className="text-3xl font-display font-bold text-white mt-10 mb-4" {...props} />,
+                  h3: (props) => <h3 className="text-2xl font-display font-bold text-white mt-8 mb-4" {...props} />,
+                  p: (props) => <p className="text-lg leading-relaxed text-neutral-300 mb-6" {...props} />,
+                  a: (props) => <a className="text-primary-400 hover:text-accent-400 underline decoration-primary-500/30 underline-offset-4 transition-colors" {...props} />,
+                  blockquote: (props) => <blockquote className="border-l-4 border-primary-500 pl-4 py-2 italic text-neutral-400 my-8 bg-neutral-900/40 rounded-r-xl" {...props} />,
+                  ul: (props) => <ul className="list-disc list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
+                  ol: (props) => <ol className="list-decimal list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
+                  code: (props) => <code className="bg-neutral-900 border border-neutral-800 rounded-md px-1.5 py-0.5 font-mono text-sm text-neutral-300" {...props} />,
+                  pre: (props) => <pre className="bg-neutral-950 border border-neutral-800 rounded-xl p-4 overflow-x-auto my-8 shape-ticket" {...props} />
                 }}
              />
           </motion.div>
 
           {/* Sticky Sidebar / Actions */}
-          <aside className="w-full md:w-64 space-y-8">
-             <div className="sticky top-24 glass p-6 rounded-2xl border border-neutral-800">
-                <h4 className="font-display font-bold text-white mb-4">Share Article</h4>
-                <div className="flex gap-4">
-                  <button className="p-3 bg-neutral-900 rounded-full hover:bg-primary-500/20 hover:text-primary-400 transition-colors text-neutral-400">
-                    <Share2 className="w-5 h-5" />
-                  </button>
-                  <button className="p-3 bg-neutral-900 rounded-full hover:bg-accent-500/20 hover:text-accent-400 transition-colors text-neutral-400">
-                    <BookmarkPlus className="w-5 h-5" />
-                  </button>
+          <aside className="w-full md:w-64">
+             <div className="sticky top-32 space-y-8">
+                <div className="glass p-8 rounded-3xl border border-neutral-800 relative group overflow-hidden">
+                   <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                   <h4 className="font-display font-bold text-white mb-6 relative z-10">Share Article</h4>
+                   <div className="flex gap-4 relative z-10">
+                     <button 
+                       onClick={handleShare}
+                       className="p-4 bg-neutral-900/80 rounded-2xl hover:bg-primary-500/20 hover:text-primary-400 transition-all text-neutral-400 border border-neutral-800 hover:border-primary-500/30"
+                       title="Share Article"
+                     >
+                       <Share2 className="w-5 h-5" />
+                     </button>
+                     <button 
+                       onClick={() => alert("Added to bookmarks!")}
+                       className="p-4 bg-neutral-900/80 rounded-2xl hover:bg-accent-500/20 hover:text-accent-400 transition-all text-neutral-400 border border-neutral-800 hover:border-accent-500/30"
+                       title="Save for Later"
+                     >
+                       <BookmarkPlus className="w-5 h-5" />
+                     </button>
+                   </div>
                 </div>
              </div>
           </aside>
