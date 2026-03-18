@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from './ui/Button';
 
 const contactSchema = z.object({
@@ -93,7 +93,7 @@ export function ContactForm() {
             initial={{ width: 0, x: '-50%' }}
             animate={{ 
               width: focusedField === 'name' ? '100%' : 0,
-              x: focusedField === 'name' ? 0 : '-50%'
+              x: '-50%'
             }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           />
@@ -136,7 +136,7 @@ export function ContactForm() {
             initial={{ width: 0, x: '-50%' }}
             animate={{ 
               width: focusedField === 'email' ? '100%' : 0,
-              x: focusedField === 'email' ? 0 : '-50%'
+              x: '-50%'
             }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           />
@@ -179,7 +179,7 @@ export function ContactForm() {
             initial={{ width: 0, x: '-50%' }}
             animate={{ 
               width: focusedField === 'subject' ? '100%' : 0,
-              x: focusedField === 'subject' ? 0 : '-50%'
+              x: '-50%'
             }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           />
@@ -222,7 +222,7 @@ export function ContactForm() {
             initial={{ width: 0, x: '-50%' }}
             animate={{ 
               width: focusedField === 'message' ? '100%' : 0,
-              x: focusedField === 'message' ? 0 : '-50%'
+              x: '-50%'
             }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           />

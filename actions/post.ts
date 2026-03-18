@@ -9,7 +9,9 @@ export async function savePost(
   content: string,
   tags: string[],
   postId?: string,
-  publish: boolean = false
+  publish: boolean = false,
+  coverImage?: string,
+  section?: string
 ) {
   const session = await auth();
   
@@ -40,6 +42,8 @@ export async function savePost(
            excerpt,
            readingTime,
            published: publish,
+           coverImage,
+           section: section || "Blogs",
            // Currently simplified tag handling for local DB
          }
        });
@@ -52,7 +56,9 @@ export async function savePost(
            excerpt,
            readingTime,
            published: publish,
-           authorId: session.user.id
+           authorId: session.user.id,
+           coverImage,
+           section: section || "Blogs"
          }
        });
     }
@@ -92,3 +98,50 @@ export async function getPostBySlug(slug: string) {
        return { success: false, post: null };
    }
 }
+
+export async function getPostById(id: string) {
+   try {
+      const post = await prisma.post.findUnique({
+         where: { id },
+         include: { tags: true }
+      });
+      return { success: true, post };
+   } catch (error) {
+       console.error(error);
+       return { success: false, post: null };
+   }
+}
+
+export async function deletePost(postId: string) {
+   const session = await auth();
+   if (!session?.user?.id) {
+      throw new Error("Unauthorized");
+   }
+
+   try {
+      await prisma.post.delete({
+         where: { id: postId }
+      });
+      revalidatePath("/blog");
+      revalidatePath("/admin");
+      return { success: true };
+   } catch (error) {
+      console.error("Failed to delete post:", error);
+      return { success: false, error: "Failed to delete post." };
+   }
+}
+
+export async function getPostsBySection(section: string) {
+   try {
+      const posts = await prisma.post.findMany({
+         where: { section, published: true },
+         orderBy: { createdAt: 'desc' },
+         include: { tags: true }
+      });
+      return { success: true, posts };
+   } catch (error) {
+      console.error(error);
+      return { success: false, posts: [] };
+   }
+}
+

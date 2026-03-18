@@ -111,64 +111,47 @@ export async function POST(request: NextRequest) {
             html: `
               <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); padding: 40px 30px; border-radius: 12px 12px 0 0; text-align: center;">
-                  <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 600;">Thank You, ${name}! 🙏</h1>
-                  <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">Your message has been received</p>
+                <div style="background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
+                  <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 600;">📬 Message Received</h1>
                 </div>
                 
                 <!-- Body -->
-                <div style="padding: 40px 30px; background: #f8fafc; border: 1px solid #e2e8f0; border-top: none;">
+                <div style="padding: 30px; background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px;">
                   <!-- Confirmation Message -->
-                  <div style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                      <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 30px;">✓</span>
-                      </div>
-                    </div>
-                    <p style="color: #374151; font-size: 16px; line-height: 1.8; margin: 0; text-align: center;">
-                      I've received your message regarding <strong style="color: #8b5cf6;">"${subject}"</strong> and will review it carefully.
+                  <div style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px; text-align: center;">
+                    <p style="color: #374151; font-size: 16px; line-height: 1.8; margin: 0;">
+                      I have received your message regarding <strong style="color: #8b5cf6;">"${subject}"</strong> and will connect with you within <strong style="color: #06b6d4;">24-48 hours</strong>.
                     </p>
                   </div>
 
-                  <!-- Response Time -->
-                  <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #fcd34d;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                      <span style="font-size: 24px;">⏰</span>
-                      <div>
-                        <p style="color: #92400e; font-weight: 600; margin: 0; font-size: 15px;">Expected Response Time</p>
-                        <p style="color: #a16207; margin: 5px 0 0 0; font-size: 14px;">I typically respond within <strong>24-48 hours</strong></p>
-                      </div>
-                    </div>
+                  <!-- Details Card -->
+                  <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #06b6d4;">Your Details:</strong></p>
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #374151;">Name:</strong> ${name}</p>
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #374151;">Email:</strong> ${email}</p>
+                    <p style="margin: 0;"><strong style="color: #374151;">Subject:</strong> ${subject}</p>
                   </div>
 
-                  <!-- Your Message Summary -->
+                  <!-- Message Card -->
                   <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
-                    <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">📝 Your Message</h3>
-                    <p style="color: #6b7280; font-size: 14px; line-height: 1.7; margin: 0; padding: 15px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #8b5cf6;">${message}</p>
+                    <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 16px;">💬 Your Message Summary:</h3>
+                    <p style="white-space: pre-wrap; line-height: 1.6; color: #555; margin: 0; padding: 15px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #8b5cf6;">${message}</p>
                   </div>
 
                   <!-- Connect Section -->
-                  <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                  <div style="padding: 20px; background: white; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
                     <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">🌐 Connect With Me</h3>
-                    <div style="text-align: center;">
-                      <a href="${WEBSITE_DOMAIN}" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 5px;">🌐 Portfolio</a>
-                      <a href="https://linkedin.com/in/vaibhav-kumar-kandhway" style="display: inline-block; padding: 12px 24px; background: #0A66C2; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 5px;">💼 LinkedIn</a>
-                      <a href="https://github.com/VaibhavK289" style="display: inline-block; padding: 12px 24px; background: #24292e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 5px;">💻 GitHub</a>
+                    <div>
+                      <a href="${WEBSITE_DOMAIN}" style="display: inline-block; padding: 10px 18px; background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 13px; margin: 5px;">🌐 Portfolio</a>
+                      <a href="https://linkedin.com/in/vaibhav-kumar-kandhway" style="display: inline-block; padding: 10px 18px; background: #0A66C2; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 13px; margin: 5px;">💼 LinkedIn</a>
+                      <a href="https://github.com/VaibhavK289" style="display: inline-block; padding: 10px 18px; background: #24292e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 13px; margin: 5px;">💻 GitHub</a>
                     </div>
                   </div>
-                </div>
 
-                <!-- Footer -->
-                <div style="padding: 25px 30px; background: #1f2937; border-radius: 0 0 12px 12px; text-align: center;">
-                  <p style="color: #9ca3af; font-size: 14px; margin: 0 0 10px 0;">
+                  <p style="color: #94a3b8; font-size: 12px; margin-top: 25px; text-align: center;">
                     Best regards,<br>
-                    <strong style="color: white;">Vaibhav Kumar Kandhway</strong>
-                  </p>
-                  <p style="color: #6b7280; font-size: 12px; margin: 0;">
+                    <strong style="color: #374151;">Vaibhav Kumar Kandhway</strong><br>
                     Full-Stack Developer & AI Engineer
-                  </p>
-                  <p style="color: #4b5563; font-size: 11px; margin: 15px 0 0 0;">
-                    <a href="${WEBSITE_DOMAIN}" style="color: #06b6d4; text-decoration: none;">vaibhavkandhway.dev</a>
                   </p>
                 </div>
               </div>

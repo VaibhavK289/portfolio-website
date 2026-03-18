@@ -15,6 +15,8 @@ interface Post {
   updatedAt?: Date | string;
   slug?: string;
   authorId?: string;
+  coverImage?: string | null;
+  section?: string | null;
 }
 
 interface Tag {
@@ -78,9 +80,14 @@ export default function BlogPostClient({
             Back to Writing
           </Link>
 
-          <div className="flex gap-2 mb-6">
+          <div className="flex gap-2 mb-6 flex-wrap">
+            {post.section && (
+               <span className={`text-xs font-semibold px-3 py-1 rounded-full badge-${post.section.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+                  {post.section}
+               </span>
+            )}
             {post.tags?.map((tag) => (
-              <span key={tag.id} className="text-xs font-semibold px-3 py-1 bg-primary-500/10 text-primary-400 rounded-full border border-primary-500/20">
+              <span key={tag.id} className="text-xs font-semibold px-3 py-1 bg-neutral-800 text-neutral-300 rounded-full">
                 {tag.name}
               </span>
             ))}
@@ -119,6 +126,27 @@ export default function BlogPostClient({
             </div>
           </div>
         </header>
+
+        {/* Cover Image */}
+        {post.coverImage && (
+          <div className="container mx-auto px-4 max-w-5xl -mt-8 mb-16">
+            <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.15 }}
+               className="relative w-full aspect-[21/9] rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-900"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={post.coverImage} 
+                alt={`${post.title} cover`}
+                className="w-full h-full object-cover"
+              />
+              {/* Bottom gradient overlay for better text contrast if content scrolls up over it */}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-neutral-900 to-transparent pointer-events-none" />
+            </motion.div>
+          </div>
+        )}
 
         {/* Content Layout */}
         <div className="container mx-auto px-4 max-w-5xl mt-16 flex flex-col md:flex-row gap-16 relative">

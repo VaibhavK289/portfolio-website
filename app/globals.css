@@ -817,3 +817,66 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 40px 40px;
 }
+
+/* ============================================
+   BLOG SECTION SYSTEM
+   Section wrappers, badges, and card utilities
+   ============================================ */
+
+/* Section Wrappers — Default (Dark Theme) */
+:root .section-articles, .dark .section-articles {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(10, 10, 10, 0.95) 50%, rgba(10, 10, 10, 1) 100%);
+  border-color: rgba(59, 130, 246, 0.15);
+}
+:root .section-blogs, .dark .section-blogs {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.06) 0%, rgba(10, 10, 10, 0.95) 50%, rgba(10, 10, 10, 1) 100%);
+  border-color: rgba(6, 182, 212, 0.15);
+}
+:root .section-tools, .dark .section-tools {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.06) 0%, rgba(10, 10, 10, 0.95) 50%, rgba(10, 10, 10, 1) 100%);
+  border-color: rgba(168, 85, 247, 0.15);
+}
+:root .section-community, .dark .section-community {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.06) 0%, rgba(10, 10, 10, 0.95) 50%, rgba(10, 10, 10, 1) 100%);
+  border-color: rgba(245, 158, 11, 0.15);
+}
+:root .section-updates, .dark .section-updates {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(10, 10, 10, 0.95) 50%, rgba(10, 10, 10, 1) 100%);
+  border-color: rgba(16, 185, 129, 0.15);
+}
+
+/* Section Badges */
+.badge-articles { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.badge-blogs { background: rgba(6, 182, 212, 0.1); color: #06b6d4; }
+.badge-tools { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
+.badge-community { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.badge-updates { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
+/* Section accent underlines */
+.accent-articles { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.accent-blogs { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.accent-tools { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.accent-community { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.accent-updates { background: linear-gradient(90deg, #10b981, #34d399); }
+
+/* Section hover glow colours */
+:root .glow-articles, .dark .glow-articles { box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3) !important; }
+:root .glow-blogs, .dark .glow-blogs { box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3) !important; }
+:root .glow-tools, .dark .glow-tools { box-shadow: 0 0 20px rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.3) !important; }
+:root .glow-community, .dark .glow-community { box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3) !important; }
+:root .glow-updates, .dark .glow-updates { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3) !important; }
+
+/* Cover image card utility */
+.cover-image-card {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Admin stat cards */
+.admin-stat-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+}
