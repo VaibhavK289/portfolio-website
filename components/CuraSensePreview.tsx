@@ -152,7 +152,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 bg-[#0a0f1a]/80 rounded-lg sm:rounded-xl border border-emerald-900/40 max-w-lg mx-auto">
                   <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0 ${hasError ? 'bg-red-500' : 'bg-emerald-500 animate-pulse'}`} />
                   <span className="text-[10px] sm:text-xs text-neutral-300 truncate font-mono">
-                    curasense.vercel.app
+                    curasense.tech
                   </span>
                   <Shield className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-500 ml-auto hidden xs:block" />
                 </div>
@@ -168,7 +168,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
                   <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isLoading ? 'animate-spin' : ''}`} />
                 </button>
                 <a
-                  href="https://curasense.vercel.app/"
+                  href="https://curasense.tech/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 sm:p-2 text-neutral-400 hover:text-emerald-400 transition-colors rounded-lg hover:bg-emerald-500/10"
@@ -215,7 +215,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
                         Reconnect
                       </button>
                       <a
-                        href="https://curasense.vercel.app/"
+                        href="https://curasense.tech/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl hover:from-emerald-500 hover:to-emerald-400 transition-all text-sm font-medium flex items-center gap-2"
@@ -230,7 +230,7 @@ export function CuraSensePreview({ isOpen, onClose }: CuraSensePreviewProps) {
               {/* Iframe */}
               <iframe
                 key={iframeKey}
-                src="https://curasense.vercel.app/"
+                src="https://curasense.tech/"
                 className="w-full h-full border-0"
                 onLoad={handleIframeLoad}
                 allow="clipboard-read; clipboard-write"
