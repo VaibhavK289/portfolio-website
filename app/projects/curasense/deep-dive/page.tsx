@@ -120,7 +120,7 @@ function DeepDivePageNav() {
             <Link href="/projects/curasense/documentation" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white">Docs</Link>
             <Link href="/projects/curasense/deep-dive" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-white dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 shadow-sm">Deep-Dive</Link>
           </div>
-          <div className="flex items-center gap-3"><Button href="https://github.com/VaibhavK289/curasense-diagnosis" variant="outline" external className="text-sm"><Github className="w-4 h-4" />Source</Button></div>
+          <div className="flex items-center gap-3"><Button href="https://github.com/VaibhavK289/curasense-architecture" variant="outline" external className="text-sm"><Github className="w-4 h-4" />Source</Button></div>
         </div>
         {/* Mobile Layout */}
         <div className="sm:hidden">
@@ -129,7 +129,7 @@ function DeepDivePageNav() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center"><Shield className="w-4 h-4 text-white" /></div>
               <div><h2 className="font-bold text-gray-900 dark:text-white text-xs">CuraSense</h2><p className="text-[10px] text-gray-500 dark:text-neutral-500">Deep-Dive</p></div>
             </div>
-            <a href="https://github.com/VaibhavK289/curasense-diagnosis" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium shadow-lg shadow-emerald-500/25"><Github className="w-3 h-3" />Source</a>
+            <a href="https://github.com/VaibhavK289/curasense-architecture" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium shadow-lg shadow-emerald-500/25"><Github className="w-3 h-3" />Source</a>
           </div>
           <div className="flex items-center gap-1 pb-2.5 overflow-x-auto scrollbar-hide -mx-3 px-3">
             <Link href="/projects/curasense" className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-gray-100 dark:bg-[#1a2438] text-gray-600 dark:text-neutral-400">Overview</Link>
@@ -668,13 +668,13 @@ function MainContent() {
             <div className="flex flex-wrap gap-4">
               <HoverBorderGradient
                 containerClassName="rounded-full"
-                href="https://github.com/VaibhavK289/curasense-diagnosis"
+                href="https://github.com/VaibhavK289/curasense-architecture"
                 className="dark:bg-black bg-white text-black dark:text-white flex items-center gap-2 px-6 py-2"
               >
                 <Github className="w-5 h-5" />
                 <span>Explore the Code</span>
               </HoverBorderGradient>
-              <Button href="https://curasense-frontend.vercel.app/" variant="outline" external>
+              <Button href="https://curasense.tech/" variant="outline" external>
                 <ExternalLink className="w-4 h-4" />
                 Try the Demo
               </Button>

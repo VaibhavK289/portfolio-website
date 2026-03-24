@@ -28,10 +28,10 @@
 
 ## 🚀 Featured Projects
 
-### [CuraSense - AI Healthcare Platform](https://github.com/VaibhavK289/curasense-diagnosis)
+### [CuraSense - AI Healthcare Platform](https://github.com/VaibhavK289/curasense-architecture)
 > AI-powered medical diagnostic system with multi-agent workflows and computer vision
 
-**🔗 [Live Demo](https://curasense-frontend.vercel.app/)** | **📂 [Source Code](https://github.com/VaibhavK289/curasense-diagnosis)**
+**🔗 [Live Demo](https://curasense.tech/)** | **📂 [Source Code](https://github.com/VaibhavK289/curasense-architecture)**
 
 - Built prescription analysis using PDF parsing + LangChain RAG pipeline
 - Implemented medical imaging analysis (X-ray, CT, MRI) with Gemini Vision API

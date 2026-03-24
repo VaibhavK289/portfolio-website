@@ -128,7 +128,7 @@ function DocumentationPageNav() {
             <Link href="/projects/curasense/documentation" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-white dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 shadow-sm">Docs</Link>
             <Link href="/projects/curasense/deep-dive" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white">Deep-Dive</Link>
           </div>
-          <div className="flex items-center gap-3"><Button href="https://github.com/VaibhavK289/curasense-diagnosis" variant="outline" external className="text-sm"><Github className="w-4 h-4" />Source</Button></div>
+          <div className="flex items-center gap-3"><Button href="https://github.com/VaibhavK289/curasense-architecture" variant="outline" external className="text-sm"><Github className="w-4 h-4" />Source</Button></div>
         </div>
         {/* Mobile Layout */}
         <div className="sm:hidden">
@@ -137,7 +137,7 @@ function DocumentationPageNav() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center"><Shield className="w-4 h-4 text-white" /></div>
               <div><h2 className="font-bold text-gray-900 dark:text-white text-xs">CuraSense</h2><p className="text-[10px] text-gray-500 dark:text-neutral-500">Documentation</p></div>
             </div>
-            <a href="https://github.com/VaibhavK289/curasense-diagnosis" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium shadow-lg shadow-emerald-500/25"><Github className="w-3 h-3" />Source</a>
+            <a href="https://github.com/VaibhavK289/curasense-architecture" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium shadow-lg shadow-emerald-500/25"><Github className="w-3 h-3" />Source</a>
           </div>
           <div className="flex items-center gap-1 pb-2.5 overflow-x-auto scrollbar-hide -mx-3 px-3">
             <Link href="/projects/curasense" className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 bg-gray-100 dark:bg-[#1a2438] text-gray-600 dark:text-neutral-400">Overview</Link>
@@ -238,11 +238,11 @@ function DocumentationHero() {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <Button href="https://github.com/VaibhavK289/curasense-diagnosis" variant="primary" external>
+              <Button href="https://github.com/VaibhavK289/curasense-architecture" variant="primary" external>
                 <Github className="w-4 h-4" />
                 Clone Repository
               </Button>
-              <Button href="https://curasense-frontend.vercel.app/" variant="outline" external>
+              <Button href="https://curasense.tech/" variant="outline" external>
                 <ExternalLink className="w-4 h-4" />
                 Live Demo
               </Button>
@@ -567,8 +567,8 @@ function InstallationSection() {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">Clone Repository</h3>
             </div>
             <CodeBlock 
-              code={`git clone https://github.com/VaibhavK289/curasense-diagnosis.git
-cd curasense-diagnosis`}
+              code={`git clone https://github.com/VaibhavK289/curasense-architecture.git
+cd curasense-architecture`}
               title="terminal"
             />
           </motion.div>
@@ -725,7 +725,7 @@ HUGGINGFACE_TOKEN="your_hf_token"`}
 
 // Project Structure Section
 function ProjectStructureSection() {
-  const structure = `curasense-diagnosis/
+  const structure = `curasense-architecture/
 ├── curasense-frontend/            # 🆕 Next.js 16 Frontend
 │   ├── src/
 │   │   ├── app/                   # App Router pages
@@ -1009,13 +1009,13 @@ function CTASection() {
           <div className="flex flex-wrap justify-center gap-4">
             <HoverBorderGradient
               containerClassName="rounded-full"
-              href="https://github.com/VaibhavK289/curasense-diagnosis"
+              href="https://github.com/VaibhavK289/curasense-architecture"
               className="dark:bg-black bg-white text-black dark:text-white flex items-center gap-2 px-6 py-2"
             >
               <Github className="w-5 h-5" />
               <span>View on GitHub</span>
             </HoverBorderGradient>
-            <Button href="https://curasense-frontend.vercel.app/" variant="outline" external>
+            <Button href="https://curasense.tech/" variant="outline" external>
               <ExternalLink className="w-4 h-4" />
               Try Live Demo
             </Button>
@@ -1026,13 +1026,13 @@ function CTASection() {
               Made with ❤️ by CuraSense Team • MIT License
             </p>
             <div className="flex justify-center gap-4 mt-4">
-              <a href="https://github.com/VaibhavK289/curasense-diagnosis" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-neutral-500 hover:text-emerald-500 transition-colors">
+              <a href="https://github.com/VaibhavK289/curasense-architecture" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-neutral-500 hover:text-emerald-500 transition-colors">
                 ⭐ Star this repo
               </a>
-              <a href="https://github.com/VaibhavK289/curasense-diagnosis/issues" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-neutral-500 hover:text-emerald-500 transition-colors">
+              <a href="https://github.com/VaibhavK289/curasense-architecture/issues" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-neutral-500 hover:text-emerald-500 transition-colors">
                 🐛 Report Bug
               </a>
-              <a href="https://github.com/VaibhavK289/curasense-diagnosis/issues" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-neutral-500 hover:text-emerald-500 transition-colors">
+              <a href="https://github.com/VaibhavK289/curasense-architecture/issues" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-neutral-500 hover:text-emerald-500 transition-colors">
                 💡 Request Feature
               </a>
             </div>
