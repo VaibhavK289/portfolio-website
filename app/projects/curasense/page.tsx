@@ -198,7 +198,7 @@ function CuraSensePageNav({ currentPage }: { currentPage: 'overview' | 'technica
           
           {/* Actions - Desktop */}
           <div className="flex items-center gap-3">
-            <Button href="https://curasense-frontend.vercel.app/" variant="outline" external className="text-sm">
+            <Button href="https://curasense.tech/" variant="outline" external className="text-sm">
               <Play className="w-4 h-4" />
               Live Demo
             </Button>
@@ -219,7 +219,7 @@ function CuraSensePageNav({ currentPage }: { currentPage: 'overview' | 'technica
               </div>
             </div>
             <a
-              href="https://curasense-frontend.vercel.app/"
+              href="https://curasense.tech/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium shadow-lg shadow-emerald-500/25"
