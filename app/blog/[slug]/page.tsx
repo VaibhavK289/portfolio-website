@@ -1,20 +1,6 @@
 import { getPostBySlug } from "@/actions/post";
 import { notFound } from "next/navigation";
 import BlogPostClient from "./BlogPostClient";
-import { MDXRemote } from "next-mdx-remote/rsc";
-
-const mdxComponents = {
-  h1: (props: React.ComponentPropsWithoutRef<"h1">) => <h1 className="text-4xl font-display font-bold text-white mt-12 mb-6" {...props} />,
-  h2: (props: React.ComponentPropsWithoutRef<"h2">) => <h2 className="text-3xl font-display font-bold text-white mt-10 mb-4" {...props} />,
-  h3: (props: React.ComponentPropsWithoutRef<"h3">) => <h3 className="text-2xl font-display font-bold text-white mt-8 mb-4" {...props} />,
-  p: (props: React.ComponentPropsWithoutRef<"p">) => <p className="text-lg leading-relaxed text-neutral-300 mb-6" {...props} />,
-  a: (props: React.ComponentPropsWithoutRef<"a">) => <a className="text-primary-400 hover:text-accent-400 underline decoration-primary-500/30 underline-offset-4 transition-colors" {...props} />,
-  blockquote: (props: React.ComponentPropsWithoutRef<"blockquote">) => <blockquote className="border-l-4 border-primary-500 pl-4 py-2 italic text-neutral-400 my-8 bg-neutral-900/40 rounded-r-xl" {...props} />,
-  ul: (props: React.ComponentPropsWithoutRef<"ul">) => <ul className="list-disc list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
-  ol: (props: React.ComponentPropsWithoutRef<"ol">) => <ol className="list-decimal list-outside leading-loose pl-6 mb-6 text-neutral-300" {...props} />,
-  code: (props: React.ComponentPropsWithoutRef<"code">) => <code className="bg-neutral-900 border border-neutral-800 rounded-md px-1.5 py-0.5 font-mono text-sm text-neutral-300" {...props} />,
-  pre: (props: React.ComponentPropsWithoutRef<"pre">) => <pre className="bg-neutral-950 border border-neutral-800 rounded-xl p-4 overflow-x-auto my-8 shape-ticket" {...props} />
-};
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -26,10 +12,25 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <BlogPostClient post={post}>
-      <MDXRemote 
-        source={post.content.replace(/class=/g, 'className=')} 
-        components={mdxComponents} 
+      <div 
+        className="blog-content prose prose-lg prose-invert max-w-none
+          prose-headings:font-display prose-headings:text-white prose-headings:font-bold
+          prose-h1:text-4xl prose-h1:mt-12 prose-h1:mb-6
+          prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4
+          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+          prose-p:text-lg prose-p:leading-relaxed prose-p:text-neutral-300 prose-p:mb-6
+          prose-a:text-primary-400 prose-a:underline prose-a:decoration-primary-500/30 prose-a:underline-offset-4 hover:prose-a:text-accent-400
+          prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:pl-4 prose-blockquote:py-2 prose-blockquote:italic prose-blockquote:text-neutral-400 prose-blockquote:my-8 prose-blockquote:bg-neutral-900/40 prose-blockquote:rounded-r-xl
+          prose-ul:list-disc prose-ul:leading-loose prose-ul:pl-6 prose-ul:mb-6 prose-ul:text-neutral-300
+          prose-ol:list-decimal prose-ol:leading-loose prose-ol:pl-6 prose-ol:mb-6 prose-ol:text-neutral-300
+          prose-code:bg-neutral-900 prose-code:border prose-code:border-neutral-800 prose-code:rounded-md prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono prose-code:text-sm prose-code:text-neutral-300
+          prose-pre:bg-neutral-950 prose-pre:border prose-pre:border-neutral-800 prose-pre:rounded-xl prose-pre:p-4 prose-pre:overflow-x-auto prose-pre:my-8
+          prose-img:rounded-2xl prose-img:border prose-img:border-neutral-800 prose-img:my-8
+          prose-hr:border-neutral-800 prose-hr:my-12
+          prose-strong:text-white prose-em:text-neutral-200"
+        dangerouslySetInnerHTML={{ __html: post.content }} 
       />
     </BlogPostClient>
   );
 }
+
