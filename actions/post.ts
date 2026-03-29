@@ -16,7 +16,7 @@ export async function savePost(
   const session = await auth();
   
   if (!session?.user?.id) {
-    throw new Error("Unauthorized");
+    return { success: false, error: "Unauthorized. Please sign in first." };
   }
 
   // Generate a basic slug from title

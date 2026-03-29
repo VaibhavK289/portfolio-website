@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import TailwindEditor from "@/components/editor/tailwind-editor";
+import CoverImageUpload from "@/components/editor/CoverImageUpload";
 import { savePost, getPostById } from "@/actions/post";
 import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 
 export default function EditorPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params);
@@ -19,6 +21,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isLoading, setIsLoading] = useState(!isNew);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     async function loadPost() {
@@ -66,9 +69,14 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
       if (result.success) {
         if (publish) {
            router.push("/admin");
-        } else if (isNew && result.postId) {
-           // Redirect from /new to the actual ID after first save
-           router.replace(`/admin/editor/${result.postId}`);
+        } else {
+           // Show saved confirmation
+           setSaved(true);
+           setTimeout(() => setSaved(false), 2500);
+           if (isNew && result.postId) {
+             // Redirect from /new to the actual ID after first save
+             router.replace(`/admin/editor/${result.postId}`);
+           }
         }
       } else {
         alert(result.error || "Failed to save.");
@@ -104,9 +112,13 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           <button 
             onClick={() => handleSave(false)}
             disabled={isSaving || isPublishing}
-            className="px-4 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-neutral-200 transition-colors disabled:opacity-50"
+            className={`px-4 py-2 text-sm font-medium rounded-full transition-all disabled:opacity-50 flex items-center gap-1.5 ${
+              saved
+                ? "bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                : "bg-white text-black hover:bg-neutral-200"
+            }`}
           >
-            {isSaving ? "Saving..." : "Save Draft"}
+            {isSaving ? "Saving..." : saved ? (<><Check className="w-4 h-4" /> Draft Saved!</>) : "Save Draft"}
           </button>
           <button 
             onClick={() => handleSave(true)}
@@ -135,13 +147,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
              onChange={(e) => setTags(e.target.value)}
              className="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary-500/50 transition-colors"
           />
-          <input 
-             type="url" 
-             placeholder="Cover Image URL (Optional)"
-             value={coverImage}
-             onChange={(e) => setCoverImage(e.target.value)}
-             className="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary-500/50 transition-colors"
-          />
+
           <div className="flex-1 bg-neutral-900 border border-neutral-800 rounded-2xl p-4">
             <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Section</label>
             <div className="flex flex-wrap gap-2">
@@ -162,16 +168,8 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
 
-        {/* Cover Image Preview */}
-        {coverImage && (
-          <div className="relative aspect-[21/9] md:aspect-[3/1] max-h-64 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 mt-4 group">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={coverImage} alt="Cover Preview" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-               <span className="text-white font-medium text-sm bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-md">Cover Preview</span>
-            </div>
-          </div>
-        )}
+        {/* Cover Image Upload */}
+        <CoverImageUpload value={coverImage} onChange={setCoverImage} />
       </div>
 
       <div className="mt-8">
