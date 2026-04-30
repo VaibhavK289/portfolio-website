@@ -89,6 +89,18 @@ export {
   aiBadgeVariants,
 } from "./AIAnimations";
 
+// Re-export weather animations for Aeria Weather Studio
+export {
+  RainDrop,
+  CloudFloat,
+  WindGust,
+  TemperaturePulse,
+  RustBadge,
+  weatherCardContainerVariants,
+  weatherCardVariants,
+  weatherBadgeVariants,
+} from "./WeatherAnimations";
+
 /* ============================================
    ANIMATION HIERARCHY SYSTEM
    Different animations for different importance levels

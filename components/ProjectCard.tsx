@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
-import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight, Download } from 'lucide-react';
 import { Project } from '@/types';
 import { useState } from 'react';
+import { RustBadge } from '@/components/animations';
 
 interface ProjectCardProps {
   project: Project;
@@ -63,6 +64,7 @@ const imageVariants: Variants = {
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const [imageError, setImageError] = useState(false);
+  const isRustProject = project.tags.includes('Rust');
   
   return (
     <motion.div
@@ -134,16 +136,33 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               Code
             </a>
           )}
+          {project.downloadUrl && (
+            <a
+              href={project.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-amber-500/95 backdrop-blur-sm rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-white hover:bg-amber-400 transition-colors shadow-lg"
+            >
+              <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              .exe
+            </a>
+          )}
         </div>
 
-        {/* Featured badge - Responsive */}
-        {project.featured && (
-          <div className="absolute top-2 sm:top-4 right-2 sm:right-4">
+        {/* Featured badge + Rust badge - Responsive */}
+        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1.5">
+          {isRustProject && (
+            <span className="flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-[#CE422B]/90 backdrop-blur-sm text-white text-[10px] sm:text-xs font-semibold rounded-full shadow-lg">
+              <RustBadge size={12} />
+              Rust
+            </span>
+          )}
+          {project.featured && (
             <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-[10px] sm:text-xs font-semibold rounded-full shadow-lg">
               Featured
             </span>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Content with shift animation - Mobile optimized padding */}

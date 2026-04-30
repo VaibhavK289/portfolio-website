@@ -7,6 +7,7 @@ export interface Project {
   tags: string[];
   liveUrl?: string;
   githubUrl?: string;
+  downloadUrl?: string;
   featured: boolean;
   year: string;
 }

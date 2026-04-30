@@ -199,6 +199,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  // Redirect aeria-weather to the new dedicated route
+  if (slug === 'aeria-weather') {
+    redirect('/projects/aeria-weather');
+  }
+
   // Redirect curasense to the new dedicated route
   if (slug === 'curasense') {
     redirect('/projects/curasense');
