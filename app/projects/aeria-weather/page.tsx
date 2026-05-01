@@ -1,13 +1,12 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, ReactNode } from 'react';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowLeft, Github, Cloud, Wind, Thermometer, Download,
   ChevronRight, Code2, Layers, Sparkles, Cpu, Database,
-  Globe, Server, Droplets, Sun, Snowflake, Zap, Play,
-  Shield, Eye,
+  Globe, Server, Droplets, Sun, Play, Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { getProjectBySlug } from '@/data/projects';
@@ -18,74 +17,551 @@ import {
 import {
   ScrollReveal, ScrollProgress, cardContainerVariants, cardVariants,
   CloudFloat, RustBadge, weatherCardContainerVariants, weatherCardVariants,
-  weatherBadgeVariants,
+  weatherBadgeVariants, easings, badgeVariants, TiltCard
 } from '@/components/animations';
-import { useLowPerformance } from '@/lib/utils';
+import { Project } from '@/types';
 
-function AeriaBackground() {
-  const isLowPerf = useLowPerformance();
-  if (isLowPerf) {
-    return (
-      <>
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-sky-600/15 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-amber-600/15 rounded-full blur-3xl" />
-        </div>
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(56,189,248,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.02)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
-      </>
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: easings.smooth,
+    },
+  },
+};
+
+// Markdown renderer
+function renderDescription(text: string) {
+  const lines = text.split('\n');
+  const elements: ReactNode[] = [];
+  let currentList: string[] = [];
+  let inCodeBlock = false;
+  let codeContent = '';
+  let inTable = false;
+  let tableRows: string[][] = [];
+  
+  const flushList = () => {
+    if (currentList.length > 0) {
+      elements.push(
+        <motion.ul 
+          key={`list-${elements.length}`} 
+          className="space-y-3 mb-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {currentList.map((item, i) => (
+            <motion.li 
+              key={i} 
+              variants={itemVariants}
+              className="flex items-start gap-3 text-gray-600 dark:text-neutral-400"
+            >
+              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-sky-500 to-amber-500 flex-shrink-0" />
+              <span>{item}</span>
+            </motion.li>
+          ))}
+        </motion.ul>
+      );
+      currentList = [];
+    }
+  };
+  
+  const flushTable = () => {
+    if (tableRows.length > 0) {
+      const headerRow = tableRows[0];
+      const bodyRows = tableRows.slice(2);
+      elements.push(
+        <motion.div 
+          key={`table-${elements.length}`} 
+          className="overflow-x-auto mb-8 rounded-2xl border border-gray-200 dark:border-neutral-800"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <table className="w-full text-sm text-left">
+            <thead className="bg-gray-50 dark:bg-neutral-900/50">
+              <tr>
+                {headerRow.map((cell, i) => (
+                  <th key={i} className="px-6 py-4 font-semibold text-gray-900 dark:text-white">{cell.trim()}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {bodyRows.map((row, i) => (
+                <tr key={i} className="border-t border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-900/30 transition-colors">
+                  {row.map((cell, j) => (
+                    <td key={j} className="px-6 py-4 text-gray-600 dark:text-neutral-400">{cell.trim()}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </motion.div>
+      );
+      tableRows = [];
+      inTable = false;
+    }
+  };
+  
+  lines.forEach((line) => {
+    if (line.startsWith('```')) {
+      if (inCodeBlock) {
+        elements.push(
+          <motion.pre 
+            key={`code-${elements.length}`} 
+            className="relative bg-gray-900 dark:bg-neutral-900/80 border border-gray-800 dark:border-neutral-700 rounded-2xl p-6 overflow-x-auto mb-8 backdrop-blur-sm"
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="absolute top-4 left-4 flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
+            </div>
+            <code className="text-sm text-sky-400 block mt-6">{codeContent.trim()}</code>
+          </motion.pre>
+        );
+        codeContent = '';
+        inCodeBlock = false;
+      } else {
+        flushList();
+        flushTable();
+        inCodeBlock = true;
+      }
+      return;
+    }
+    
+    if (inCodeBlock) {
+      codeContent += line + '\n';
+      return;
+    }
+    
+    if (line.includes('|') && line.trim().startsWith('|')) {
+      flushList();
+      inTable = true;
+      const cells = line.split('|').filter(cell => cell.trim() !== '');
+      if (!line.includes('---')) {
+        tableRows.push(cells);
+      } else {
+        tableRows.push(cells);
+      }
+      return;
+    } else if (inTable) {
+      flushTable();
+    }
+    
+    if (line.startsWith('## ')) {
+      flushList();
+      const text = line.replace('## ', '').replace(/[🎯💡🏗️🚀🔧📊🛠️]/g, '').trim();
+      const emoji = line.match(/[🎯💡🏗️🚀🔧📊🛠️]/)?.[0] || '';
+      elements.push(
+        <motion.h2 
+          key={`h2-${elements.length}`} 
+          className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-16 mb-6 flex items-center gap-3"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: easings.smooth }}
+        >
+          {emoji && <span className="text-3xl">{emoji}</span>}
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-neutral-400">
+            {text}
+          </span>
+        </motion.h2>
+      );
+      return;
+    }
+    
+    if (line.startsWith('### ')) {
+      flushList();
+      const text = line.replace('### ', '').replace(/^\d+\.\s*/, '').trim();
+      elements.push(
+        <motion.h3 
+          key={`h3-${elements.length}`} 
+          className="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4 flex items-center gap-3"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <span className="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-500/20 to-amber-500/20 flex items-center justify-center">
+            <ChevronRight className="w-4 h-4 text-sky-500" />
+          </span>
+          {text}
+        </motion.h3>
+      );
+      return;
+    }
+    
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      const item = line.replace(/^[-*]\s+/, '').replace(/\*\*([^*]+)\*\*/g, '$1');
+      currentList.push(item);
+      return;
+    }
+    
+    if (line.trim() === '') {
+      flushList();
+      return;
+    }
+    
+    flushList();
+    const processedLine = line
+      .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-gray-900 dark:text-white font-semibold">$1</strong>')
+      .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-neutral-800 px-2 py-0.5 rounded-lg text-sky-600 dark:text-sky-400 text-sm font-mono">$1</code>');
+    
+    elements.push(
+      <motion.p 
+        key={`p-${elements.length}`} 
+        className="text-gray-600 dark:text-neutral-400 mb-6 leading-relaxed text-lg"
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4 }}
+        dangerouslySetInnerHTML={{ __html: processedLine }}
+      />
     );
-  }
+  });
+  
+  flushList();
+  flushTable();
+  
+  return elements;
+}
+
+// Hero Section
+function AeriaWeatherHero({ project }: { project: Project }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
-    <>
+    <section 
+      ref={containerRef}
+      className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-sky-50 via-white to-amber-50/20 dark:from-[#080c14] dark:via-[#0a1018] dark:to-[#0c1420]"
+    >
+      {/* Spotlight Effect */}
+      <div className="hidden dark:block">
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#38bdf8" />
+      </div>
+      
+      {/* Sparkles */}
+      <div className="absolute inset-0 w-full h-full">
+        <SparklesCore
+          id="aeria-hero-sparkles"
+          background="transparent"
+          minSize={0.4}
+          maxSize={1.2}
+          particleDensity={20}
+          className="w-full h-full"
+          particleColor="var(--color-sparkle)"
+        />
+      </div>
+      
+      {/* Gradient Orbs - Sky/Amber blend */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div className="absolute top-20 right-20 w-96 h-96 bg-sky-600/20 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} />
-        <motion.div className="absolute bottom-20 left-20 w-80 h-80 bg-amber-600/20 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
+        <motion.div 
+          className="absolute top-20 right-20 w-96 h-96 bg-sky-500/20 dark:bg-sky-600/15 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div 
+          className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/15 dark:bg-cyan-500/10 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        />
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <div className="hidden lg:block">
+          <CloudFloat size={120} opacity={0.15} delay={0} className="top-32 left-20 text-sky-200 dark:text-white" />
+          <CloudFloat size={80} opacity={0.1} delay={1.5} className="top-48 right-40 text-amber-100 dark:text-white" />
+        </div>
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(56,189,248,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
-      <div className="hidden lg:block">
-        <CloudFloat size={100} opacity={0.06} delay={0} className="absolute top-32 left-20" />
-        <CloudFloat size={70} opacity={0.04} delay={1.5} className="absolute top-48 right-40" />
+
+      <motion.div style={{ y, opacity }} className="absolute inset-0 z-0" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        {/* Back Link */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 text-gray-500 dark:text-neutral-400 hover:text-sky-500 dark:hover:text-sky-400 mb-12 group transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Projects
+          </Link>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, ease: easings.dramatic }}
+          >
+            {/* Badge - Rust badge incorporated directly */}
+            <motion.div
+              variants={badgeVariants}
+              initial="hidden"
+              animate="visible"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#CE422B]/10 to-amber-500/10 border border-[#CE422B]/30 text-[#CE422B] dark:text-[#CE422B] text-sm font-medium mb-6 backdrop-blur-sm"
+            >
+              <RustBadge size={16} />
+              Full-Stack Rust Application
+            </motion.div>
+
+            {/* Title */}
+            <motion.h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <span className="block">Aeria Weather</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-cyan-500 to-amber-500 dark:from-sky-400 dark:via-cyan-400 dark:to-amber-400">
+                Studio
+              </span>
+            </motion.h1>
+
+            {/* Description */}
+            <motion.p
+              className="text-xl text-gray-600 dark:text-neutral-400 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              A real-time climate dashboard powered by Rust. Fast, resilient, and beautifully designed.
+            </motion.p>
+
+            {/* Action Buttons */}
+            <motion.div 
+              className="flex flex-wrap gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              {project.liveUrl && (
+                <HoverBorderGradient
+                  containerClassName="rounded-full"
+                  href={project.liveUrl}
+                  className="bg-white dark:bg-black text-black dark:text-white flex items-center gap-2 px-6 py-2"
+                >
+                  <Play className="w-4 h-4" />
+                  <span>Try Live Demo</span>
+                </HoverBorderGradient>
+              )}
+              {project.downloadUrl && (
+                <Button href={project.downloadUrl} variant="primary" external className="rounded-full bg-amber-500 hover:bg-amber-600 text-white">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download .exe
+                </Button>
+              )}
+              {project.githubUrl && (
+                <Button href={project.githubUrl} variant="outline" external className="rounded-full">
+                  <Github className="w-4 h-4 mr-2" />
+                  Source
+                </Button>
+              )}
+            </motion.div>
+          </motion.div>
+
+          {/* Visual Element */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: easings.dramatic }}
+            className="relative hidden lg:block"
+          >
+            {/* Floating Decorations */}
+            <motion.div
+              animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute -top-8 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center shadow-2xl shadow-sky-500/30 z-20"
+            >
+              <Cloud className="w-10 h-10 text-white" />
+            </motion.div>
+            
+            <motion.div
+              animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+              className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-xl shadow-amber-500/30 z-20"
+            >
+              <Sun className="w-8 h-8 text-white" />
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [-5, 15, -5], x: [0, 5, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+              className="absolute top-1/2 -right-4 w-14 h-14 rounded-xl bg-gradient-to-br from-[#CE422B] to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30 z-20 rotate-12"
+            >
+              <RustBadge size={32} />
+            </motion.div>
+
+            {/* Main Card */}
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-sky-500/35 via-cyan-500/25 to-amber-500/30 rounded-3xl blur-2xl opacity-70 dark:opacity-50" />
+              <div className="relative rounded-2xl overflow-hidden border border-sky-500/20 dark:border-sky-900/50 bg-white/80 dark:bg-[#0c1628]/90 backdrop-blur-sm shadow-2xl">
+                {project.image ? (
+                  <div className="relative aspect-[4/3]">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  </div>
+                ) : (
+                  <div className="aspect-[4/3] bg-gradient-to-br from-sky-500/20 to-amber-500/20 flex items-center justify-center">
+                    <span className="text-8xl font-bold text-sky-500/30">AW</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
-      <BackgroundBeams className="opacity-20" />
-    </>
+
+      {/* Background Beams */}
+      <div className="hidden dark:block">
+        <BackgroundBeams className="opacity-20" />
+      </div>
+    </section>
   );
 }
 
-export default function AeriaWeatherPage() {
-  const project = getProjectBySlug('aeria-weather');
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-
-  if (!project) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-neutral-950">
-        <p className="text-gray-600 dark:text-neutral-400">Project not found</p>
-      </div>
-    );
-  }
-
+// Features Section
+function AeriaWeatherFeatures() {
   const features = [
-    { icon: Cloud, title: 'Live Weather', description: 'Real-time conditions for any city worldwide via Open-Meteo API.', gradient: 'from-sky-500 to-cyan-500' },
-    { icon: Droplets, title: 'Air Quality', description: 'US AQI, PM2.5, PM10 readings with health guidance alerts.', gradient: 'from-emerald-500 to-teal-500' },
-    { icon: Sun, title: 'Dynamic Scenes', description: 'UI gradients and animations adapt to sunny, rainy, stormy, snowy conditions.', gradient: 'from-amber-500 to-orange-500' },
-    { icon: Thermometer, title: 'Unit Toggle', description: 'Switch between Celsius and Fahrenheit with instant re-render.', gradient: 'from-rose-500 to-pink-500' },
-    { icon: Globe, title: 'Favorites', description: 'Save cities and quickly revisit recent searches with localStorage.', gradient: 'from-violet-500 to-purple-500' },
-    { icon: Download, title: 'Desktop App', description: 'Native Windows installer via Tauri — lightweight 8MB .exe bundle.', gradient: 'from-cyan-500 to-blue-500' },
+    {
+      icon: Cloud,
+      title: 'Live Weather',
+      description: 'Real-time conditions for any city worldwide via Open-Meteo API with millisecond latency.',
+      gradient: 'from-sky-500 to-cyan-500',
+      bgGradient: 'from-sky-500/10 to-sky-500/5',
+      borderColor: 'border-sky-500/20',
+      iconBg: 'bg-gradient-to-br from-sky-400 to-sky-600',
+    },
+    {
+      icon: Droplets,
+      title: 'Air Quality',
+      description: 'Comprehensive US AQI, PM2.5, PM10 readings with actionable health guidance alerts.',
+      gradient: 'from-emerald-500 to-teal-500',
+      bgGradient: 'from-emerald-500/10 to-emerald-500/5',
+      borderColor: 'border-emerald-500/20',
+      iconBg: 'bg-gradient-to-br from-emerald-400 to-emerald-600',
+    },
+    {
+      icon: Sun,
+      title: 'Dynamic Scenes',
+      description: 'UI gradients and animations that adapt dynamically to sunny, rainy, stormy, or snowy conditions.',
+      gradient: 'from-amber-500 to-orange-500',
+      bgGradient: 'from-amber-500/10 to-amber-500/5',
+      borderColor: 'border-amber-500/20',
+      iconBg: 'bg-gradient-to-br from-amber-400 to-amber-600',
+    },
   ];
 
-  const techStack = [
-    { category: 'Backend', items: ['Rust', 'Axum', 'Tokio', 'Reqwest', 'Serde'] },
-    { category: 'Frontend', items: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS 4'] },
-    { category: 'Desktop', items: ['Tauri 2', 'NSIS Installer', 'Rust Shell'] },
-    { category: 'Infrastructure', items: ['Vercel', 'Render', 'GitHub Releases', 'Open-Meteo'] },
-  ];
+  return (
+    <section className="py-24 bg-gray-50 dark:bg-[#080c14] relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-white/50 dark:from-[#0a1018]/50 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-radial from-sky-500/8 via-cyan-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <motion.span 
+              className="inline-block px-4 py-2 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 text-sm font-medium mb-4 border border-sky-500/20"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+            >
+              Core Features
+            </motion.span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Complete Climate{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-500 to-amber-500">
+                Dashboard
+              </span>
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-neutral-400 max-w-2xl mx-auto">
+              Everything you need to stay ahead of the weather, packaged in a sleek interface.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <motion.div 
+          className="grid md:grid-cols-3 gap-6"
+          variants={cardContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {features.map((feature) => (
+            <motion.div
+              key={feature.title}
+              variants={cardVariants}
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              className="group"
+            >
+              <TiltCard className="h-full">
+                <div className={`relative h-full p-8 rounded-3xl bg-gradient-to-br ${feature.bgGradient} border ${feature.borderColor} bg-white dark:bg-transparent backdrop-blur-sm hover:border-opacity-50 transition-all duration-300`}>
+                  <div className={`absolute -inset-0.5 rounded-3xl bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl`} />
+                  
+                  <div className="relative mb-6">
+                    <div className={`w-16 h-16 rounded-2xl ${feature.iconBg} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <feature.icon className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                  
+                  <h3 className="relative text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-sky-500 group-hover:to-cyan-500 transition-all duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="relative text-gray-600 dark:text-neutral-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              </TiltCard>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// Rust Comparison Section
+function AeriaWeatherWhyRust() {
   const comparison = [
     { aspect: 'Backend Language', js: 'Node.js / Python', rust: 'Rust (Axum + Tokio)' },
     { aspect: 'Type Safety', js: 'Runtime errors', rust: 'Compile-time guarantees' },
@@ -95,290 +571,231 @@ export default function AeriaWeatherPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#080c14] via-[#0a1018] to-[#0c1420] text-white overflow-x-hidden">
-      <ScrollProgress />
-      <div className="fixed inset-0 pointer-events-none"><AeriaBackground /></div>
+    <section className="py-24 bg-white dark:bg-[#0c1420]/70 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 dark:from-[#080c14] via-transparent to-gray-50 dark:to-[#080c14] pointer-events-none" />
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <ScrollReveal>
+          <div className="text-center mb-12">
+            <motion.span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#CE422B]/10 text-[#CE422B] text-sm font-medium mb-4 border border-[#CE422B]/20">
+              <RustBadge size={16} />
+              Performance Showdown
+            </motion.span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              JavaScript vs{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#CE422B] to-amber-500">
+                Rust
+              </span>
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-neutral-400 max-w-2xl mx-auto">
+              See why Rust is the ideal choice for high-performance weather backends and desktop applications.
+            </p>
+          </div>
+        </ScrollReveal>
 
-      {/* Sticky Nav */}
-      <motion.div className="sticky top-16 sm:top-20 z-40 bg-[#080c14]/80 backdrop-blur-xl border-b border-sky-900/30"
-        initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-3 sm:py-4">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-sky-600 to-cyan-600 flex items-center justify-center relative">
-                <Cloud className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+        <ScrollReveal>
+          <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 backdrop-blur-sm shadow-xl">
+            <div className="grid grid-cols-3 bg-gray-50 dark:bg-neutral-800/50">
+              <div className="p-4 text-center text-sm font-semibold text-gray-500 dark:text-neutral-400">Aspect</div>
+              <div className="p-4 text-center text-sm font-bold text-amber-500 dark:text-amber-400 flex items-center justify-center gap-2">
+                <Code2 className="w-4 h-4" /> JS / Python
               </div>
-              <div>
-                <h2 className="font-bold text-white text-xs sm:text-sm">Aeria Weather</h2>
-                <p className="text-[10px] sm:text-xs text-neutral-500">Climate Dashboard</p>
-              </div>
-              {/* Rust badge */}
-              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#CE422B]/10 border border-[#CE422B]/30">
-                <RustBadge size={14} />
-                <span className="text-[10px] text-[#CE422B] font-semibold">Rust</span>
+              <div className="p-4 text-center text-sm font-bold text-[#CE422B] flex items-center justify-center gap-2">
+                <RustBadge size={16} /> Rust
               </div>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <a href="https://aeria-weather.vercel.app" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-sky-600 to-cyan-600 text-white text-xs font-medium shadow-lg shadow-sky-500/25">
-                <Play className="w-3 h-3" /> <span className="hidden sm:inline">Live Demo</span><span className="sm:hidden">Demo</span>
-              </a>
-              <a href={project.downloadUrl} target="_blank" rel="noopener noreferrer"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-amber-500/50 text-amber-400 hover:bg-amber-500/10 transition-colors text-xs font-medium">
-                <Download className="w-3 h-3" /> Installer
-              </a>
+            {comparison.map((row, i) => (
+              <motion.div key={row.aspect} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="grid grid-cols-3 border-t border-gray-100 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/30 transition-colors">
+                <div className="p-4 text-sm font-medium text-gray-700 dark:text-neutral-300">{row.aspect}</div>
+                <div className="p-4 text-center text-sm text-gray-500 dark:text-neutral-500">{row.js}</div>
+                <div className="p-4 text-center text-sm font-medium text-sky-600 dark:text-sky-400">{row.rust}</div>
+              </motion.div>
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+// Architecture Section
+function AeriaWeatherArchitecture() {
+  const steps = [
+    { icon: Globe, label: 'City Search' },
+    { icon: Server, label: 'Geocode' },
+    { icon: Layers, label: 'Parallel Fetch' },
+    { icon: Database, label: 'JSON Response' },
+    { icon: Eye, label: 'Dynamic UI' },
+  ];
+
+  return (
+    <section className="py-24 bg-gray-50 dark:bg-[#080c14] relative overflow-hidden">
+      <div className="absolute inset-0">
+        <SparklesCore
+          id="aeria-architecture-sparkles"
+          background="transparent"
+          minSize={0.3}
+          maxSize={0.8}
+          particleDensity={15}
+          className="w-full h-full"
+          particleColor="#38bdf8"
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <motion.span className="inline-block px-4 py-2 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 text-sm font-medium mb-4 border border-sky-500/20">
+              System Architecture
+            </motion.span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              How It{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-amber-500">
+                Works
+              </span>
+            </h2>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="p-8 sm:p-12 rounded-3xl bg-white dark:bg-neutral-900/60 border border-gray-200 dark:border-neutral-800 backdrop-blur-sm shadow-xl max-w-5xl mx-auto">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-10 text-center">Request Flow</h3>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-2">
+              {steps.map((step, i) => (
+                <div key={step.label} className="flex items-center gap-2">
+                  <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500/10 to-amber-500/10 dark:from-sky-500/20 dark:to-amber-500/20 border border-sky-200 dark:border-sky-500/30 flex items-center justify-center mb-3 shadow-sm">
+                      <step.icon className="w-7 h-7 text-sky-600 dark:text-sky-400" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700 dark:text-neutral-400">{step.label}</span>
+                  </motion.div>
+                  {i < 4 && (
+                    <div className="hidden sm:block w-12 h-1 bg-gradient-to-r from-sky-300 to-sky-100 dark:from-sky-500/40 dark:to-sky-500/10 mx-2 rounded-full" />
+                  )}
+                </div>
+              ))}
             </div>
           </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+// Content Section
+function AeriaWeatherContent({ project }: { project: Project }) {
+  return (
+    <section className="py-24 bg-white dark:bg-[#0c1420]/70 relative">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <ScrollReveal>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-amber-500 flex items-center justify-center shadow-lg">
+              <Cloud className="w-6 h-6 text-white" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Deep Dive</h2>
+          </div>
+        </ScrollReveal>
+
+        <div className="prose prose-lg prose-gray dark:prose-invert max-w-none">
+          {renderDescription(project.longDescription)}
         </div>
-      </motion.div>
+      </div>
+    </section>
+  );
+}
 
-      {/* Hero Section */}
-      <motion.section ref={heroRef} className="relative min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-20 sm:py-24"
-        style={{ opacity: heroOpacity, scale: heroScale }}>
-        <Spotlight className="absolute -top-40 left-0 md:left-60" fill="#38bdf8" />
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}
-            className="absolute -top-8 sm:top-0 left-0">
-            <Link href="/projects" className="group inline-flex items-center gap-2 text-neutral-400 hover:text-sky-400 transition-colors text-sm">
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Projects
-            </Link>
-          </motion.div>
+// Tech Stack Section
+function AeriaWeatherTechStack() {
+  const techStack = [
+    { category: 'Backend', items: ['Rust', 'Axum', 'Tokio', 'Reqwest', 'Serde'] },
+    { category: 'Frontend', items: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind 4'] },
+    { category: 'Desktop', items: ['Tauri 2', 'NSIS', 'Rust Shell'] },
+    { category: 'Infrastructure', items: ['Vercel', 'Render', 'Open-Meteo'] },
+  ];
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex justify-center mb-6 sm:mb-8">
-            <HoverBorderGradient containerClassName="rounded-full" className="flex items-center gap-2 px-4 py-2 bg-[#0a1018]">
-              <RustBadge size={16} />
-              <span className="text-sm font-medium text-neutral-300">Full-Stack Rust Application</span>
-              <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
-            </HoverBorderGradient>
-          </motion.div>
+  return (
+    <section className="py-24 bg-gray-50 dark:bg-[#080c14] relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-[#0c1420]/70 via-transparent to-gray-50 dark:to-[#080c14] pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <ScrollReveal>
+          <div className="text-center mb-12">
+            <motion.span className="inline-block px-4 py-2 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 text-sm font-medium mb-4 border border-sky-500/20">
+              Technologies
+            </motion.span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Built With{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-500 to-amber-500">
+                Best-in-Class
+              </span>
+            </h2>
+          </div>
+        </ScrollReveal>
 
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6">
-            <span className="block mb-2">Aeria Weather</span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-500 to-amber-400">Studio</span>
-          </motion.h1>
-
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl md:text-2xl text-neutral-300 max-w-3xl mx-auto mb-8">
-            A real-time climate dashboard powered by Rust.
-            <span className="block text-base sm:text-lg text-neutral-500 mt-2">Axum backend · Next.js frontend · Tauri desktop app</span>
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="https://aeria-weather.vercel.app" target="_blank" rel="noopener noreferrer"
-              className="group w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-sky-600 via-cyan-600 to-amber-600 text-white font-medium flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 hover:scale-105 transition-all">
-              <Cloud className="w-5 h-5" /> Try Live Demo <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href={project.downloadUrl} target="_blank" rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-medium flex items-center justify-center gap-2 border border-amber-500/30 hover:border-amber-500/50 transition-all">
-              <Download className="w-5 h-5" /> Download Installer (.exe)
-            </a>
-            <a href="https://github.com/VaibhavK289/aeria-weather" target="_blank" rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-neutral-800/80 hover:bg-neutral-700/80 text-white font-medium flex items-center justify-center gap-2 border border-neutral-700 transition-all">
-              <Github className="w-5 h-5" /> View Source
-            </a>
-          </motion.div>
-
-          {/* Hero Stats */}
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="mt-12 sm:mt-16">
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-8">
-              {[
-                { icon: Cpu, label: 'Rust Backend', value: 'Axum' },
-                { icon: Globe, label: 'Live Deploy', value: 'Vercel' },
-                { icon: Download, label: 'Desktop App', value: 'Tauri' },
-                { icon: Github, label: 'Open Source', value: 'MIT' },
-              ].map((stat, i) => (
-                <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-neutral-900/60 border border-neutral-800 backdrop-blur-sm">
-                  <stat.icon className="w-5 h-5 text-sky-400" />
-                  <div className="text-left">
-                    <div className="text-lg font-bold text-white">{stat.value}</div>
-                    <div className="text-xs text-neutral-500">{stat.label}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Preview Section */}
-      <AeriaWeatherPreviewSection />
-
-      {/* Why Rust Section */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <motion.div variants={weatherBadgeVariants}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#CE422B]/10 border border-[#CE422B]/20 mb-6">
-                <RustBadge size={16} />
-                <span className="text-sm font-medium text-[#CE422B]">Why Rust?</span>
-              </motion.div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                JavaScript vs{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#CE422B] to-amber-400">Rust</span>
-              </h2>
-              <p className="text-neutral-400 max-w-2xl mx-auto">See why Rust is the ideal choice for high-performance weather backends</p>
-            </div>
-          </ScrollReveal>
-          <ScrollReveal>
-            <div className="rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm">
-              <div className="grid grid-cols-3 bg-neutral-800/50">
-                <div className="p-4 text-center text-sm font-medium text-neutral-400">Aspect</div>
-                <div className="p-4 text-center text-sm font-medium text-amber-400 flex items-center justify-center gap-2">
-                  <Code2 className="w-4 h-4" /> JS / Python
-                </div>
-                <div className="p-4 text-center text-sm font-medium text-[#CE422B] flex items-center justify-center gap-2">
-                  <RustBadge size={14} /> Rust
-                </div>
-              </div>
-              {comparison.map((row, i) => (
-                <motion.div key={row.aspect} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="grid grid-cols-3 border-t border-neutral-800">
-                  <div className="p-4 text-sm text-neutral-300">{row.aspect}</div>
-                  <div className="p-4 text-center text-sm text-neutral-500">{row.js}</div>
-                  <div className="p-4 text-center text-sm text-sky-400 font-medium">{row.rust}</div>
-                </motion.div>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <motion.div variants={weatherBadgeVariants}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 mb-6">
-                <Sparkles className="w-4 h-4 text-sky-400" />
-                <span className="text-sm font-medium text-sky-300">Key Features</span>
-              </motion.div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Complete Climate{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-amber-400">Dashboard</span>
-              </h2>
-            </div>
-          </ScrollReveal>
-          <motion.div variants={weatherCardContainerVariants} initial="hidden" whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {features.map((feature) => (
-              <motion.div key={feature.title} variants={weatherCardVariants}
-                className="group relative p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 hover:border-sky-500/30 transition-all duration-300 backdrop-blur-sm">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} p-0.5 mb-4`}>
-                  <div className="w-full h-full rounded-xl bg-neutral-900 flex items-center justify-center">
-                    <feature.icon className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-sm text-neutral-400">{feature.description}</p>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-sky-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Architecture */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-sky-950/10 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                How It <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-amber-400">Works</span>
-              </h2>
-            </div>
-          </ScrollReveal>
-          <ScrollReveal>
-            <div className="p-6 sm:p-8 rounded-2xl bg-neutral-900/60 border border-neutral-800 backdrop-blur-sm mb-8">
-              <h3 className="text-lg font-semibold text-white mb-6 text-center">Request Flow</h3>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2">
-                {[
-                  { icon: Globe, label: 'City Search' },
-                  { icon: Server, label: 'Geocode' },
-                  { icon: Layers, label: 'Parallel Fetch' },
-                  { icon: Database, label: 'JSON Response' },
-                  { icon: Eye, label: 'Dynamic UI' },
-                ].map((step, i) => (
-                  <div key={step.label} className="flex items-center gap-2">
-                    <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500/20 to-amber-500/20 border border-sky-500/30 flex items-center justify-center mb-2">
-                        <step.icon className="w-5 h-5 text-sky-400" />
-                      </div>
-                      <span className="text-xs text-neutral-400">{step.label}</span>
-                    </motion.div>
-                    {i < 4 && (
-                      <div className="hidden sm:block w-8 h-0.5 bg-gradient-to-r from-sky-500/40 to-sky-500/10 mx-1" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-          <motion.div variants={weatherCardContainerVariants} initial="hidden" whileInView="visible"
-            viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {techStack.map((stack) => (
-              <motion.div key={stack.category} variants={weatherCardVariants} className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800">
-                <h4 className="text-sm font-medium text-sky-400 mb-3">{stack.category}</h4>
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {techStack.map((stack) => (
+            <motion.div key={stack.category} variants={itemVariants} whileHover={{ scale: 1.05, y: -4 }} className="group">
+              <div className="flex flex-col p-6 rounded-2xl bg-white dark:bg-[#1a2438]/80 border border-gray-200 dark:border-[#2d3f5f] hover:border-sky-500/50 transition-all duration-300 shadow-sm h-full">
+                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{stack.category}</h4>
                 <div className="flex flex-wrap gap-2">
                   {stack.items.map((item) => (
-                    <span key={item} className="px-2 py-1 text-xs rounded-md bg-neutral-800 text-neutral-300">{item}</span>
+                    <span key={item} className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-neutral-300 group-hover:bg-sky-50 dark:group-hover:bg-sky-900/30 group-hover:text-sky-700 dark:group-hover:text-sky-300 transition-colors">
+                      {item}
+                    </span>
                   ))}
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
 
-      {/* Download CTA */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <ScrollReveal>
-            <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-sky-900/30 via-cyan-900/30 to-amber-900/30 border border-sky-500/20 backdrop-blur-sm relative overflow-hidden">
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-                  Experience the{' '}
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-amber-400">Atmosphere</span>
-                </h2>
-                <p className="text-neutral-400 mb-8 max-w-2xl mx-auto">
-                  Try the live web dashboard or download the native Windows desktop app.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <a href="https://aeria-weather.vercel.app" target="_blank" rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-sky-600 via-cyan-600 to-amber-600 text-white font-medium flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25 hover:scale-105 transition-all">
-                    <Cloud className="w-5 h-5" /> Launch Dashboard <ChevronRight className="w-4 h-4" />
-                  </a>
-                  <a href={project.downloadUrl} target="_blank" rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-8 py-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-medium flex items-center justify-center gap-2 border border-amber-500/30 transition-all">
-                    <Download className="w-5 h-5" /> Download .exe
-                  </a>
-                  <a href="https://github.com/VaibhavK289/aeria-weather" target="_blank" rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-8 py-4 rounded-xl bg-neutral-800/80 hover:bg-neutral-700/80 text-white font-medium flex items-center justify-center gap-2 border border-neutral-700 transition-all">
-                    <Github className="w-5 h-5" /> Star on GitHub
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+// Main Page Component
+export default function AeriaWeatherPage() {
+  const project = getProjectBySlug('aeria-weather');
 
+  if (!project) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-neutral-950">
+        <p className="text-gray-600 dark:text-neutral-400">Project not found</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-[#080c14] overflow-x-hidden">
+      <ScrollProgress />
+      
+      <AeriaWeatherHero project={project} />
+      <AeriaWeatherPreviewSection />
+      <AeriaWeatherFeatures />
+      <AeriaWeatherWhyRust />
+      <AeriaWeatherArchitecture />
+      <AeriaWeatherContent project={project} />
+      <AeriaWeatherTechStack />
+      
       {/* Footer Nav */}
-      <section className="relative py-8 px-4 sm:px-6 border-t border-neutral-800">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Link href="/projects" className="group inline-flex items-center gap-2 text-neutral-400 hover:text-sky-400 transition-colors">
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Projects
+      <section className="relative py-12 px-4 sm:px-6 border-t border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0c1420]/70">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <Link href="/projects" className="group inline-flex items-center gap-2 text-gray-500 dark:text-neutral-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors font-medium">
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Back to Projects
           </Link>
-          <div className="flex items-center gap-4">
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-400 hover:text-sky-400 transition-colors">Live Demo</a>
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-400 hover:text-sky-400 transition-colors">GitHub</a>
-            <a href={project.downloadUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
-              <Download className="w-3 h-3" /> Installer
+          <div className="flex items-center gap-6">
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-gray-600 dark:text-neutral-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Live Demo</a>
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-gray-600 dark:text-neutral-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">GitHub</a>
+            <a href={project.downloadUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors flex items-center gap-1.5">
+              <Download className="w-4 h-4" /> Download Installer
             </a>
           </div>
         </div>
