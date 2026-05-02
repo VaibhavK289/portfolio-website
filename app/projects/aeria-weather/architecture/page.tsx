@@ -6,9 +6,9 @@ import Link from 'next/link';
 
 export default function AeriaWeatherArchitecture() {
   const nodes = [
-    { label: 'Next.js UI', sub: 'React/Tailwind', icon: Globe },
-    { label: 'Tauri IPC', sub: 'Bridge', icon: Layers },
-    { label: 'Rust Core', sub: 'Tokio/Axum', icon: Cpu },
+    { label: 'Next.js UI', sub: 'React 19 / Tailwind', icon: Globe },
+    { label: 'Tauri / REST Bridge', sub: 'IPC / Network', icon: Layers },
+    { label: 'Rust Core', sub: 'Axum / Tokio', icon: Cpu },
     { label: 'Open-Meteo', sub: 'Weather API', icon: Database },
   ];
 
@@ -22,11 +22,17 @@ export default function AeriaWeatherArchitecture() {
           >
             System <br className="sm:hidden" /><span className="text-transparent bg-clip-text bg-gradient-to-b from-blue-300 to-blue-600">Architecture</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.2 }}
+            className="text-lg text-blue-200/60 max-w-3xl mx-auto font-medium leading-relaxed"
+          >
+            Aeria Weather is built on a highly decoupled architecture. The frontend handles strictly state visualization, while the Rust core securely manages all complex asynchronous operations and payload transformations.
+          </motion.p>
         </div>
 
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}
-          className="relative p-12 rounded-[3rem] bg-blue-950/20 border border-blue-900/50 backdrop-blur-xl mb-20"
+          className="relative p-12 rounded-[3rem] bg-blue-950/20 border border-blue-900/50 backdrop-blur-xl mb-16"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 relative z-10">
             {nodes.map((node, i) => (
@@ -50,6 +56,20 @@ export default function AeriaWeatherArchitecture() {
               initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }} 
             />
           </div>
+        </motion.div>
+
+        {/* Data Flow Details */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
+          className="bg-blue-950/10 border border-blue-900/30 rounded-3xl p-8 mb-16"
+        >
+          <h3 className="text-2xl font-bold text-white mb-6">Request Lifecycle (`/weather/:city`)</h3>
+          <ol className="space-y-4 text-blue-100/70 text-lg">
+            <li className="flex items-start gap-4"><span className="font-bold text-blue-400">1.</span> Client initiates a search via the Next.js frontend input.</li>
+            <li className="flex items-start gap-4"><span className="font-bold text-blue-400">2.</span> The Axum server receives the request and pings the Open-Meteo Geocoding API to resolve exact coordinates.</li>
+            <li className="flex items-start gap-4"><span className="font-bold text-blue-400">3.</span> Using `tokio::spawn`, the backend executes four parallel outbound requests (Current Conditions, Hourly, Daily, and AQI).</li>
+            <li className="flex items-start gap-4"><span className="font-bold text-blue-400">4.</span> `serde` constructs a strictly-typed `WeatherReport` struct and returns the compiled JSON back to the client.</li>
+          </ol>
         </motion.div>
 
         <motion.div

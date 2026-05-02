@@ -14,14 +14,14 @@ export default function AeriaWeatherOverview() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-sm font-semibold mb-8 backdrop-blur-md"
         >
-          <RustBadge size={16} /> Native Tauri Application
+          <RustBadge size={16} /> Native Tauri Desktop Application
         </motion.div>
 
         <motion.h1 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl sm:text-7xl lg:text-8xl font-black text-white mb-6 tracking-tighter"
         >
-          Climate <br className="sm:hidden" />
+          Real-Time Climate <br className="sm:hidden" />
           <span className="text-transparent bg-clip-text bg-gradient-to-br from-sky-300 via-cyan-300 to-amber-200">
             Intelligence.
           </span>
@@ -29,9 +29,9 @@ export default function AeriaWeatherOverview() {
 
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.4 }}
-          className="text-lg sm:text-xl text-neutral-300 max-w-2xl font-medium mb-12"
+          className="text-lg sm:text-xl text-neutral-300 max-w-3xl font-medium mb-12 leading-relaxed"
         >
-          A beautifully crafted, ultra-performant weather dashboard engineered in Rust. Seamless, accurate, and completely native.
+          A beautifully crafted, ultra-performant weather dashboard that bridges the raw computing power of a <strong>Rust backend</strong> with the fluid interactivity of a <strong>Next.js 16 frontend</strong>. Engineered from the ground up as a native Windows executable via Tauri 2, it delivers instantaneous climate data, 7-day outlooks, and critical air quality metrics without the heavy footprint of an Electron app.
         </motion.p>
 
         <motion.div
